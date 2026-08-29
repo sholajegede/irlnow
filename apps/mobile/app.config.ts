@@ -18,12 +18,6 @@ const config: ExpoConfig = {
   primaryColor: "#FF525D",
 
   icon: "./assets/icon.png",
-  splash: {
-    image: "./assets/splash-icon.png",
-    resizeMode: "contain",
-    backgroundColor: "#0C0810",
-  },
-
   ios: {
     supportsTablet: false,
     bundleIdentifier: "app.irlnow.mobile",
@@ -47,7 +41,6 @@ const config: ExpoConfig = {
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#0C0810",
     },
-    edgeToEdgeEnabled: true,
     intentFilters: [
       {
         action: "VIEW",
@@ -62,6 +55,14 @@ const config: ExpoConfig = {
 
   plugins: [
     "expo-router",
+    [
+      "expo-splash-screen",
+      {
+        image: "./assets/splash-icon.png",
+        resizeMode: "contain",
+        backgroundColor: "#0C0810",
+      },
+    ],
     "expo-secure-store",
     [
       "expo-image-picker",

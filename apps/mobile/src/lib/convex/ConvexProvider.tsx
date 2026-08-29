@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import type { ReactNode } from "react";
 import { ConvexProvider as BaseProvider, ConvexReactClient } from "convex/react";
 import { CONVEX_URL } from "@/config/env";

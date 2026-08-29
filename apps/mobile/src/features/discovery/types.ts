@@ -1,31 +1,30 @@
-import type { CoverKey } from "@irlnow/domain";
+import type { CoverKey, RankableEvent } from "@irlnow/domain";
 
 /**
  * An event as the feed needs it.
  *
- * Derived from the Convex `PublicEvent` by `toFeedEvent`, with the display
- * strings the UI actually renders already computed — the backend stores
- * epoch millis and integer minor units, and formatting them once per event
- * beats doing it inside a list row on every frame.
+ * Extends `RankableEvent` rather than paralleling it, so the same object goes
+ * straight into the ranking engine with no adapter and no chance of the two
+ * shapes drifting apart.
+ *
+ * The display strings are computed once, on the way out of Convex, because
+ * formatting inside a list row runs on every frame of a swipe.
  */
-export interface FeedEvent {
+export interface FeedEvent extends RankableEvent {
+  /** Convex document id. What mutations are addressed to. */
+  id: string;
+  /** Stable, human-readable id used in routes and share links. */
   slug: string;
   title: string;
   description: string;
   category: string;
-  interests: string[];
   coverKey: CoverKey;
-  /** "Shoreditch · 1.2 km", or just the area when location is unavailable. */
+  /** "Shoreditch · 1.2 km", or just the area when there is no location fix. */
   areaLabel: string;
   /** "Tonight · 7:30pm", "Sat · 7pm". */
   whenLabel: string;
   /** "Free", "£12". */
   priceLabel: string;
-  startsAt: number;
-  goingCount: number;
-  spotsLeft: number | null;
-  isTrending: boolean;
   organiserName: string;
   venueName: string;
-  distanceKm: number | null;
 }

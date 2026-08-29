@@ -16,8 +16,8 @@ interface Props {
   graph: GoingGraph;
   isGoing: boolean;
   isSaved: boolean;
-  onToggleGoing: (slug: string) => void;
-  onToggleSaved: (slug: string) => void;
+  onToggleGoing: (event: FeedEvent) => void;
+  onToggleSaved: (event: FeedEvent) => void;
   /** Height of one page, so the card fills the viewport exactly. */
   height: number;
 }
@@ -52,13 +52,13 @@ function EventFeedCardImpl({
     void Haptics.impactAsync(
       isGoing ? Haptics.ImpactFeedbackStyle.Light : Haptics.ImpactFeedbackStyle.Medium,
     );
-    onToggleGoing(event.slug);
-  }, [isGoing, onToggleGoing, event.slug]);
+    onToggleGoing(event);
+  }, [isGoing, onToggleGoing, event]);
 
   const toggleSaved = useCallback(() => {
     void Haptics.selectionAsync();
-    onToggleSaved(event.slug);
-  }, [onToggleSaved, event.slug]);
+    onToggleSaved(event);
+  }, [onToggleSaved, event]);
 
   return (
     <View style={[styles.page, { height, width }]}>
@@ -81,7 +81,7 @@ function EventFeedCardImpl({
           <View style={[styles.pill, styles.pillPrimary]}>
             <Text style={styles.pillPrimaryText}>{event.category.toUpperCase()}</Text>
           </View>
-          {event.isTrending ? (
+          {event.trending ? (
             <View style={[styles.pill, styles.pillAccent]}>
               <Text style={styles.pillAccentText}>TRENDING</Text>
             </View>

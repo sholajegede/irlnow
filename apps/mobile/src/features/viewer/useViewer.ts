@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@irlnow/backend/api";
+import type { Id } from "@irlnow/backend/dataModel";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { useLocalIntent } from "./useLocalIntent";
 
@@ -18,6 +19,17 @@ import { useLocalIntent } from "./useLocalIntent";
    This is what makes anonymous discovery real rather than a demo mode.
 ------------------------------------------------------------------- */
 
+/**
+ * The two identifiers an event is addressed by.
+ *
+ * `id` is what Convex mutations take; `slug` is what routes and local
+ * anonymous state use, because it survives a reseed and reads in a URL.
+ */
+export interface EventRef {
+  id: string;
+  slug: string;
+}
+
 export interface Viewer {
   /** Whether we know who this is. Gates every personalised claim. */
   isIdentified: boolean;
@@ -27,8 +39,8 @@ export interface Viewer {
   metPersonIds: string[];
   goingSlugs: string[];
   savedSlugs: string[];
-  toggleGoing: (slug: string) => void;
-  toggleSaved: (slug: string) => void;
+  toggleGoing: (event: EventRef) => void;
+  toggleSaved: (event: EventRef) => void;
   /** True when an action needs an account the viewer doesn't have. */
   needsIdentity: boolean;
 }
@@ -60,27 +72,27 @@ export function useViewer(): Viewer {
   );
 
   const toggleGoing = useCallback(
-    (slug: string) => {
+    (event: EventRef) => {
       // Anonymous intent stays on the device until there is an account to
       // attach it to. Nobody is stopped mid-gesture to sign up.
       if (!isIdentified) {
-        local.toggleGoing(slug);
+        local.toggleGoing(event.slug);
         return;
       }
-      const next = goingSlugs.includes(slug) ? "cancelled" : "going";
-      void setStatus({ eventSlug: slug, status: next });
+      const next = goingSlugs.includes(event.slug) ? "cancelled" : "going";
+      void setStatus({ eventId: event.id as Id<"events">, status: next });
     },
     [isIdentified, local, goingSlugs, setStatus],
   );
 
   const toggleSaved = useCallback(
-    (slug: string) => {
+    (event: EventRef) => {
       if (!isIdentified) {
-        local.toggleSaved(slug);
+        local.toggleSaved(event.slug);
         return;
       }
-      const next = savedSlugs.includes(slug) ? "cancelled" : "saved";
-      void setStatus({ eventSlug: slug, status: next });
+      const next = savedSlugs.includes(event.slug) ? "cancelled" : "saved";
+      void setStatus({ eventId: event.id as Id<"events">, status: next });
     },
     [isIdentified, local, savedSlugs, setStatus],
   );

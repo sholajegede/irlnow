@@ -22,7 +22,9 @@
     "convex:seed": "convex run seed:seedDevelopmentData"
   },
   "overrides": {
-    "rolldown": "1.2.1"
+    "rolldown": "1.2.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
   "dependencies": {
     "convex": "^1.45.0"

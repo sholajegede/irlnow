@@ -22,8 +22,8 @@ export interface DiscoveryFeed {
   error: string | null;
   isRefreshing: boolean;
   refresh: () => void;
-  toggleGoing: (slug: string) => void;
-  toggleSaved: (slug: string) => void;
+  toggleGoing: (event: FeedEvent) => void;
+  toggleSaved: (event: FeedEvent) => void;
 }
 
 /**

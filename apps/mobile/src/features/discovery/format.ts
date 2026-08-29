@@ -13,6 +13,7 @@ import type { FeedEvent } from "./types";
 
 /** Shape of `api.events.listUpcoming`, kept local so the UI owns its input. */
 export interface PublicEventShape {
+  id: string;
   slug: string;
   title: string;
   description: string;
@@ -124,22 +125,27 @@ export function toFeedEvent(
   const km = options.viewer ? distanceKm(options.viewer, event.place) : null;
 
   return {
+    // RankableEvent — stored truth, straight through to the ranking engine.
+    id: event.id,
+    interests: event.interests,
+    goingCount: event.goingCount,
+    startsAt: event.startsAt,
+    distanceKm: km,
+    priceMinor: event.priceMinor,
+    spotsLeft: event.spotsLeft,
+    trending: event.goingCount >= (options.trendingAt ?? Infinity),
+
+    // Presentation — computed once, not per frame.
     slug: event.slug,
     title: event.title,
     description: event.description,
     category: event.category,
-    interests: event.interests,
     coverKey: event.coverKey as CoverKey,
     areaLabel: km === null ? event.place.area : `${event.place.area} · ${distanceLabel(km)}`,
     whenLabel: whenLabel(event.startsAt, options.now),
     priceLabel: priceLabel(event.priceMinor, event.currency),
-    startsAt: event.startsAt,
-    goingCount: event.goingCount,
-    spotsLeft: event.spotsLeft,
-    isTrending: event.goingCount >= (options.trendingAt ?? Infinity),
     organiserName: event.organiser.name,
     venueName: event.place.name,
-    distanceKm: km,
   };
 }
 
