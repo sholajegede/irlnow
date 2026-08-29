@@ -37,7 +37,7 @@ export const Route = createFileRoute("/host/templates")({
 
 function TemplatesPage() {
   const navigate = useNavigate();
-  const { savedTemplates, useTemplate, removeTemplate, scheduleRepeats, repeatSchedules } =
+  const { savedTemplates, applyTemplate, removeTemplate, scheduleRepeats, repeatSchedules } =
     useApp();
   const [open, setOpen] = useState<string | null>(null);
   const [cadence, setCadence] = useState<Cadence>("monthly");
@@ -155,7 +155,7 @@ function TemplatesPage() {
                   <div className="flex gap-2 border-t border-border p-3">
                     <button
                       onClick={() => {
-                        useTemplate(t);
+                        applyTemplate(t);
                         navigate({ to: "/create" });
                       }}
                       className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-brand text-xs font-bold text-primary-foreground"

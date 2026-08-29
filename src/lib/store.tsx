@@ -280,7 +280,7 @@ interface AppState {
   doorUndo: (eventId: string, guestId: string) => void;
   saveTemplate: (t: HostTemplate) => void;
   removeTemplate: (id: string) => void;
-  useTemplate: (t: HostTemplate) => void;
+  applyTemplate: (t: HostTemplate) => void;
   clearTemplateDraft: () => void;
   completeVerification: (id: string) => void;
   scheduleRepeats: (eventId: string, dates: string[]) => void;
@@ -747,7 +747,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       saveTemplate: (t) =>
         setSavedTemplates((prev) => (prev.some((x) => x.id === t.id) ? prev : [t, ...prev])),
       removeTemplate: (id) => setSavedTemplates((prev) => prev.filter((t) => t.id !== id)),
-      useTemplate: (t) => setTemplateDraft(t),
+      applyTemplate: (t) => setTemplateDraft(t),
       clearTemplateDraft: () => setTemplateDraft(null),
       completeVerification: (id) =>
         setVerifiedSteps((prev) => (prev.includes(id) ? prev : [...prev, id])),
