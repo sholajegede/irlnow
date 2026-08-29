@@ -1,0 +1,22 @@
+{
+  "name": "@irlnow/domain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Product rules shared by the IRL NOW web and mobile clients.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.11",
+    "typescript": "^5.8.3"
+  }
+}

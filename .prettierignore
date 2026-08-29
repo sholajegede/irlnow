@@ -1,8 +1,10 @@
 node_modules
 dist
 .output
+.expo
 .vinxi
-pnpm-lock.yaml
-package-lock.json
+android
+ios
 bun.lock
-routeTree.gen.ts
+**/routeTree.gen.ts
+convex/_generated
