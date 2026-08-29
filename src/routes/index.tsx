@@ -4,7 +4,8 @@ import { Clock, DoorOpen, Flame, Sparkles, Users } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
 import { BottomNav } from "@/components/BottomNav";
 import { EventFeedCard } from "@/components/EventFeedCard";
-import { FEED_CAP, eventCovers, events } from "@/lib/data";
+import { eventCovers, events } from "@/lib/data";
+import { FEED_MODES, buildFeed, type FeedMode } from "@/lib/discovery/ranking";
 import { liveDrops } from "@/lib/venues";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -28,37 +29,21 @@ export const Route = createFileRoute("/")({
   component: DiscoverPage,
 });
 
-type Mode = "foryou" | "tonight" | "weekend" | "trending";
-
-const modes: { id: Mode; label: string }[] = [
-  { id: "foryou", label: "For you" },
-  { id: "tonight", label: "Tonight" },
-  { id: "weekend", label: "This weekend" },
-  { id: "trending", label: "Trending" },
-];
-
 function DiscoverPage() {
-  const { interests, onboarded } = useApp();
-  const [mode, setMode] = useState<Mode>("foryou");
+  const { interests, onboarded, connectedIds, goingIds, savedIds } = useApp();
+  const [mode, setMode] = useState<FeedMode>("foryou");
 
-  const feed = useMemo(() => {
-    let list = [...events];
-    if (mode === "tonight") list = list.filter((e) => e.when === "tonight");
-    if (mode === "weekend") list = list.filter((e) => e.when === "weekend");
-    if (mode === "trending") {
-      list = list
-        .filter((e) => e.trending || e.goingCount > 40)
-        .sort((a, b) => b.goingCount - a.goingCount);
-    }
-    if (mode === "foryou" && onboarded && interests.length) {
-      list.sort(
-        (a, b) =>
-          b.interests.filter((i) => interests.includes(i)).length -
-          a.interests.filter((i) => interests.includes(i)).length,
-      );
-    }
-    return list.slice(0, FEED_CAP);
-  }, [mode, interests, onboarded]);
+  const feed = useMemo(
+    () =>
+      buildFeed(events, mode, {
+        identified: onboarded,
+        interests,
+        connectionIds: connectedIds,
+        goingIds,
+        savedIds,
+      }),
+    [mode, onboarded, interests, connectedIds, goingIds, savedIds],
+  );
 
   const pulse = useMemo(() => {
     const soon = events.filter((e) => e.when === "tonight" || e.when === "weekend");
@@ -85,7 +70,7 @@ function DiscoverPage() {
           </p>
         </Link>
         <div className="flex gap-2 overflow-x-auto px-4 py-2 no-scrollbar">
-          {modes.map((m) => (
+          {FEED_MODES.map((m) => (
             <button
               key={m.id}
               onClick={() => setMode(m.id)}
@@ -133,7 +118,7 @@ function DiscoverPage() {
       </div>
 
       <main className="snap-feed min-h-0 flex-1 snap-y snap-mandatory overflow-y-auto no-scrollbar">
-        {feed.map((event) => (
+        {feed.map(({ event }) => (
           <EventFeedCard key={event.id} event={event} />
         ))}
 
