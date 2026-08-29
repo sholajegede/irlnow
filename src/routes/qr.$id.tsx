@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Copy, QrCode as QrIcon, Share2, Smartphone } from "lucide-react";
 import { useState } from "react";
 import { QrCode } from "@/components/QrCode";
-import { displayUrl } from "@/config/app";
+import { absoluteUrl, displayUrl } from "@/config/app";
 import { getEvent } from "@/lib/data";
 
 export const Route = createFileRoute("/qr/$id")({
@@ -24,6 +24,9 @@ function EventQrPage() {
   const { id } = Route.useParams();
   const event = getEvent(id);
   const [copied, setCopied] = useState(false);
+  // The code encodes an absolute URL so a phone camera opens it; the bare
+  // domain is only what we show and copy.
+  const scanUrl = absoluteUrl(`/e/${id}`);
   const link = displayUrl(`/e/${id}`);
 
   if (!event) {
@@ -65,7 +68,7 @@ function EventQrPage() {
         </div>
 
         <div className="mx-auto w-full max-w-[280px]">
-          <QrCode value={link} />
+          <QrCode value={scanUrl} label={`QR code to check in at ${event.title}`} />
         </div>
 
         <p className="text-center text-sm text-muted-foreground">

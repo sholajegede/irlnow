@@ -97,7 +97,11 @@ function TicketPage() {
           </div>
 
           <div className="flex items-center justify-center border-y border-dashed border-border bg-background/40 py-5">
-            <QrCode value={absoluteUrl(`/t/${event.id}/${code}`)} className="h-44 w-44" />
+            <QrCode
+              value={absoluteUrl(`/t/${event.id}/${code}`)}
+              label={`Entry QR code for ${event.title}, door code ${code}`}
+              className="h-44 w-44"
+            />
           </div>
 
           <div className="space-y-3 p-4">

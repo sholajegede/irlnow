@@ -96,8 +96,8 @@ implied by a URL's presence.
 
 From `lib/graph.ts`:
 
-> *Everything social in IRL NOW is derived from who said yes to what, never
-> from browsing strangers.*
+> _Everything social in IRL NOW is derived from who said yes to what, never
+> from browsing strangers._
 
 A person surfaces because they said yes to something you can also join. There is
 no stranger-browsing surface, and adding one would change what the product is.
@@ -109,13 +109,13 @@ outside that relation should get nothing back.
 The prototype's types are shaped for display. Storage types need to be shaped
 for truth, with formatting done at the edge:
 
-| Prototype | Target |
-| --- | --- |
+| Prototype                       | Target                                                            |
+| ------------------------------- | ----------------------------------------------------------------- |
 | `dateLabel: "Tonight · 7:30pm"` | `startsAt: number` (epoch ms) + `timezone`, formatted for display |
-| `price: "£12"` | `priceMinor: number` + `currency: "GBP"` |
-| `distance: "1.2 km"` | Computed per viewer from coordinates; never stored on the event |
-| `when: "tonight" \| "weekend"` | Derived from `startsAt` at query time |
-| `going: string[]` | An `rsvps` relation with status, timestamps and ownership |
+| `price: "£12"`                  | `priceMinor: number` + `currency: "GBP"`                          |
+| `distance: "1.2 km"`            | Computed per viewer from coordinates; never stored on the event   |
+| `when: "tonight" \| "weekend"`  | Derived from `startsAt` at query time                             |
+| `going: string[]`               | An `rsvps` relation with status, timestamps and ownership         |
 
 Explicit status enums over scattered booleans; stable typed IDs over bare
 strings.
@@ -125,7 +125,7 @@ strings.
 - The discovery feed and event walls paginate. The finite feed is a product
   decision, not a data-loading strategy — the People and Memories surfaces
   still need real pagination.
-- One realtime subscription per *screen*, not per component.
+- One realtime subscription per _screen_, not per component.
 - `store.tsx` at 829 lines re-renders every consumer on every change. Splitting
   it into feature-scoped contexts behind the existing `useApp` surface is the
   single highest-value performance change available, and it does not require

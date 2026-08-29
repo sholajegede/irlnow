@@ -51,14 +51,14 @@ container host. Other useful values: `cloudflare-module`, `vercel`, `netlify`.
 Not yet wired. Listed so the split between public and secret is settled before
 the integrations land.
 
-| Variable | Scope | Purpose |
-| --- | --- | --- |
-| `VITE_CONVEX_URL` | Public | Convex deployment URL for the client |
-| `CONVEX_DEPLOY_KEY` | **Secret** | Convex deploys from CI |
-| `VITE_KINDE_DOMAIN` | Public | Kinde issuer domain |
-| `VITE_KINDE_CLIENT_ID` | Public | Kinde SPA client id |
-| `VITE_KINDE_REDIRECT_URI` | Public | Post-login callback |
-| `KINDE_CLIENT_SECRET` | **Secret** | Server-side token exchange |
+| Variable                  | Scope      | Purpose                              |
+| ------------------------- | ---------- | ------------------------------------ |
+| `VITE_CONVEX_URL`         | Public     | Convex deployment URL for the client |
+| `CONVEX_DEPLOY_KEY`       | **Secret** | Convex deploys from CI               |
+| `VITE_KINDE_DOMAIN`       | Public     | Kinde issuer domain                  |
+| `VITE_KINDE_CLIENT_ID`    | Public     | Kinde SPA client id                  |
+| `VITE_KINDE_REDIRECT_URI` | Public     | Post-login callback                  |
+| `KINDE_CLIENT_SECRET`     | **Secret** | Server-side token exchange           |
 
 ## Checklist for a new variable
 

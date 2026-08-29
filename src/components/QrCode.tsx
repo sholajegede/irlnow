@@ -1,56 +1,44 @@
+import { QRCodeSVG } from "qrcode.react";
 import { cn } from "@/lib/utils";
 
-/** Deterministic decorative QR-style matrix for the prototype. */
-function hash(str: string) {
-  let h = 2166136261;
-  for (let i = 0; i < str.length; i++) {
-    h ^= str.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
+/** Matches the `--background` end of the palette so codes sit in the brand. */
+const MODULE_COLOUR = "#0b0710";
+
+interface QrCodeProps {
+  /** The value encoded in the code. Pass an absolute URL so a phone camera can open it. */
+  value: string;
+  /** Human-readable description of where the code leads, for screen readers. */
+  label?: string;
+  className?: string;
 }
 
-export function QrCode({ value, className }: { value: string; className?: string }) {
-  const size = 21;
-  const seed = hash(value);
-  const cells: boolean[] = [];
-  let state = seed || 1;
-  for (let i = 0; i < size * size; i++) {
-    state = (state * 1664525 + 1013904223) >>> 0;
-    cells.push(((state >>> 16) & 1) === 1);
-  }
-
-  const isFinder = (r: number, c: number) => {
-    const inBox = (br: number, bc: number) => r >= br && r < br + 7 && c >= bc && c < bc + 7;
-    return inBox(0, 0) || inBox(0, size - 7) || inBox(size - 7, 0);
-  };
-  const finderOn = (r: number, c: number) => {
-    const lr = r < 7 ? r : r - (size - 7);
-    const lc = c < 7 ? c : c - (size - 7);
-    const ring = Math.max(Math.abs(lr - 3), Math.abs(lc - 3));
-    return ring !== 2;
-  };
-
+/**
+ * A scannable QR code.
+ *
+ * Error correction is set to "M" (~15% recoverable), which survives the two
+ * realistic hazards for these codes: a printed sign that picks up wear at a
+ * venue door, and a screen photographed at an angle in low light.
+ */
+export function QrCode({ value, label, className }: QrCodeProps) {
   return (
     <div
-      className={cn("grid aspect-square w-full gap-0 rounded-2xl bg-white p-3", className)}
+      className={cn(
+        "flex aspect-square w-full items-center justify-center rounded-2xl bg-white p-3",
+        className,
+      )}
       role="img"
-      aria-label={`QR code for ${value}`}
+      aria-label={label ?? `QR code linking to ${value}`}
     >
-      <div
-        className="grid h-full w-full"
-        style={{
-          gridTemplateColumns: `repeat(${size}, 1fr)`,
-          gridTemplateRows: `repeat(${size}, 1fr)`,
-        }}
-      >
-        {Array.from({ length: size * size }).map((_, i) => {
-          const r = Math.floor(i / size);
-          const c = i % size;
-          const on = isFinder(r, c) ? finderOn(r, c) : cells[i]!;
-          return <div key={i} className={on ? "bg-[#0b0710]" : "bg-white"} />;
-        })}
-      </div>
+      <QRCodeSVG
+        value={value}
+        level="M"
+        marginSize={0}
+        bgColor="#ffffff"
+        fgColor={MODULE_COLOUR}
+        className="h-full w-full"
+        // The SVG carries the meaning through the wrapper's aria-label.
+        aria-hidden="true"
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 # Technical assessment of the IRL NOW prototype
 
-*Written against commit `499c0a1`, the unmodified Lovable-generated import.*
+_Written against commit `499c0a1`, the unmodified Lovable-generated import._
 
 ## Summary
 
@@ -20,7 +20,7 @@ plumbing underneath it.**
 ### 1. The product thesis is encoded, not decorative
 
 The finite feed is the clearest example. `FEED_CAP = 10` in `src/lib/data.ts`
-carries the comment *"The feed is deliberately finite"*, and the Discover route
+carries the comment _"The feed is deliberately finite"_, and the Discover route
 ends with a card reading **"That's it for now. Go outside."** This is the
 anti-social-media positioning implemented as a constraint, not a slogan. It
 must not be quietly replaced with infinite scroll during the Convex migration.
@@ -30,8 +30,8 @@ must not be quietly replaced with infinite scroll during the Convex migration.
 `src/lib/graph.ts` is the strongest module in the codebase. Its header states
 the rule plainly:
 
-> *Everything social in IRL NOW is derived from who said yes to what, never
-> from browsing strangers.*
+> _Everything social in IRL NOW is derived from who said yes to what, never
+> from browsing strangers._
 
 `peopleOut()` enforces this structurally: a person can only surface because they
 said yes to something you can also join. This is exactly the privacy posture the
@@ -41,9 +41,9 @@ graph moves to Convex.
 ### 3. Social proof scales honestly
 
 `goingGraph()` samples a small roster and scales counts to the real headcount
-deterministically, producing lines like *"12 people into the same things as
-you."* Critically, `myInterests` defaults to `[]`, so an anonymous visitor gets
-the neutral *"Maya and 45 others are going"* rather than a personalised claim
+deterministically, producing lines like _"12 people into the same things as
+you."_ Critically, `myInterests` defaults to `[]`, so an anonymous visitor gets
+the neutral _"Maya and 45 others are going"_ rather than a personalised claim
 the system cannot justify. The anonymous/identified distinction the spec asks
 for is already respected.
 
@@ -74,14 +74,14 @@ the spec describes is already laid out.
 
 ### Architecture
 
-| Issue | Detail |
-| --- | --- |
-| **God store** | `src/lib/store.tsx` is 829 lines: ~80 `useState` hooks and ~90 actions in one context. Every state change re-renders every consumer. It is the single largest obstacle to both correctness and performance. |
-| **No persistence** | Nothing is saved. Reloading the page discards onboarding, RSVPs, uploads, plans — everything. |
-| **No backend** | Zero `fetch` calls, zero server functions. All data is module-scope constants. |
-| **No auth** | `src/lib/auth.ts` is self-described as *"Dummy auth model… No real backend."* Any 6-digit code is accepted; `DEMO_CODE = "204060"` is a hint, not a check. |
-| **Business logic in components** | Feed ranking lives inline in `routes/index.tsx` rather than behind the ranking abstraction the spec requires. |
-| **No tests** | No test runner, no test files, no CI. |
+| Issue                            | Detail                                                                                                                                                                                                      |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **God store**                    | `src/lib/store.tsx` is 829 lines: ~80 `useState` hooks and ~90 actions in one context. Every state change re-renders every consumer. It is the single largest obstacle to both correctness and performance. |
+| **No persistence**               | Nothing is saved. Reloading the page discards onboarding, RSVPs, uploads, plans — everything.                                                                                                               |
+| **No backend**                   | Zero `fetch` calls, zero server functions. All data is module-scope constants.                                                                                                                              |
+| **No auth**                      | `src/lib/auth.ts` is self-described as _"Dummy auth model… No real backend."_ Any 6-digit code is accepted; `DEMO_CODE = "204060"` is a hint, not a check.                                                  |
+| **Business logic in components** | Feed ranking lives inline in `routes/index.tsx` rather than behind the ranking abstraction the spec requires.                                                                                               |
+| **No tests**                     | No test runner, no test files, no CI.                                                                                                                                                                       |
 
 ### Correctness
 
@@ -124,16 +124,16 @@ cosmetic one**, and must not reach real users.
 
 ## Lovable coupling found (all removed in `d81c766`)
 
-| Artifact | Resolution |
-| --- | --- |
-| `@lovable.dev/vite-tanstack-config` | Replaced with an explicit `vite.config.ts` |
-| `src/lib/lovable-error-reporting.ts` (`window.__lovableEvents`) | Replaced with `src/lib/observability/report-error.ts` |
-| `irl-now.lovable.app` in `invite.ts`, `share.$id.tsx` | Replaced with `VITE_APP_ORIGIN` via `src/config/app.ts` |
-| `bunfig.toml` release-age allowlist for `@lovable.dev/*` | Removed |
-| `AGENTS.md` (Lovable sync warning) | Deleted |
-| `README.md` (Lovable onboarding) | Rewritten |
-| `package.json` name `tanstack_start_ts` | Renamed `irlnow-web` |
-| Cloudflare-module build preset | Defaults to `node-server`, `NITRO_PRESET` overrides |
+| Artifact                                                        | Resolution                                              |
+| --------------------------------------------------------------- | ------------------------------------------------------- |
+| `@lovable.dev/vite-tanstack-config`                             | Replaced with an explicit `vite.config.ts`              |
+| `src/lib/lovable-error-reporting.ts` (`window.__lovableEvents`) | Replaced with `src/lib/observability/report-error.ts`   |
+| `irl-now.lovable.app` in `invite.ts`, `share.$id.tsx`           | Replaced with `VITE_APP_ORIGIN` via `src/config/app.ts` |
+| `bunfig.toml` release-age allowlist for `@lovable.dev/*`        | Removed                                                 |
+| `AGENTS.md` (Lovable sync warning)                              | Deleted                                                 |
+| `README.md` (Lovable onboarding)                                | Rewritten                                               |
+| `package.json` name `tanstack_start_ts`                         | Renamed `irlnow-web`                                    |
+| Cloudflare-module build preset                                  | Defaults to `node-server`, `NITRO_PRESET` overrides     |
 
 Verified standalone: `bun install && bun run build && bun run start` produces
 and serves a working bundle with no Lovable package present.
