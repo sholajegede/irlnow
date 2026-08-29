@@ -131,49 +131,42 @@ export function downloadIcs(eventId: string): boolean {
   return true;
 }
 
-/* ---------------- Travel-time hints ---------------- */
+/* ---------------- Travel-time estimates ---------------- */
 
+/**
+ * Rough journey times, derived from straight-line distance alone.
+ *
+ * These are arithmetic, not routing: no line names, fares or departure times
+ * are claimed, because a specific claim we cannot source is worse than an
+ * honest estimate. Swap in a real routing provider to make these exact.
+ */
 export interface TravelOption {
   mode: "walk" | "cycle" | "transit" | "cab";
   label: string;
+  /** Estimated door-to-door minutes. */
   minutes: number;
-  detail: string;
 }
 
-const TUBE = ["Northern line", "Victoria line", "Overground", "Central line", "Elizabeth line"];
+/** Average speeds in minutes per km, including the usual stopping and waiting. */
+const MINUTES_PER_KM = { walk: 12, cycle: 4, transit: 3, cab: 2.5 } as const;
+
+/** Fixed overhead per mode: unlocking a bike, waiting on a platform, hailing. */
+const OVERHEAD_MINUTES = { walk: 0, cycle: 2, transit: 9, cab: 4 } as const;
 
 export function travelOptions(event: IrlEvent): TravelOption[] {
-  const km = parseFloat(event.distance) || 1 + (seed(event.id) % 5);
-  const s = seed(event.id);
+  const km = parseFloat(event.distance) || 0;
+  const estimate = (mode: TravelOption["mode"]) =>
+    Math.max(1, Math.round(km * MINUTES_PER_KM[mode]) + OVERHEAD_MINUTES[mode]);
+
   return [
-    {
-      mode: "walk",
-      label: "Walk",
-      minutes: Math.round(km * 12),
-      detail: "Straightforward, mostly lit streets",
-    },
-    {
-      mode: "cycle",
-      label: "Cycle",
-      minutes: Math.round(km * 4) + 2,
-      detail: `Docking station ${1 + (s % 4)} min from the door`,
-    },
-    {
-      mode: "transit",
-      label: "Transit",
-      minutes: Math.round(km * 3) + 9,
-      detail: `${TUBE[s % TUBE.length]} · ${1 + (s % 3)} change${s % 3 === 0 ? "" : "s"}`,
-    },
-    {
-      mode: "cab",
-      label: "Cab",
-      minutes: Math.round(km * 2.5) + 4,
-      detail: `About £${8 + (s % 9)} at this time`,
-    },
+    { mode: "walk", label: "Walk", minutes: estimate("walk") },
+    { mode: "cycle", label: "Cycle", minutes: estimate("cycle") },
+    { mode: "transit", label: "Transit", minutes: estimate("transit") },
+    { mode: "cab", label: "Cab", minutes: estimate("cab") },
   ];
 }
 
-/** When to leave, based on the fastest sensible option. */
+/** When to leave, based on the fastest option plus ten minutes of slack. */
 export function leaveBy(event: IrlEvent): { minutes: number; label: string } {
   const fastest = travelOptions(event).reduce((a, b) => (b.minutes < a.minutes ? b : a));
   const start = eventStart(event);
@@ -181,53 +174,4 @@ export function leaveBy(event: IrlEvent): { minutes: number; label: string } {
   const h = leave.getHours();
   const label = `${((h + 11) % 12) + 1}:${pad(leave.getMinutes())}${h >= 12 ? "pm" : "am"}`;
   return { minutes: fastest.minutes, label };
-}
-
-/** Last transport home — the thing people actually worry about. */
-export function lastTransport(event: IrlEvent): string {
-  const s = seed(event.id);
-  return `Last ${TUBE[s % TUBE.length]} home around ${11 + (s % 2)}:${pad((s * 7) % 60)}pm · night buses after`;
-}
-
-/* ---------------- Accessibility ---------------- */
-
-export interface AccessInfo {
-  stepFree: boolean;
-  accessibleToilet: boolean;
-  seating: boolean;
-  quietSpace: boolean;
-  hearingLoop: boolean;
-  lowLight: boolean;
-  loudMusic: boolean;
-  note: string;
-}
-
-export function accessInfo(event: IrlEvent): AccessInfo {
-  const s = seed(event.id);
-  const loud = event.category === "Nightlife" || event.interests.includes("music");
-  return {
-    stepFree: s % 3 !== 0,
-    accessibleToilet: s % 4 !== 0,
-    seating: s % 2 === 0 || event.interests.includes("food"),
-    quietSpace: s % 5 === 0,
-    hearingLoop: s % 6 === 0,
-    lowLight: loud || s % 7 === 0,
-    loudMusic: loud,
-    note:
-      s % 3 === 0
-        ? "Entrance has two steps and no ramp — message the host and they'll meet you at the side door."
-        : "Step-free from the street. Ask at the door if you need a seat kept for you.",
-  };
-}
-
-export function accessChecklist(event: IrlEvent): { label: string; ok: boolean }[] {
-  const a = accessInfo(event);
-  return [
-    { label: "Step-free access", ok: a.stepFree },
-    { label: "Accessible toilet", ok: a.accessibleToilet },
-    { label: "Seating available", ok: a.seating },
-    { label: "Quiet space", ok: a.quietSpace },
-    { label: "Hearing loop", ok: a.hearingLoop },
-    { label: "Bright enough to lip-read", ok: !a.lowLight },
-  ];
 }

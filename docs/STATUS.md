@@ -52,19 +52,26 @@ entirely front-end: there is no backend, no persistence and no authentication._
 | Safety: report & block         | 🟡    | Records to memory. No moderation pipeline behind it.                                                                   |
 | Privacy settings               | 🟡    | Stored and read by the UI; not enforced anywhere, because there is no server.                                          |
 | Accessibility settings         | ✅    | Reduced motion and high contrast are real, applied at the root.                                                        |
+| Event access details           | 🟡    | Model is honest (host-declared or unknown). No host has declared any yet, and there is no UI to declare them.          |
+
+## Fixed
+
+- **Accessibility claims** — `accessInfo()` derived step-free access, accessible
+  toilets and hearing loops from a hash of the event id and rendered them as
+  ticks and crosses. Replaced with `lib/events/access.ts`: answers come from the
+  host or read "not answered". No event declares any yet, so the panel currently
+  invites the guest to ask the host.
+- **Travel specifics** — named tube lines, cab fares, cycle-dock distances and
+  last-train times were invented per event. Journey times are now labelled
+  estimates derived from distance alone; the unsourceable specifics are gone.
 
 ## Known-misleading data
 
 These generate confident, specific, entirely invented output. Each needs either
 a real source or a visible "sample data" treatment before any external demo.
 
-- `accessInfo()` — **fabricates step-free access, accessible toilets and
-  hearing loops from a hash of the event id.** Highest-priority removal: a
-  wrong access claim can strand someone at a venue door.
 - `guestList()` / `trafficFor()` — synthetic attendees and funnel figures.
 - `platformStats`, `cityRows`, `REVENUE_MIX` — invented business metrics.
 - `wallPhotos()` — synthetic photos, contributors and face tags.
-- `travelOptions()` / `lastTransport()` — invented tube lines, fares and
-  last-train times.
 - `inviteStats()` — fixed 72% / 41% / 24% conversion rates.
 - `waitlistOdds()` — invented probability of getting in.

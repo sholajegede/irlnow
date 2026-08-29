@@ -1,3 +1,4 @@
+import type { EventAccess } from "@/lib/events/access";
 import rooftop from "@/assets/event-rooftop.jpg";
 import jazz from "@/assets/event-jazz.jpg";
 import supper from "@/assets/event-supper.jpg";
@@ -169,6 +170,8 @@ export interface IrlEvent {
   spotsLeft?: number; // 0 = sold out
   capacity?: number;
   seriesId?: string;
+  /** Access details, only ever as declared by the host. Absent = not answered. */
+  access?: EventAccess;
 }
 
 export const events: IrlEvent[] = [
