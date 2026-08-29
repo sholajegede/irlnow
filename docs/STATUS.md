@@ -19,9 +19,9 @@ authentication — so every user-facing surface below still runs on fixtures._
 | Configuration       | ✅    | `src/config/app.ts`, `VITE_APP_ORIGIN`.                                                                                                    |
 | Error reporting     | 🟡    | Vendor-neutral seam exists; no provider wired, so errors reach the console only.                                                           |
 | Persistence         | 🟡    | Local-only. Identity, RSVPs, saves, plans and settings survive a reload; media, messages and orders do not.                                |
-| Backend             | 🔴    | Not started. Convex planned.                                                                                                               |
+| Backend             | 🟡    | Convex core-loop schema, queries and mutations exist and are tested. No client reads from them yet.                                        |
 | Authentication      | 🔴    | `src/lib/auth.ts` accepts any 6-digit code. Kinde planned.                                                                                 |
-| Authorisation       | 🔴    | None. `/admin` and `/host/*` are reachable by anyone.                                                                                      |
+| Authorisation       | 🟡    | Enforced server-side in Convex and covered by tests. Web routes `/admin` and `/host/*` remain unprotected.                                 |
 | Tests               | 🟡    | 132 tests over two runtimes: QR encoding, feed ranking, access, persistence, and Convex auth/privacy/capacity. Most UI surfaces uncovered. |
 
 ## Product surfaces
