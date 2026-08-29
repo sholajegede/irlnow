@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, CalendarClock, MapPin, MessagesSquare, Ticket as TicketIcon, Undo2 } from "lucide-react";
 import { useState } from "react";
 import { QrCode } from "@/components/QrCode";
+import { absoluteUrl } from "@/config/app";
 import { AddToCalendar } from "@/components/AddToCalendar";
 import { TicketShare } from "@/components/TicketShare";
 import { eventCovers, getEvent } from "@/lib/data";
@@ -85,7 +86,7 @@ function TicketPage() {
           </div>
 
           <div className="flex items-center justify-center border-y border-dashed border-border bg-background/40 py-5">
-            <QrCode value={`irlnow.app/t/${event.id}/${code}`} className="h-44 w-44" />
+            <QrCode value={absoluteUrl(`/t/${event.id}/${code}`)} className="h-44 w-44" />
           </div>
 
           <div className="space-y-3 p-4">

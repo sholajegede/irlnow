@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Copy, QrCode as QrIcon, Share2, Smartphone } from "lucide-react";
 import { useState } from "react";
 import { QrCode } from "@/components/QrCode";
+import { displayUrl } from "@/config/app";
 import { getEvent } from "@/lib/data";
 
 export const Route = createFileRoute("/qr/$id")({
@@ -23,7 +24,7 @@ function EventQrPage() {
   const { id } = Route.useParams();
   const event = getEvent(id);
   const [copied, setCopied] = useState(false);
-  const link = `irlnow.app/e/${id}`;
+  const link = displayUrl(`/e/${id}`);
 
   if (!event) {
     return (

@@ -1,15 +1,54 @@
-// @lovable.dev/vite-tanstack-config already includes the following — do NOT add them manually
-// or the app will break with duplicate plugins:
-//   - TanStack devtools (dev-only, first), tanstackStart, viteReact, tailwindcss, tsConfigPaths,
-//     nitro (build-only using cloudflare as a default target), VITE_* env injection, @ path alias,
-//     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
-// You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import { nitro } from "nitro/vite";
+import { defineConfig } from "vite";
 
-export default defineConfig({
-  tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
+/**
+ * Build target for `vite build`.
+ *
+ * Defaults to a self-hosted Node server (`.output/server/index.mjs`), which runs
+ * anywhere a container does. Override with NITRO_PRESET to deploy elsewhere —
+ * e.g. `cloudflare-module`, `vercel`, `netlify`. See nitro.build/deploy.
+ */
+const serverPreset = process.env["NITRO_PRESET"] ?? "node-server";
+
+export default defineConfig(({ command }) => ({
+  server: {
+    port: Number(process.env["PORT"] ?? 8080),
+    host: true,
   },
-});
+
+  resolve: {
+    // `@/*` -> `src/*`, read from tsconfig.json so the alias has one source of truth.
+    tsconfigPaths: true,
+    // A second copy of React or the query client breaks hooks and the cache.
+    dedupe: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "@tanstack/react-query",
+      "@tanstack/query-core",
+    ],
+  },
+
+  css: { transformer: "lightningcss" },
+
+  plugins: [
+    tailwindcss(),
+    tanstackStart({
+      // Route the bundled server entry through src/server.ts, which wraps SSR
+      // failures in a readable error page instead of a raw stack trace.
+      server: { entry: "server" },
+      // Server-only modules must never reach the client bundle.
+      importProtection: {
+        behavior: "error",
+        client: { files: ["**/server/**"], specifiers: ["server-only"] },
+      },
+    }),
+    // Nitro produces the deployable server bundle; it has no role in `vite dev`.
+    ...(command === "build" ? [nitro({ preset: serverPreset })] : []),
+    viteReact(),
+  ],
+}));

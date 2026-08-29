@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Check, Copy, Image as ImageIcon, Share2 } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
+import { displayUrl } from "@/config/app";
 import { getEvent, getPerson } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -40,7 +41,7 @@ function SharePage() {
   );
   const [copied, setCopied] = useState(false);
   const going = (event?.going ?? []).map(getPerson).filter(Boolean).slice(0, 3);
-  const url = `irl-now.lovable.app/x/${id}`;
+  const url = displayUrl(`/x/${id}`);
   const style = LOOKS.find((l) => l.id === look)!;
 
   return (

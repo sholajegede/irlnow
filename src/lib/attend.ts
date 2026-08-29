@@ -1,3 +1,4 @@
+import { APP_DOMAIN, displayUrl } from "@/config/app";
 import { getEvent, type IrlEvent } from "@/lib/data";
 
 /* ------------------------------------------------------------------
@@ -97,13 +98,13 @@ export function buildIcs(event: IrlEvent, hours = 3): string {
     "VERSION:2.0",
     "PRODID:-//IRL NOW//EN",
     "BEGIN:VEVENT",
-    `UID:${event.id}@irlnow.app`,
+    `UID:${event.id}@${APP_DOMAIN}`,
     `DTSTAMP:${icsStamp(new Date())}`,
     `DTSTART:${icsStamp(start)}`,
     `DTEND:${icsStamp(end)}`,
     `SUMMARY:${event.title}`,
     `LOCATION:${event.location}, ${event.area}`,
-    `DESCRIPTION:${event.description.replace(/\n/g, " ")} — hosted by ${event.host}. Details: irlnow.app/event/${event.id}`,
+    `DESCRIPTION:${event.description.replace(/\n/g, " ")} — hosted by ${event.host}. Details: ${displayUrl(`/event/${event.id}`)}`,
     "BEGIN:VALARM",
     "TRIGGER:-PT2H",
     "ACTION:DISPLAY",

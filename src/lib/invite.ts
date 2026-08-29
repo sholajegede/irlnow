@@ -1,4 +1,6 @@
-/** Referral + invite mechanics (dummy). Every invite is tied to a thing you're going to. */
+/** Referral + invite mechanics. Every invite is tied to a thing you're going to. */
+
+import { displayUrl } from "@/config/app";
 
 export type InviteChannel = "whatsapp" | "message" | "instagram" | "copy" | "email";
 
@@ -26,7 +28,7 @@ export function referralCode(name: string): string {
 
 export function inviteLink(code: string, context = "app"): string {
   const path = context === "app" ? "" : `/${context.replace(":", "/")}`;
-  return `irl-now.lovable.app${path}?i=${code}`;
+  return `${displayUrl(path)}?i=${code}`;
 }
 
 /** Deterministic "how your invites are doing" numbers so the screen feels alive. */
