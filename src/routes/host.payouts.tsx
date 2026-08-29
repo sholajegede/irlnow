@@ -11,7 +11,8 @@ export const Route = createFileRoute("/host/payouts")({
       { title: "Payouts & fees — IRL NOW for organisers" },
       {
         name: "description",
-        content: "See ticket revenue, platform fees and when money lands in your account for every event you host.",
+        content:
+          "See ticket revenue, platform fees and when money lands in your account for every event you host.",
       },
       { property: "og:title", content: "Payouts & fees — IRL NOW for organisers" },
       { property: "og:description", content: "Clear money, no surprises." },
@@ -93,15 +94,17 @@ function Payouts() {
             <h2 className="font-display font-bold">How fees work</h2>
           </div>
           <p className="text-sm text-muted-foreground">
-            5% + 40p per paid ticket. Free events cost nothing, ever. Refunds return the fee too, so a
-            cancelled night never leaves you out of pocket.
+            5% + 40p per paid ticket. Free events cost nothing, ever. Refunds return the fee too, so
+            a cancelled night never leaves you out of pocket.
           </p>
           <ul className="space-y-1.5">
-            {["No monthly fee", "No fee on free events", "Fees refunded on cancellations"].map((t) => (
-              <li key={t} className="flex items-center gap-2 text-sm">
-                <Check className="h-4 w-4 text-accent" strokeWidth={3} /> {t}
-              </li>
-            ))}
+            {["No monthly fee", "No fee on free events", "Fees refunded on cancellations"].map(
+              (t) => (
+                <li key={t} className="flex items-center gap-2 text-sm">
+                  <Check className="h-4 w-4 text-accent" strokeWidth={3} /> {t}
+                </li>
+              ),
+            )}
           </ul>
         </section>
 
@@ -125,8 +128,8 @@ function Payouts() {
         <div className="flex items-start gap-2.5 rounded-2xl border border-accent/30 bg-accent/10 p-4">
           <TrendingUp className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
           <p className="text-sm text-muted-foreground">
-            Events priced £10–£20 in your area sell out 2× faster than free ones — a small price makes
-            people actually turn up.
+            Events priced £10–£20 in your area sell out 2× faster than free ones — a small price
+            makes people actually turn up.
           </p>
         </div>
       </div>

@@ -1,7 +1,14 @@
 import { cn } from "@/lib/utils";
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={cn("animate-pulse rounded-xl bg-secondary/70 motion-reduce:animate-none", className)} />;
+  return (
+    <div
+      className={cn(
+        "animate-pulse rounded-xl bg-secondary/70 motion-reduce:animate-none",
+        className,
+      )}
+    />
+  );
 }
 
 /** Loading shape for a feed card, so first paint isn't a blank screen. */
@@ -27,7 +34,10 @@ export function RowSkeleton({ count = 4 }: { count?: number }) {
   return (
     <div className="flex flex-col gap-2">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
+        <div
+          key={i}
+          className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+        >
           <Skeleton className="h-10 w-10 rounded-full" />
           <div className="flex-1 space-y-2">
             <Skeleton className="h-3.5 w-1/3" />

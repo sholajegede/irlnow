@@ -24,7 +24,9 @@ export const Route = createFileRoute("/checkout/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Checkout unavailable | IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Checkout unavailable | IRL NOW" }, { name: "robots", content: "noindex" }],
+      };
     }
     const t = `Get your ticket — ${loaderData.event.title} | IRL NOW`;
     return {
@@ -157,7 +159,12 @@ function Checkout() {
                 Choose a ticket
               </h2>
               {tiers.map((t) => (
-                <TierCard key={t.id} tier={t} active={t.id === tierId} onSelect={() => setTierId(t.id)} />
+                <TierCard
+                  key={t.id}
+                  tier={t}
+                  active={t.id === tierId}
+                  onSelect={() => setTierId(t.id)}
+                />
               ))}
             </section>
 
@@ -256,7 +263,9 @@ function Checkout() {
                       <span
                         className={cn(
                           "h-3.5 w-3.5 rounded-full border-2",
-                          i === stage ? "animate-pulse border-primary bg-primary/40" : "border-border",
+                          i === stage
+                            ? "animate-pulse border-primary bg-primary/40"
+                            : "border-border",
                         )}
                       />
                     )}
@@ -269,8 +278,8 @@ function Checkout() {
             <div className="flex items-start gap-2.5 rounded-2xl border border-border bg-card p-4">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
               <p className="text-xs text-muted-foreground">
-                Full refund up to 24 hours before. If the host cancels, you're refunded automatically —
-                fee included.
+                Full refund up to 24 hours before. If the host cancels, you're refunded
+                automatically — fee included.
               </p>
             </div>
           </>
@@ -315,7 +324,9 @@ function Checkout() {
           )}
           {step !== "tier" && (
             <button
-              onClick={() => setStep(step === "pay" ? (questions.length ? "questions" : "tier") : "tier")}
+              onClick={() =>
+                setStep(step === "pay" ? (questions.length ? "questions" : "tier") : "tier")
+              }
               className="mt-2 h-9 w-full text-sm font-semibold text-muted-foreground"
             >
               Back
@@ -353,7 +364,15 @@ function Checkout() {
   );
 }
 
-function TierCard({ tier, active, onSelect }: { tier: TicketTier; active: boolean; onSelect: () => void }) {
+function TierCard({
+  tier,
+  active,
+  onSelect,
+}: {
+  tier: TicketTier;
+  active: boolean;
+  onSelect: () => void;
+}) {
   return (
     <button
       onClick={onSelect}
@@ -378,7 +397,12 @@ function TierCard({ tier, active, onSelect }: { tier: TicketTier; active: boolea
           ))}
         </ul>
       )}
-      <p className={cn("mt-2 text-[11px] font-semibold", tier.left <= 5 ? "text-primary" : "text-muted-foreground")}>
+      <p
+        className={cn(
+          "mt-2 text-[11px] font-semibold",
+          tier.left <= 5 ? "text-primary" : "text-muted-foreground",
+        )}
+      >
         {tier.left <= 5 ? `Only ${tier.left} left` : `${tier.left} available`}
       </p>
     </button>
@@ -399,7 +423,9 @@ function QuestionField({
       <div>
         <p className="font-semibold">
           {q.label}{" "}
-          {!q.required && <span className="text-xs font-normal text-muted-foreground">(optional)</span>}
+          {!q.required && (
+            <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+          )}
         </p>
         {q.hint && <p className="text-xs text-muted-foreground">{q.hint}</p>}
       </div>
@@ -418,7 +444,9 @@ function QuestionField({
               onClick={() => onChange(o)}
               className={cn(
                 "rounded-full border px-3 py-2 text-sm font-semibold transition-colors",
-                value === o ? "border-primary bg-primary/15 text-primary" : "border-border text-muted-foreground",
+                value === o
+                  ? "border-primary bg-primary/15 text-primary"
+                  : "border-border text-muted-foreground",
               )}
             >
               {o}
@@ -430,16 +458,36 @@ function QuestionField({
   );
 }
 
-function Row({ label, value, muted, bold }: { label: string; value: string; muted?: boolean; bold?: boolean }) {
+function Row({
+  label,
+  value,
+  muted,
+  bold,
+}: {
+  label: string;
+  value: string;
+  muted?: boolean;
+  bold?: boolean;
+}) {
   return (
     <div className="flex items-center justify-between">
       <span className={cn("text-sm", muted ? "text-muted-foreground" : "")}>{label}</span>
-      <span className={cn(bold ? "font-display text-lg font-bold" : "text-sm font-semibold")}>{value}</span>
+      <span className={cn(bold ? "font-display text-lg font-bold" : "text-sm font-semibold")}>
+        {value}
+      </span>
     </div>
   );
 }
 
-function Done({ event, code, name }: { event: ReturnType<typeof getEvent> & object; code: string; name: string }) {
+function Done({
+  event,
+  code,
+  name,
+}: {
+  event: ReturnType<typeof getEvent> & object;
+  code: string;
+  name: string;
+}) {
   return (
     <div className="space-y-5 pt-6 text-center">
       <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent/20">

@@ -11,8 +11,7 @@ export const Route = createFileRoute("/drop/$id")({
       { title: "Spontaneous capacity — IRL NOW" },
       {
         name: "description",
-        content:
-          "A venue near you has space right now. Claim a spot, walk over, no ticket needed.",
+        content: "A venue near you has space right now. Claim a spot, walk over, no ticket needed.",
       },
       { property: "og:title", content: "Space right now, near you" },
       { property: "og:description", content: "Last-minute capacity from venues around you." },
@@ -32,7 +31,10 @@ function DropPage() {
     return (
       <div className="flex min-h-dvh flex-col items-center justify-center gap-3 p-8 text-center">
         <p className="font-display text-2xl font-extrabold">That spot has gone</p>
-        <Link to="/" className="rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-bold text-primary-foreground">
+        <Link
+          to="/"
+          className="rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-bold text-primary-foreground"
+        >
           Find something else
         </Link>
       </div>
@@ -100,7 +102,10 @@ function DropPage() {
           </p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {["Walk in", "Held for 30 min", "Pay at the venue"].map((v) => (
-              <span key={v} className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-semibold">
+              <span
+                key={v}
+                className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-semibold"
+              >
                 {v}
               </span>
             ))}

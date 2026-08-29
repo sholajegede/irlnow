@@ -39,7 +39,11 @@ export function BottomNav() {
             );
           }
           return (
-            <Link key={tab.to} to={tab.to} className="relative flex flex-col items-center gap-0.5 py-1">
+            <Link
+              key={tab.to}
+              to={tab.to}
+              className="relative flex flex-col items-center gap-0.5 py-1"
+            >
               {tab.to === "/you" && badge > 0 && (
                 <span
                   aria-label={`${badge} unread`}

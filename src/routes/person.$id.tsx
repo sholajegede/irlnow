@@ -15,7 +15,9 @@ export const Route = createFileRoute("/person/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Profile unavailable — IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Profile unavailable — IRL NOW" }, { name: "robots", content: "noindex" }],
+      };
     }
     const { person } = loaderData;
     return {
@@ -104,7 +106,10 @@ function PersonProfile() {
             {person.interests.map((i) => {
               const meta = allInterests.find((x) => x.id === i);
               return (
-                <span key={i} className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold">
+                <span
+                  key={i}
+                  className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold"
+                >
                   {meta?.emoji} {meta?.label}
                 </span>
               );
@@ -124,7 +129,9 @@ function PersonProfile() {
               >
                 <div className="min-w-0">
                   <p className="truncate font-semibold">{e.title}</p>
-                  <p className="text-xs text-muted-foreground">{e.dateLabel} · {e.area}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {e.dateLabel} · {e.area}
+                  </p>
                 </div>
               </Link>
             ))}
@@ -135,7 +142,10 @@ function PersonProfile() {
         </section>
 
         <p className="text-center text-xs text-muted-foreground">
-          {person.mutuals > 0 ? `${person.mutuals} mutual connections` : "No mutual connections yet"} · Contact details are never shown
+          {person.mutuals > 0
+            ? `${person.mutuals} mutual connections`
+            : "No mutual connections yet"}{" "}
+          · Contact details are never shown
         </p>
       </div>
       <ReportSheet person={person} open={reporting} onClose={() => setReporting(false)} />

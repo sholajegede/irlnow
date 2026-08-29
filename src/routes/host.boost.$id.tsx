@@ -64,7 +64,9 @@ function BoostPage() {
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div className="min-w-0">
-          <p className="truncate font-display text-lg font-extrabold tracking-tight">Promote this event</p>
+          <p className="truncate font-display text-lg font-extrabold tracking-tight">
+            Promote this event
+          </p>
           <p className="truncate text-xs text-muted-foreground">{event.title}</p>
         </div>
       </header>
@@ -76,8 +78,8 @@ function BoostPage() {
               <Megaphone className="h-4 w-4 text-accent" /> Promotion running
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
-              {money(live.budget)} over {live.days} days · started {live.startedAt}. Your event now carries a
-              “Promoted” label in the feed.
+              {money(live.budget)} over {live.days} days · started {live.startedAt}. Your event now
+              carries a “Promoted” label in the feed.
             </p>
             <button
               onClick={() => stopBoost(id)}

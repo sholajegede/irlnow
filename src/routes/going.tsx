@@ -1,5 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Bell, Calendar, Clock, MapPin, MessagesSquare, QrCode, Sparkles, Ticket, Users } from "lucide-react";
+import {
+  Bell,
+  Calendar,
+  Clock,
+  MapPin,
+  MessagesSquare,
+  QrCode,
+  Sparkles,
+  Ticket,
+  Users,
+} from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
 import { AddToCalendar } from "@/components/AddToCalendar";
 import { WaitlistHold } from "@/components/WaitlistHold";
@@ -29,8 +39,23 @@ export const Route = createFileRoute("/going")({
 });
 
 function GoingPage() {
-  const { interests, connectedIds, goingIds, savedIds, goingSoloIds, toggleGoingSolo, waitlistIds, crews, orders, joinedPlanIds, myPlans, claimedDropIds } = useApp();
-  const joinedPlans = joinedPlanIds.map((id) => myPlans.find((p) => p.id === id) ?? getPlan(id)).filter((p) => p !== undefined);
+  const {
+    interests,
+    connectedIds,
+    goingIds,
+    savedIds,
+    goingSoloIds,
+    toggleGoingSolo,
+    waitlistIds,
+    crews,
+    orders,
+    joinedPlanIds,
+    myPlans,
+    claimedDropIds,
+  } = useApp();
+  const joinedPlans = joinedPlanIds
+    .map((id) => myPlans.find((p) => p.id === id) ?? getPlan(id))
+    .filter((p) => p !== undefined);
   const claimedDrops = claimedDropIds.map(getDrop).filter((d) => d !== undefined);
   const upcoming = events.filter((e) => goingIds.includes(e.id));
   const saved = events.filter((e) => savedIds.includes(e.id) && !goingIds.includes(e.id));
@@ -65,7 +90,10 @@ function GoingPage() {
               const crew = (crews[e.id] ?? []).map(getPerson).filter((p) => p !== undefined);
 
               return (
-                <div key={e.id} className="overflow-hidden rounded-3xl border border-border bg-card">
+                <div
+                  key={e.id}
+                  className="overflow-hidden rounded-3xl border border-border bg-card"
+                >
                   <Link to="/event/$id" params={{ id: e.id }} className="relative block h-36">
                     <img
                       src={eventCovers[e.cover]}
@@ -77,8 +105,12 @@ function GoingPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-fade" />
                     <div className="absolute inset-x-0 bottom-0 p-4">
-                      <p className="text-xs font-bold uppercase tracking-wider text-accent">{e.dateLabel}</p>
-                      <h3 className="font-display text-xl font-extrabold leading-tight">{e.title}</h3>
+                      <p className="text-xs font-bold uppercase tracking-wider text-accent">
+                        {e.dateLabel}
+                      </p>
+                      <h3 className="font-display text-xl font-extrabold leading-tight">
+                        {e.title}
+                      </h3>
                     </div>
                   </Link>
                   <div className="flex flex-col gap-3 p-4">
@@ -101,9 +133,7 @@ function GoingPage() {
                       </div>
                     )}
                     <div className="rounded-2xl border border-primary/30 bg-primary/10 p-3">
-                      <p className="font-display text-sm font-extrabold">
-                        {graph.headline}
-                      </p>
+                      <p className="font-display text-sm font-extrabold">{graph.headline}</p>
                       <p className="text-[11px] text-muted-foreground">{graph.subline}</p>
                       <div className="mt-3 flex gap-3 overflow-x-auto no-scrollbar">
                         {meet.map((p) => (
@@ -116,7 +146,11 @@ function GoingPage() {
                             <Avatar person={p} size="lg" />
                             <span className="truncate text-[11px] font-bold">{p.name}</span>
                             <span className="line-clamp-2 text-[10px] leading-tight text-muted-foreground">
-                              {p.goingSolo ? "Going solo" : p.mutuals ? `${p.mutuals} mutuals` : "Shared interests"}
+                              {p.goingSolo
+                                ? "Going solo"
+                                : p.mutuals
+                                  ? `${p.mutuals} mutuals`
+                                  : "Shared interests"}
                             </span>
                           </Link>
                         ))}
@@ -128,10 +162,13 @@ function GoingPage() {
                         onClick={() => toggleGoingSolo(e.id)}
                         className={cn(
                           "flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl text-xs font-bold transition-all active:scale-95",
-                          solo ? "bg-accent text-accent-foreground" : "bg-secondary text-secondary-foreground",
+                          solo
+                            ? "bg-accent text-accent-foreground"
+                            : "bg-secondary text-secondary-foreground",
                         )}
                       >
-                        <Sparkles className="h-4 w-4" /> {solo ? "Going solo · on" : "I'm going solo"}
+                        <Sparkles className="h-4 w-4" />{" "}
+                        {solo ? "Going solo · on" : "I'm going solo"}
                       </button>
                       <Link
                         to="/connections"
@@ -227,7 +264,6 @@ function GoingPage() {
           </section>
         )}
 
-
         {waitlisted.length > 0 && (
           <section className="flex flex-col gap-3">
             <h2 className="font-display text-xl font-extrabold">Waitlisted</h2>
@@ -283,7 +319,9 @@ function GoingPage() {
                 />
                 <div className="min-w-0">
                   <p className="truncate font-semibold">{e.title}</p>
-                  <p className="text-xs text-muted-foreground">{e.dateLabel} · {e.area}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {e.dateLabel} · {e.area}
+                  </p>
                 </div>
               </Link>
             ))}

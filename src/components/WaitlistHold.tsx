@@ -11,8 +11,13 @@ import { useApp, waitlistPosition } from "@/lib/store";
  */
 export function WaitlistHold({ event, holdOnly = false }: { event: IrlEvent; holdOnly?: boolean }) {
   const {
-    waitlistIds, waitlistHolds, declinedHolds, offerWaitlistHold,
-    acceptWaitlistHold, declineWaitlistHold, goingIds,
+    waitlistIds,
+    waitlistHolds,
+    declinedHolds,
+    offerWaitlistHold,
+    acceptWaitlistHold,
+    declineWaitlistHold,
+    goingIds,
   } = useApp();
   const [now, setNow] = useState(() => Date.now());
   const onList = waitlistIds.includes(event.id);
@@ -21,7 +26,8 @@ export function WaitlistHold({ event, holdOnly = false }: { event: IrlEvent; hol
 
   // A spot frees up shortly after you join the list (prototype simulation).
   useEffect(() => {
-    if (!onList || expiresAt || declinedHolds.includes(event.id) || goingIds.includes(event.id)) return;
+    if (!onList || expiresAt || declinedHolds.includes(event.id) || goingIds.includes(event.id))
+      return;
     const t = setTimeout(() => offerWaitlistHold(event.id, HOLD_MINUTES), 6000);
     return () => clearTimeout(t);
   }, [onList, expiresAt, declinedHolds, goingIds, event.id, offerWaitlistHold]);

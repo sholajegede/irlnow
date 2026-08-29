@@ -55,14 +55,20 @@ export function InviteSheet({
             <UserPlus className="h-5 w-5 text-primary" />
             <h2 className="font-display text-xl font-extrabold">Bring people</h2>
           </div>
-          <button onClick={onClose} aria-label="Close" className="rounded-full p-1 active:bg-secondary">
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="rounded-full p-1 active:bg-secondary"
+          >
             <X className="h-5 w-5 text-muted-foreground" />
           </button>
         </div>
         <p className="mt-1 text-sm text-muted-foreground">{contextLabel}</p>
 
         <div className="mt-4 rounded-2xl border border-border bg-secondary/40 p-3">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Your link</p>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+            Your link
+          </p>
           <div className="mt-1 flex items-center gap-2">
             <p className="flex-1 truncate font-mono text-xs">{link}</p>
             <button
@@ -104,7 +110,11 @@ export function InviteSheet({
               ? `Invite ${toGo} more and your next month of IRL NOW+ is free`
               : "Nice — that's a free month of IRL NOW+ unlocked"}
           </p>
-          <Link to="/invite" onClick={onClose} className="mt-1 inline-block text-[11px] font-bold text-primary">
+          <Link
+            to="/invite"
+            onClick={onClose}
+            className="mt-1 inline-block text-[11px] font-bold text-primary"
+          >
             Track your invites
           </Link>
         </div>

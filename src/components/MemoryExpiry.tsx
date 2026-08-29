@@ -58,9 +58,7 @@ export function MemoryExpiry({
         <Timer className={cn("h-4 w-4", r.urgent ? "text-primary" : "text-muted-foreground")} />
         <p className={cn("font-display font-extrabold", r.urgent && "text-primary")}>{r.label}</p>
       </div>
-      <p className="mt-1 text-sm text-muted-foreground">
-        {retentionPitch(photoCount, r.daysLeft)}
-      </p>
+      <p className="mt-1 text-sm text-muted-foreground">{retentionPitch(photoCount, r.daysLeft)}</p>
 
       <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-secondary">
         <div

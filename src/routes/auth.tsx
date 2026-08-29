@@ -77,7 +77,17 @@ function AuthPage() {
         ) : step !== "done" ? (
           <button
             aria-label="Back"
-            onClick={() => setStep(step === "age" ? (method === "apple" || method === "google" ? "method" : "code") : step === "code" ? "handle" : "method")}
+            onClick={() =>
+              setStep(
+                step === "age"
+                  ? method === "apple" || method === "google"
+                    ? "method"
+                    : "code"
+                  : step === "code"
+                    ? "handle"
+                    : "method",
+              )
+            }
             className="rounded-full p-1.5 active:bg-secondary"
           >
             <ArrowLeft className="h-5 w-5" />
@@ -135,7 +145,11 @@ function AuthPage() {
               onClick={() =>
                 isValidHandle(method, handle)
                   ? setStep("code")
-                  : setError(method === "phone" ? "That number looks too short." : "Check that email address.")
+                  : setError(
+                      method === "phone"
+                        ? "That number looks too short."
+                        : "Check that email address.",
+                    )
               }
               className="mt-4 h-14 w-full rounded-2xl bg-gradient-brand font-display font-bold text-primary-foreground shadow-glow"
             >
@@ -182,8 +196,8 @@ function AuthPage() {
             </span>
             <h1 className="mt-4 font-display text-2xl font-extrabold">When were you born?</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              IRL NOW is 18+. Your date of birth is never shown — only your birthday month, and only if you
-              turn that on.
+              IRL NOW is 18+. Your date of birth is never shown — only your birthday month, and only
+              if you turn that on.
             </p>
             <input
               type="date"
@@ -199,7 +213,9 @@ function AuthPage() {
             )}
             {error && <p className="mt-2 text-xs font-bold text-destructive">{error}</p>}
             <button
-              onClick={() => (isAdult(dob) ? finish() : setError("You need to be 18 or over to use IRL NOW."))}
+              onClick={() =>
+                isAdult(dob) ? finish() : setError("You need to be 18 or over to use IRL NOW.")
+              }
               className="mt-4 h-14 w-full rounded-2xl bg-gradient-brand font-display font-bold text-primary-foreground shadow-glow"
             >
               Confirm and continue

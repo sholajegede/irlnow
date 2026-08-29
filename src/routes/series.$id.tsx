@@ -12,7 +12,9 @@ export const Route = createFileRoute("/series/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Series unavailable — IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Series unavailable — IRL NOW" }, { name: "robots", content: "noindex" }],
+      };
     }
     const { series } = loaderData;
     return {
@@ -68,7 +70,8 @@ function SeriesPage() {
         <div>
           <p className="text-[15px] leading-relaxed text-foreground/90">{series.blurb}</p>
           <p className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-            <Users className="h-4 w-4 text-primary" /> Hosted by {series.host} · {series.followers} followers
+            <Users className="h-4 w-4 text-primary" /> Hosted by {series.host} · {series.followers}{" "}
+            followers
           </p>
         </div>
 

@@ -63,7 +63,11 @@ export function ReportSheet({
                 <ShieldAlert className="h-5 w-5 text-primary" />
                 <h2 className="font-display text-xl font-extrabold">Report {person.name}</h2>
               </div>
-              <button onClick={onClose} aria-label="Close" className="rounded-full p-1 active:bg-secondary">
+              <button
+                onClick={onClose}
+                aria-label="Close"
+                className="rounded-full p-1 active:bg-secondary"
+              >
                 <X className="h-5 w-5 text-muted-foreground" />
               </button>
             </div>
@@ -78,7 +82,9 @@ export function ReportSheet({
                   onClick={() => setReason(r)}
                   className={cn(
                     "rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition-colors",
-                    reason === r ? "border-primary bg-primary/10 text-foreground" : "border-border bg-secondary/40",
+                    reason === r
+                      ? "border-primary bg-primary/10 text-foreground"
+                      : "border-border bg-secondary/40",
                   )}
                 >
                   {r}

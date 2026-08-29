@@ -12,7 +12,8 @@ export const Route = createFileRoute("/review/$id")({
       { title: "Rate the organiser — IRL NOW" },
       {
         name: "description",
-        content: "Tell us how the night actually went. Ratings decide which organisers get reach on IRL NOW.",
+        content:
+          "Tell us how the night actually went. Ratings decide which organisers get reach on IRL NOW.",
       },
       { property: "og:title", content: "Rate the organiser — IRL NOW" },
       { property: "og:description", content: "Two taps keeps the bad ones off the feed." },
@@ -45,8 +46,8 @@ function ReviewPage() {
         </span>
         <h1 className="font-display text-2xl font-extrabold">Thanks</h1>
         <p className="max-w-xs text-sm text-muted-foreground">
-          {anonymous ? "Sent anonymously." : "Sent with your name."} Organiser ratings update once five people
-          have rated, so nobody can tell it was you.
+          {anonymous ? "Sent anonymously." : "Sent with your name."} Organiser ratings update once
+          five people have rated, so nobody can tell it was you.
         </p>
         <Link
           to="/w/$id"
@@ -55,7 +56,10 @@ function ReviewPage() {
         >
           See the photos
         </Link>
-        <button onClick={() => navigate({ to: "/archive" })} className="text-xs font-bold text-primary">
+        <button
+          onClick={() => navigate({ to: "/archive" })}
+          className="text-xs font-bold text-primary"
+        >
           Back to your archive
         </button>
       </div>
@@ -105,7 +109,9 @@ function ReviewPage() {
                   <button
                     key={t}
                     onClick={() =>
-                      setTags((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]))
+                      setTags((prev) =>
+                        prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t],
+                      )
                     }
                     className={cn(
                       "rounded-full px-3.5 py-2 text-xs font-bold",

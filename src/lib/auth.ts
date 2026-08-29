@@ -49,5 +49,9 @@ export function ageFrom(dob: string): number | null {
 }
 
 export function todayLabel(): string {
-  return new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  return new Date().toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }

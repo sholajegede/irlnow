@@ -53,7 +53,7 @@ export interface PlusOne {
 
 export function transferCode(eventId: string, toName: string): string {
   const s = seed(eventId + toName);
-  return `TX-${(s % 9000 + 1000).toString()}`;
+  return `TX-${((s % 9000) + 1000).toString()}`;
 }
 
 /* ---------------- Calendar sync (.ics) ---------------- */
@@ -146,15 +146,30 @@ export function travelOptions(event: IrlEvent): TravelOption[] {
   const km = parseFloat(event.distance) || 1 + (seed(event.id) % 5);
   const s = seed(event.id);
   return [
-    { mode: "walk", label: "Walk", minutes: Math.round(km * 12), detail: "Straightforward, mostly lit streets" },
-    { mode: "cycle", label: "Cycle", minutes: Math.round(km * 4) + 2, detail: `Docking station ${1 + (s % 4)} min from the door` },
+    {
+      mode: "walk",
+      label: "Walk",
+      minutes: Math.round(km * 12),
+      detail: "Straightforward, mostly lit streets",
+    },
+    {
+      mode: "cycle",
+      label: "Cycle",
+      minutes: Math.round(km * 4) + 2,
+      detail: `Docking station ${1 + (s % 4)} min from the door`,
+    },
     {
       mode: "transit",
       label: "Transit",
       minutes: Math.round(km * 3) + 9,
       detail: `${TUBE[s % TUBE.length]} · ${1 + (s % 3)} change${s % 3 === 0 ? "" : "s"}`,
     },
-    { mode: "cab", label: "Cab", minutes: Math.round(km * 2.5) + 4, detail: `About £${8 + (s % 9)} at this time` },
+    {
+      mode: "cab",
+      label: "Cab",
+      minutes: Math.round(km * 2.5) + 4,
+      detail: `About £${8 + (s % 9)} at this time`,
+    },
   ];
 }
 

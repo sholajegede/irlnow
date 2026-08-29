@@ -1,5 +1,16 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
-import { ArrowLeft, Check, Clock, Lock, MapPin, MessagesSquare, Share2, Users, Vote, Wallet } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  Clock,
+  Lock,
+  MapPin,
+  MessagesSquare,
+  Share2,
+  Users,
+  Vote,
+  Wallet,
+} from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { Avatar, AvatarStack } from "@/components/Avatar";
 import { getEvent, peopleByIds } from "@/lib/data";
@@ -28,8 +39,16 @@ export const Route = createFileRoute("/plan/$id")({
 function PlanDetail() {
   const { id } = useParams({ from: "/plan/$id" });
   const {
-    myPlans, joinedPlanIds, togglePlanIn, planVotes, votePlan, name,
-    lockedPlans, lockPlan, planSplitsIn, togglePlanSplit,
+    myPlans,
+    joinedPlanIds,
+    togglePlanIn,
+    planVotes,
+    votePlan,
+    name,
+    lockedPlans,
+    lockPlan,
+    planSplitsIn,
+    togglePlanSplit,
   } = useApp();
   const plan: Plan | undefined = myPlans.find((p) => p.id === id) ?? getPlan(id);
 
@@ -37,7 +56,10 @@ function PlanDetail() {
     return (
       <div className="flex min-h-dvh flex-col items-center justify-center gap-3 p-8 text-center">
         <p className="font-display text-2xl font-extrabold">This plan's gone</p>
-        <Link to="/plans" className="rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-bold text-primary-foreground">
+        <Link
+          to="/plans"
+          className="rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-bold text-primary-foreground"
+        >
           See other plans
         </Link>
       </div>
@@ -129,7 +151,9 @@ function PlanDetail() {
                     onClick={() => votePlan(plan.id, o.id)}
                     className={cn(
                       "relative overflow-hidden rounded-2xl border p-3 text-left",
-                      myVote === o.id ? "border-primary bg-primary/10" : "border-border bg-secondary",
+                      myVote === o.id
+                        ? "border-primary bg-primary/10"
+                        : "border-border bg-secondary",
                     )}
                   >
                     <div
@@ -139,7 +163,8 @@ function PlanDetail() {
                     <div className="relative flex items-center justify-between gap-2">
                       <div className="min-w-0">
                         <p className="text-sm font-bold">
-                          {o.label} {myVote === o.id && <Check className="inline h-3.5 w-3.5 text-primary" />}
+                          {o.label}{" "}
+                          {myVote === o.id && <Check className="inline h-3.5 w-3.5 text-primary" />}
                         </p>
                         <p className="truncate text-xs text-muted-foreground">
                           {linked ? `${linked.dateLabel} · ${linked.area}` : o.detail}
@@ -153,8 +178,8 @@ function PlanDetail() {
             </div>
             {locked ? (
               <p className="mt-3 flex items-center gap-1.5 rounded-2xl bg-accent/12 p-3 text-xs font-semibold text-accent">
-                <Lock className="h-3.5 w-3.5" /> Locked in: {leading?.label}. Everyone who's in has it
-                on their agenda now.
+                <Lock className="h-3.5 w-3.5" /> Locked in: {leading?.label}. Everyone who's in has
+                it on their agenda now.
               </p>
             ) : (
               <>
@@ -236,9 +261,7 @@ function PlanDetail() {
           onClick={() => togglePlanIn(plan.id)}
           className={cn(
             "w-full rounded-2xl py-3.5 font-display font-bold",
-            joined
-              ? "bg-secondary"
-              : "bg-gradient-brand text-primary-foreground shadow-glow",
+            joined ? "bg-secondary" : "bg-gradient-brand text-primary-foreground shadow-glow",
           )}
         >
           {joined

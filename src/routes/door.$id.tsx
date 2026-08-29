@@ -25,7 +25,12 @@ export const Route = createFileRoute("/door/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Door mode unavailable | IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [
+          { title: "Door mode unavailable | IRL NOW" },
+          { name: "robots", content: "noindex" },
+        ],
+      };
     }
     const t = `Door mode — ${loaderData.event.title} | IRL NOW`;
     return {
@@ -113,7 +118,9 @@ function DoorMode() {
           </Link>
           <div className="min-w-0 flex-1">
             <p className="text-[10px] font-bold uppercase tracking-widest text-accent">Door mode</p>
-            <h1 className="truncate font-display text-lg font-extrabold leading-tight">{event.title}</h1>
+            <h1 className="truncate font-display text-lg font-extrabold leading-tight">
+              {event.title}
+            </h1>
           </div>
           <span className="flex items-center gap-1 rounded-full bg-accent/15 px-2.5 py-1 text-[10px] font-extrabold uppercase text-accent">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" /> Live
@@ -133,7 +140,9 @@ function DoorMode() {
             <p className="text-right text-xs text-muted-foreground">
               capacity {capacity}
               <br />
-              <span className={cn("font-bold", pct > 90 ? "text-primary" : "text-accent")}>{pct}% full</span>
+              <span className={cn("font-bold", pct > 90 ? "text-primary" : "text-accent")}>
+                {pct}% full
+              </span>
             </p>
           </div>
           <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-muted">
@@ -144,7 +153,8 @@ function DoorMode() {
           </div>
           {pct > 90 && (
             <p className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-primary">
-              <ShieldAlert className="h-3.5 w-3.5" /> Near capacity — hold the queue until people leave.
+              <ShieldAlert className="h-3.5 w-3.5" /> Near capacity — hold the queue until people
+              leave.
             </p>
           )}
           <div className="mt-4 grid grid-cols-5 gap-1.5">
@@ -205,8 +215,8 @@ function DoorMode() {
             </div>
           )}
           <p className="mt-2 text-[11px] text-muted-foreground">
-            Transferred tickets start with <span className="font-mono">TX-</span> and check in the new
-            holder, not the buyer.
+            Transferred tickets start with <span className="font-mono">TX-</span> and check in the
+            new holder, not the buyer.
           </p>
         </section>
 
@@ -246,7 +256,9 @@ function DoorMode() {
                 <span
                   className={cn(
                     "flex h-9 w-9 items-center justify-center rounded-full",
-                    done ? "bg-accent text-accent-foreground" : "bg-secondary text-muted-foreground",
+                    done
+                      ? "bg-accent text-accent-foreground"
+                      : "bg-secondary text-muted-foreground",
                   )}
                 >
                   {done ? <Check className="h-4 w-4" /> : <UserPlus className="h-4 w-4" />}

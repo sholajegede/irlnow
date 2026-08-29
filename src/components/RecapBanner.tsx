@@ -21,7 +21,9 @@ export function RecapBanner() {
           className="h-16 w-16 shrink-0 rounded-2xl object-cover"
         />
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-bold uppercase tracking-widest text-primary">The morning after</p>
+          <p className="text-[11px] font-bold uppercase tracking-widest text-primary">
+            The morning after
+          </p>
           <p className="truncate font-display text-base font-extrabold">{pastEvent.title}</p>
           <p className="text-xs text-muted-foreground">
             {stats.total} photos are up — you're in {stats.yours}

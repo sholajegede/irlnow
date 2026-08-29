@@ -60,7 +60,9 @@ export function AccessPanel({ event }: { event: IrlEvent }) {
             ) : (
               <Minus className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
             )}
-            <span className={cn(i.ok ? "text-foreground/90" : "text-muted-foreground line-through")}>
+            <span
+              className={cn(i.ok ? "text-foreground/90" : "text-muted-foreground line-through")}
+            >
               {i.label}
             </span>
           </div>

@@ -76,7 +76,9 @@ function DiscoverPage() {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
           </span>
           <p className="flex items-center gap-1.5 truncate text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
-            <span>{pulse.heads} people out at {pulse.count} things near you</span>
+            <span>
+              {pulse.heads} people out at {pulse.count} things near you
+            </span>
             <span className="shrink-0 rounded-full bg-primary px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-primary-foreground underline decoration-1 underline-offset-2">
               See who
             </span>
@@ -104,30 +106,31 @@ function DiscoverPage() {
           >
             <Users className="h-3.5 w-3.5" /> Plans
           </Link>
-          {liveDrops().slice(0, 3).map((d) => (
-            <Link
-              key={d.id}
-              to="/drop/$id"
-              params={{ id: d.id }}
-              className="flex shrink-0 items-center gap-2 rounded-full bg-secondary py-1 pl-1 pr-3.5"
-            >
-              <img
-                src={eventCovers[d.cover]}
-                alt=""
-                width={64}
-                height={64}
-                loading="lazy"
-                className="h-6 w-6 rounded-full object-cover"
-              />
-              <span className="text-xs font-bold">
-                <Clock className="mr-1 inline h-3 w-3 text-accent" />
-                {d.offer}
-              </span>
-            </Link>
-          ))}
+          {liveDrops()
+            .slice(0, 3)
+            .map((d) => (
+              <Link
+                key={d.id}
+                to="/drop/$id"
+                params={{ id: d.id }}
+                className="flex shrink-0 items-center gap-2 rounded-full bg-secondary py-1 pl-1 pr-3.5"
+              >
+                <img
+                  src={eventCovers[d.cover]}
+                  alt=""
+                  width={64}
+                  height={64}
+                  loading="lazy"
+                  className="h-6 w-6 rounded-full object-cover"
+                />
+                <span className="text-xs font-bold">
+                  <Clock className="mr-1 inline h-3 w-3 text-accent" />
+                  {d.offer}
+                </span>
+              </Link>
+            ))}
         </div>
       </div>
-
 
       <main className="snap-feed min-h-0 flex-1 snap-y snap-mandatory overflow-y-auto no-scrollbar">
         {feed.map((event) => (
@@ -168,7 +171,9 @@ function DiscoverPage() {
         {feed.length === 0 && (
           <div className="flex h-full flex-col items-center justify-center gap-2 p-8 text-center">
             <p className="font-display text-xl font-bold">Nothing here yet</p>
-            <p className="text-sm text-muted-foreground">Try another view — the city is full of plans.</p>
+            <p className="text-sm text-muted-foreground">
+              Try another view — the city is full of plans.
+            </p>
           </div>
         )}
       </main>

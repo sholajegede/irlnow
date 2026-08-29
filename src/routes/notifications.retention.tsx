@@ -88,11 +88,17 @@ function RetentionSettingsPage() {
   return (
     <div className="flex min-h-dvh flex-col pb-16">
       <header className="sticky top-0 z-40 flex items-center gap-2 border-b border-border/60 bg-background/90 px-4 py-3 backdrop-blur-xl">
-        <Link to="/notifications" aria-label="Back" className="rounded-full p-1.5 active:bg-secondary">
+        <Link
+          to="/notifications"
+          aria-label="Back"
+          className="rounded-full p-1.5 active:bg-secondary"
+        >
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div className="min-w-0 flex-1">
-          <h1 className="font-display text-lg font-extrabold tracking-tight">Notification retention</h1>
+          <h1 className="font-display text-lg font-extrabold tracking-tight">
+            Notification retention
+          </h1>
           <p className="truncate text-xs text-muted-foreground">
             How long each type stays in your notification centre
           </p>

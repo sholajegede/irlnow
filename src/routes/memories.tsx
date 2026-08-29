@@ -1,5 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Camera, Check, Download, Heart, MessageCircleHeart, UserPlus, X } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Camera,
+  Check,
+  Download,
+  Heart,
+  MessageCircleHeart,
+  UserPlus,
+  X,
+} from "lucide-react";
 import { useState } from "react";
 import { Avatar } from "@/components/Avatar";
 import { BottomNav } from "@/components/BottomNav";
@@ -16,10 +26,14 @@ export const Route = createFileRoute("/memories")({
       { title: "Memories — IRL NOW" },
       {
         name: "description",
-        content: "Photos and videos from the nights you actually showed up for, plus the people you met.",
+        content:
+          "Photos and videos from the nights you actually showed up for, plus the people you met.",
       },
       { property: "og:title", content: "Memories — IRL NOW" },
-      { property: "og:description", content: "Keep the night alive: photos, people and what's next." },
+      {
+        property: "og:description",
+        content: "Keep the night alive: photos, people and what's next.",
+      },
     ],
   }),
   component: MemoriesPage,
@@ -38,7 +52,11 @@ function MemoriesPage() {
   return (
     <div className="flex min-h-dvh flex-col pb-24">
       <header className="sticky top-0 z-40 flex items-center gap-3 border-b border-border/60 bg-background/85 px-4 py-3 backdrop-blur-xl">
-        <Link to="/going" aria-label="Back" className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
+        <Link
+          to="/going"
+          aria-label="Back"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary"
+        >
           <ArrowLeft className="h-4 w-4" />
         </Link>
         <div>
@@ -52,15 +70,16 @@ function MemoriesPage() {
         <section className="rounded-3xl border border-accent/40 bg-accent/10 p-4">
           <p className="font-display text-lg font-extrabold text-accent">That was a good one.</p>
           <p className="mt-1 text-sm text-foreground/85">
-            {stats.total} photos from {stats.contributors} people — and you're in {stats.yours} of them. The wall
-            stays open for everyone who was there.
+            {stats.total} photos from {stats.contributors} people — and you're in {stats.yours} of
+            them. The wall stays open for everyone who was there.
           </p>
           <Link
             to="/w/$id"
             params={{ id: pastEvent.id }}
             className="mt-3 flex h-12 items-center justify-center gap-2 rounded-2xl bg-gradient-brand font-display text-base font-bold text-primary-foreground shadow-glow"
           >
-            Open the wall — {stats.yours} of you <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+            Open the wall — {stats.yours} of you{" "}
+            <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
           </Link>
         </section>
 
@@ -100,7 +119,10 @@ function MemoriesPage() {
             {withYou.map(({ person, shots }) => {
               const connected = connectedIds.includes(person.id);
               return (
-                <div key={person.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+                <div
+                  key={person.id}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                >
                   <Avatar person={person} size="md" />
                   <div className="min-w-0 flex-1">
                     <p className="font-display text-base font-bold">{person.name}</p>
@@ -110,7 +132,9 @@ function MemoriesPage() {
                     onClick={() => toggleConnected(person.id)}
                     className={cn(
                       "flex h-9 items-center gap-1.5 rounded-xl px-3 text-xs font-bold",
-                      connected ? "bg-accent/20 text-accent" : "bg-gradient-brand text-primary-foreground",
+                      connected
+                        ? "bg-accent/20 text-accent"
+                        : "bg-gradient-brand text-primary-foreground",
                     )}
                   >
                     {connected ? <Check className="h-4 w-4" /> : <UserPlus className="h-4 w-4" />}
@@ -126,7 +150,12 @@ function MemoriesPage() {
           <h2 className="font-display text-xl font-extrabold">Who was there</h2>
           <div className="mt-3 flex gap-3 overflow-x-auto no-scrollbar">
             {attendees.map((p) => (
-              <Link key={p.id} to="/person/$id" params={{ id: p.id }} className="flex w-16 flex-col items-center gap-1.5">
+              <Link
+                key={p.id}
+                to="/person/$id"
+                params={{ id: p.id }}
+                className="flex w-16 flex-col items-center gap-1.5"
+              >
                 <Avatar person={p} size="lg" />
                 <span className="truncate text-xs font-semibold">{p.name}</span>
               </Link>
@@ -136,7 +165,8 @@ function MemoriesPage() {
 
         <section className="rounded-3xl border border-border bg-card p-4">
           <h2 className="flex items-center gap-2 font-display text-lg font-extrabold">
-            <MessageCircleHeart className="h-5 w-5 text-primary" /> Leave something for {pastEvent.host}
+            <MessageCircleHeart className="h-5 w-5 text-primary" /> Leave something for{" "}
+            {pastEvent.host}
           </h2>
           {noteSent ? (
             <p className="mt-2 text-sm text-accent">Sent — hosts love hearing this.</p>
@@ -196,12 +226,18 @@ function MemoriesPage() {
             <div className="flex gap-2">
               <button
                 onClick={() =>
-                  setLiked((l) => (l.includes(viewer) ? l.filter((x) => x !== viewer) : [...l, viewer]))
+                  setLiked((l) =>
+                    l.includes(viewer) ? l.filter((x) => x !== viewer) : [...l, viewer],
+                  )
                 }
                 aria-label="Like photo"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary"
               >
-                <Heart className={liked.includes(viewer) ? "h-5 w-5 fill-primary text-primary" : "h-5 w-5"} />
+                <Heart
+                  className={
+                    liked.includes(viewer) ? "h-5 w-5 fill-primary text-primary" : "h-5 w-5"
+                  }
+                />
               </button>
               <button
                 aria-label="Download photo"

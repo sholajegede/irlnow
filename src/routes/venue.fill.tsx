@@ -209,8 +209,8 @@ function FillCapacity() {
                 <p className="mt-3 flex items-start gap-1.5 text-xs text-muted-foreground">
                   <Users className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
                   At {money(bid)} a head against a £{(myVenue.avgSpend / 100).toFixed(0)} average
-                  spend, every filled seat is roughly{" "}
-                  {(myVenue.avgSpend / bid).toFixed(1)}× what it cost you.
+                  spend, every filled seat is roughly {(myVenue.avgSpend / bid).toFixed(1)}× what it
+                  cost you.
                 </p>
               </section>
 

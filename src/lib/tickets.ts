@@ -134,7 +134,7 @@ export function ticketCode(eventId: string): string {
   const seed = eventId.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
   const letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
   const a = letters[seed % 24]! + letters[(seed * 7) % 24]!;
-  const n = String(1000 + (seed * 31) % 8999);
+  const n = String(1000 + ((seed * 31) % 8999));
   return `${a}-${n}`;
 }
 
@@ -152,8 +152,24 @@ export interface PayoutRow {
 
 export function payoutsFor(eventIds: string[]): PayoutRow[] {
   const past: PayoutRow[] = [
-    { id: "p-3", eventTitle: "Long Table Supper Club · Vol. 14", date: "12 Aug", gross: 63000, fees: 3950, net: 59050, status: "paid" },
-    { id: "p-4", eventTitle: "Long Table Supper Club · Vol. 13", date: "8 Jul", gross: 56000, fees: 3520, net: 52480, status: "paid" },
+    {
+      id: "p-3",
+      eventTitle: "Long Table Supper Club · Vol. 14",
+      date: "12 Aug",
+      gross: 63000,
+      fees: 3950,
+      net: 59050,
+      status: "paid",
+    },
+    {
+      id: "p-4",
+      eventTitle: "Long Table Supper Club · Vol. 13",
+      date: "8 Jul",
+      gross: 56000,
+      fees: 3520,
+      net: 52480,
+      status: "paid",
+    },
   ];
   const upcoming = eventIds
     .map((id) => getEvent(id))
@@ -260,9 +276,33 @@ export interface VerificationItem {
 }
 
 export const verificationQueue: VerificationItem[] = [
-  { id: "priya", name: "Priya", avatar: 2, events: 6, showRate: 81, rating: 4.7, note: "Gallery lates in Peckham. ID checked, venue letter on file." },
-  { id: "leo", name: "Leo", avatar: 5, events: 9, showRate: 74, rating: 4.6, note: "Bouldering socials. Waiting on gym partnership confirmation." },
-  { id: "freya", name: "Freya", avatar: 6, events: 12, showRate: 88, rating: 4.7, note: "Board game takeovers. Strong repeat attendance." },
+  {
+    id: "priya",
+    name: "Priya",
+    avatar: 2,
+    events: 6,
+    showRate: 81,
+    rating: 4.7,
+    note: "Gallery lates in Peckham. ID checked, venue letter on file.",
+  },
+  {
+    id: "leo",
+    name: "Leo",
+    avatar: 5,
+    events: 9,
+    showRate: 74,
+    rating: 4.6,
+    note: "Bouldering socials. Waiting on gym partnership confirmation.",
+  },
+  {
+    id: "freya",
+    name: "Freya",
+    avatar: 6,
+    events: 12,
+    showRate: 88,
+    rating: 4.7,
+    note: "Board game takeovers. Strong repeat attendance.",
+  },
 ];
 
 export const verifiedOrganisers = organisers.filter((o) => o.verified);

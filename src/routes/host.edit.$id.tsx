@@ -23,7 +23,10 @@ export const Route = createFileRoute("/host/edit/$id")({
           "Change the details, message everyone who's going, or cancel and refund in one place.",
       },
       { property: "og:title", content: "Edit event — IRL NOW" },
-      { property: "og:description", content: "Update, broadcast or cancel — guests are told instantly." },
+      {
+        property: "og:description",
+        content: "Update, broadcast or cancel — guests are told instantly.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -66,11 +69,18 @@ function EditEventPage() {
   return (
     <div className="flex min-h-dvh flex-col pb-16">
       <header className="sticky top-0 z-40 flex items-center gap-2 border-b border-border/60 bg-background/90 px-4 py-3 backdrop-blur-xl">
-        <Link to="/host/$id" params={{ id }} aria-label="Back" className="rounded-full p-1.5 active:bg-secondary">
+        <Link
+          to="/host/$id"
+          params={{ id }}
+          aria-label="Back"
+          className="rounded-full p-1.5 active:bg-secondary"
+        >
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div className="min-w-0">
-          <p className="truncate font-display text-lg font-extrabold tracking-tight">Manage event</p>
+          <p className="truncate font-display text-lg font-extrabold tracking-tight">
+            Manage event
+          </p>
           <p className="truncate text-xs text-muted-foreground">{event?.title ?? id}</p>
         </div>
       </header>
@@ -141,7 +151,9 @@ function EditEventPage() {
             onClick={() => setUrgent((u) => !u)}
             className={cn(
               "mt-2 rounded-full px-3 py-1.5 text-[11px] font-bold",
-              urgent ? "bg-destructive text-destructive-foreground" : "bg-secondary text-muted-foreground",
+              urgent
+                ? "bg-destructive text-destructive-foreground"
+                : "bg-secondary text-muted-foreground",
             )}
           >
             {urgent ? "Urgent — breaks quiet hours" : "Send as urgent"}
@@ -187,8 +199,8 @@ function EditEventPage() {
             {!cancelOpen ? (
               <>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                  Everyone going is told immediately. Cancelling within 24 hours of the start affects your
-                  organiser rating.
+                  Everyone going is told immediately. Cancelling within 24 hours of the start
+                  affects your organiser rating.
                 </p>
                 <button
                   onClick={() => setCancelOpen(true)}
@@ -206,7 +218,9 @@ function EditEventPage() {
                       onClick={() => setReason(r)}
                       className={cn(
                         "rounded-2xl border px-4 py-3 text-left text-sm font-semibold",
-                        reason === r ? "border-destructive bg-destructive/10" : "border-border bg-secondary/40",
+                        reason === r
+                          ? "border-destructive bg-destructive/10"
+                          : "border-border bg-secondary/40",
                       )}
                     >
                       {r}

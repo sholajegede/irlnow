@@ -33,7 +33,8 @@ export const Route = createFileRoute("/membership")({
 });
 
 function MembershipPage() {
-  const { membership, joinMembership, cancelMembership, goingIds, claimedDropIds, orders } = useApp();
+  const { membership, joinMembership, cancelMembership, goingIds, claimedDropIds, orders } =
+    useApp();
   const [plan, setPlan] = useState<MembershipPlan>("yearly");
 
   const paidJoined = Object.keys(orders).length || goingIds.length;
@@ -82,7 +83,9 @@ function MembershipPage() {
                   {money(MEMBERSHIP_PRICES[p])}
                 </p>
                 <p className="text-[11px] text-muted-foreground">
-                  {p === "monthly" ? "per month, cancel anytime" : `${money(yearlyMonthly)}/mo · two months free`}
+                  {p === "monthly"
+                    ? "per month, cancel anytime"
+                    : `${money(yearlyMonthly)}/mo · two months free`}
                 </p>
                 {p === "yearly" && (
                   <span className="mt-2 inline-block rounded-full bg-accent px-2 py-0.5 text-[10px] font-extrabold uppercase text-accent-foreground">
@@ -114,11 +117,12 @@ function MembershipPage() {
             Based on how you use IRL NOW
           </p>
           <p className="mt-1 font-display text-2xl font-extrabold">
-            You'd have saved {money(saved)} <span className="text-sm font-bold text-muted-foreground">this month</span>
+            You'd have saved {money(saved)}{" "}
+            <span className="text-sm font-bold text-muted-foreground">this month</span>
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            {paidJoined} paid plans joined · {claimedDropIds.length} venue drops claimed. Fees waived and
-            member-only offers counted.
+            {paidJoined} paid plans joined · {claimedDropIds.length} venue drops claimed. Fees
+            waived and member-only offers counted.
           </p>
         </section>
 

@@ -111,7 +111,8 @@ function WalletPage() {
           </p>
           <p className="font-display text-3xl font-extrabold">{money(spent)}</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Across {receipts.length} payments{membership ? " — booking fees waived by IRL NOW+" : ""}.
+            Across {receipts.length} payments
+            {membership ? " — booking fees waived by IRL NOW+" : ""}.
           </p>
           {!membership && (
             <Link
@@ -200,9 +201,7 @@ function WalletPage() {
               </div>
               <span
                 className={
-                  r.amount < 0
-                    ? "font-display font-bold text-accent"
-                    : "font-display font-bold"
+                  r.amount < 0 ? "font-display font-bold text-accent" : "font-display font-bold"
                 }
               >
                 {r.amount < 0 ? `+${money(-r.amount)}` : money(r.amount)}

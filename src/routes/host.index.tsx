@@ -1,5 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Banknote, Megaphone, BarChart3, CalendarPlus, Eye, MapPin, Repeat, ScanLine, Sparkles, Users } from "lucide-react";
+import {
+  ArrowUpRight,
+  Banknote,
+  Megaphone,
+  BarChart3,
+  CalendarPlus,
+  Eye,
+  MapPin,
+  Repeat,
+  ScanLine,
+  Sparkles,
+  Users,
+} from "lucide-react";
 import { HostReputation } from "@/components/HostReputation";
 import { hostReliability } from "@/lib/hosting";
 import { AppHeader } from "@/components/AppHeader";
@@ -14,10 +26,14 @@ export const Route = createFileRoute("/host/")({
       { title: "Organiser workspace — run your events | IRL NOW" },
       {
         name: "description",
-        content: "Guest lists, live check-ins, door QR codes and post-event insight for every event you host.",
+        content:
+          "Guest lists, live check-ins, door QR codes and post-event insight for every event you host.",
       },
       { property: "og:title", content: "Organiser workspace — run your events" },
-      { property: "og:description", content: "Everything you need to run the event, in one place." },
+      {
+        property: "og:description",
+        content: "Everything you need to run the event, in one place.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -57,8 +73,12 @@ function HostHome() {
           className="mb-2 flex items-center justify-between rounded-2xl border border-primary/30 bg-primary/10 p-4"
         >
           <span>
-            <span className="block font-display text-sm font-extrabold">New here? Start hosting</span>
-            <span className="block text-[11px] text-muted-foreground">Profile, ID, payouts, first event</span>
+            <span className="block font-display text-sm font-extrabold">
+              New here? Start hosting
+            </span>
+            <span className="block text-[11px] text-muted-foreground">
+              Profile, ID, payouts, first event
+            </span>
           </span>
           <span className="text-xs font-bold text-primary">Open</span>
         </Link>
@@ -144,8 +164,12 @@ function HostHome() {
                   <div className="absolute inset-0 bg-gradient-fade" />
                   <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4">
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wider text-accent">{e.dateLabel}</p>
-                      <h3 className="font-display text-xl font-extrabold leading-tight">{e.title}</h3>
+                      <p className="text-xs font-bold uppercase tracking-wider text-accent">
+                        {e.dateLabel}
+                      </p>
+                      <h3 className="font-display text-xl font-extrabold leading-tight">
+                        {e.title}
+                      </h3>
                     </div>
                     <ArrowUpRight className="h-5 w-5 shrink-0" />
                   </div>
@@ -155,7 +179,9 @@ function HostHome() {
                     <MapPin className="h-3.5 w-3.5 text-primary" /> {e.area}
                   </p>
                   <p className="font-semibold">
-                    <span className="text-accent">{checkedIn + (doorCheckins[e.id]?.length ?? 0)}</span>{" "}
+                    <span className="text-accent">
+                      {checkedIn + (doorCheckins[e.id]?.length ?? 0)}
+                    </span>{" "}
                     checked in · <span className="text-foreground">{e.goingCount}</span> going
                   </p>
                 </div>
@@ -179,7 +205,9 @@ function HostHome() {
 
           {createdEvents.map((e) => (
             <div key={e.id} className="rounded-3xl border border-dashed border-border bg-card p-4">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-accent">Just created</p>
+              <p className="text-[11px] font-bold uppercase tracking-widest text-accent">
+                Just created
+              </p>
               <h3 className="font-display text-lg font-extrabold">{e.title}</h3>
               <p className="text-xs text-muted-foreground">
                 {e.date} · {e.time} · {e.location}
@@ -201,8 +229,8 @@ function HostHome() {
             <h2 className="font-display text-lg font-extrabold">What works for you</h2>
           </div>
           <p className="text-sm text-muted-foreground">
-            Your Thursday events fill 2x faster than weekends, and 61% of your guests arrive from the Discover feed
-            rather than your own share links.
+            Your Thursday events fill 2x faster than weekends, and 61% of your guests arrive from
+            the Discover feed rather than your own share links.
           </p>
           <Link
             to="/create"
@@ -217,20 +245,14 @@ function HostHome() {
   );
 }
 
-function Stat({
-  icon: Icon,
-  value,
-  label,
-}: {
-  icon: typeof Users;
-  value: string;
-  label: string;
-}) {
+function Stat({ icon: Icon, value, label }: { icon: typeof Users; value: string; label: string }) {
   return (
     <div className="rounded-2xl bg-secondary p-3 text-center">
       <Icon className="mx-auto h-4 w-4 text-accent" />
       <p className="mt-1 font-display text-lg font-extrabold leading-none">{value}</p>
-      <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </p>
     </div>
   );
 }

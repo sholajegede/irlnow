@@ -5,7 +5,8 @@ import { Avatar } from "./Avatar";
 
 export function AppHeader({ title, actions = false }: { title?: string; actions?: boolean }) {
   const { city, name, onboarded, incomingRequests, readNotificationIds } = useApp();
-  const hasUnread = incomingRequests.some((id) => !readNotificationIds.includes(`req-${id}`)) ||
+  const hasUnread =
+    incomingRequests.some((id) => !readNotificationIds.includes(`req-${id}`)) ||
     !readNotificationIds.includes("wall-supper");
   return (
     <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border/60 bg-background/85 px-4 py-3 backdrop-blur-xl">
@@ -24,10 +25,18 @@ export function AppHeader({ title, actions = false }: { title?: string; actions?
       <div className="flex items-center gap-1.5">
         {actions && (
           <>
-            <Link to="/search" aria-label="Search" className="rounded-full bg-secondary p-2 active:scale-95">
+            <Link
+              to="/search"
+              aria-label="Search"
+              className="rounded-full bg-secondary p-2 active:scale-95"
+            >
               <Search className="h-4 w-4" />
             </Link>
-            <Link to="/map" aria-label="Map view" className="rounded-full bg-secondary p-2 active:scale-95">
+            <Link
+              to="/map"
+              aria-label="Map view"
+              className="rounded-full bg-secondary p-2 active:scale-95"
+            >
               <Map className="h-4 w-4" />
             </Link>
           </>

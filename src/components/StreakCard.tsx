@@ -36,7 +36,9 @@ export function StreakCard() {
             <span
               className={cn(
                 "flex h-8 w-8 items-center justify-center rounded-xl text-[11px] font-bold",
-                pattern[i] ? "bg-gradient-brand text-primary-foreground" : "bg-secondary text-muted-foreground",
+                pattern[i]
+                  ? "bg-gradient-brand text-primary-foreground"
+                  : "bg-secondary text-muted-foreground",
               )}
             >
               {d}
@@ -51,7 +53,10 @@ export function StreakCard() {
           <span className="text-primary">{Math.round(s.progress * 100)}%</span>
         </div>
         <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-secondary">
-          <div className="h-full rounded-full bg-gradient-brand" style={{ width: `${s.progress * 100}%` }} />
+          <div
+            className="h-full rounded-full bg-gradient-brand"
+            style={{ width: `${s.progress * 100}%` }}
+          />
         </div>
       </div>
 
@@ -75,7 +80,9 @@ function Mini({ value, label, icon }: { value: string; label: string; icon?: boo
         {icon && <TrendingUp className="h-3.5 w-3.5 text-accent" />}
         {value}
       </p>
-      <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+        {label}
+      </p>
     </div>
   );
 }

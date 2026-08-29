@@ -51,7 +51,8 @@ export const starterTemplates: HostTemplate[] = [
     name: "Golden hour rooftop",
     type: "party",
     title: "Golden Hour Rooftop",
-    description: "Sunset, a slow set, and the best view in the neighbourhood. Come alone, leave with people.",
+    description:
+      "Sunset, a slow set, and the best view in the neighbourhood. Come alone, leave with people.",
     time: "18:30",
     location: "Shoreditch",
     cover: "rooftop",
@@ -106,7 +107,11 @@ export const cadences: { id: Cadence; label: string; every: number }[] = [
 const DAY = 86_400_000;
 
 /** The next few dates for a repeating event, starting from the coming week. */
-export function nextDates(cadence: Cadence, count = 4, from = Date.now()): { iso: string; label: string }[] {
+export function nextDates(
+  cadence: Cadence,
+  count = 4,
+  from = Date.now(),
+): { iso: string; label: string }[] {
   const every = cadences.find((c) => c.id === cadence)?.every ?? 7;
   const out: { iso: string; label: string }[] = [];
   for (let i = 0; i < count; i++) {
@@ -145,8 +150,8 @@ function seed(id: string) {
 export function hostReliability(organiserId: string, myRatings: EventRating[]): Reliability {
   const q = organiserQuality(organiserId, myRatings);
   const n = seed(organiserId);
-  const showRate = Math.min(0.97, 0.74 + ((n % 20) / 100));
-  const onTimeRate = Math.min(0.99, 0.8 + ((n % 17) / 100));
+  const showRate = Math.min(0.97, 0.74 + (n % 20) / 100);
+  const onTimeRate = Math.min(0.99, 0.8 + (n % 17) / 100);
   const responseHours = 1 + (n % 6);
   const repeatGuests = Math.round(q.reviews * (0.2 + (n % 15) / 100));
 
@@ -163,7 +168,10 @@ export function hostReliability(organiserId: string, myRatings: EventRating[]): 
     tier === "Signature host"
       ? undefined
       : tier === "Verified host"
-        ? { tier: "Signature host" as HostTier, needs: `${Math.max(1, 101 - q.reviews)} more reviews at this rating` }
+        ? {
+            tier: "Signature host" as HostTier,
+            needs: `${Math.max(1, 101 - q.reviews)} more reviews at this rating`,
+          }
         : tier === "Trusted host"
           ? { tier: "Verified host" as HostTier, needs: "Verify your ID and host 2 more events" }
           : { tier: "Trusted host" as HostTier, needs: "Host 3 events with a 4.5+ rating" };
@@ -190,11 +198,36 @@ export interface VerificationStep {
 }
 
 export const verificationSteps: VerificationStep[] = [
-  { id: "email", label: "Confirm your email", detail: "So guests can reach you if plans change.", minutes: 1 },
-  { id: "phone", label: "Add a phone number", detail: "Used for door problems only. Never shown to guests.", minutes: 1 },
-  { id: "id", label: "Verify your ID", detail: "A photo of a passport or driving licence. Unlocks the verified badge.", minutes: 3 },
-  { id: "payout", label: "Add payout details", detail: "Where ticket money lands after the event.", minutes: 2 },
-  { id: "safety", label: "Read the safety basics", detail: "What to do about capacity, incidents and refusals at the door.", minutes: 4 },
+  {
+    id: "email",
+    label: "Confirm your email",
+    detail: "So guests can reach you if plans change.",
+    minutes: 1,
+  },
+  {
+    id: "phone",
+    label: "Add a phone number",
+    detail: "Used for door problems only. Never shown to guests.",
+    minutes: 1,
+  },
+  {
+    id: "id",
+    label: "Verify your ID",
+    detail: "A photo of a passport or driving licence. Unlocks the verified badge.",
+    minutes: 3,
+  },
+  {
+    id: "payout",
+    label: "Add payout details",
+    detail: "Where ticket money lands after the event.",
+    minutes: 2,
+  },
+  {
+    id: "safety",
+    label: "Read the safety basics",
+    detail: "What to do about capacity, incidents and refusals at the door.",
+    minutes: 4,
+  },
 ];
 
 /* ---------- Door mode ---------- */

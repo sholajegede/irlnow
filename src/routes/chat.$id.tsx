@@ -1,11 +1,26 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, Bell, BellOff, Lock, Pin, SendHorizonal, ShieldAlert, Users } from "lucide-react";
+import {
+  ArrowLeft,
+  Bell,
+  BellOff,
+  Lock,
+  Pin,
+  SendHorizonal,
+  ShieldAlert,
+  Users,
+} from "lucide-react";
 import { Avatar } from "@/components/Avatar";
 import { ReportSheet } from "@/components/ReportSheet";
 import { getEvent, getPerson, type Person } from "@/lib/data";
 import { eventChat, timeAgo } from "@/lib/social";
-import { REACTIONS, eventQuickReplies, pinnedHostNote, presenceCount, respondersFor } from "@/lib/live";
+import {
+  REACTIONS,
+  eventQuickReplies,
+  pinnedHostNote,
+  presenceCount,
+  respondersFor,
+} from "@/lib/live";
 import { useLiveThread } from "@/lib/use-live-thread";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -18,7 +33,9 @@ export const Route = createFileRoute("/chat/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Chat unavailable — IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Chat unavailable — IRL NOW" }, { name: "robots", content: "noindex" }],
+      };
     }
     const title = `${loaderData.event.title} group chat — IRL NOW`;
     const description = `Sort out arrivals, plus-ones and where to meet with everyone going to ${loaderData.event.title}.`;
@@ -103,7 +120,9 @@ function EventChat() {
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <Link to="/event/$id" params={{ id: event.id }} className="min-w-0 flex-1">
-          <p className="truncate font-display text-base font-extrabold leading-tight">{event.title}</p>
+          <p className="truncate font-display text-base font-extrabold leading-tight">
+            {event.title}
+          </p>
           <p className="text-xs text-muted-foreground">
             {event.goingCount} going ·{" "}
             <span className="font-semibold text-primary">{here} here now</span>
@@ -328,16 +347,16 @@ function EventChat() {
           disabled={!draft.trim()}
           className={cn(
             "flex h-11 w-11 items-center justify-center rounded-2xl transition-opacity",
-            draft.trim() ? "bg-gradient-brand text-primary-foreground shadow-glow" : "bg-secondary text-muted-foreground",
+            draft.trim()
+              ? "bg-gradient-brand text-primary-foreground shadow-glow"
+              : "bg-secondary text-muted-foreground",
           )}
         >
           <SendHorizonal className="h-5 w-5" />
         </button>
       </form>
 
-      {reporting && (
-        <ReportSheet person={reporting} open onClose={() => setReporting(null)} />
-      )}
+      {reporting && <ReportSheet person={reporting} open onClose={() => setReporting(null)} />}
     </div>
   );
 }

@@ -37,9 +37,12 @@ function VenueClaim() {
         <span className="flex h-16 w-16 items-center justify-center rounded-full bg-accent/15">
           <Check className="h-8 w-8 text-accent" strokeWidth={3} />
         </span>
-        <h1 className="font-display text-2xl font-extrabold">{name || venueClaim?.name} is claimed</h1>
+        <h1 className="font-display text-2xl font-extrabold">
+          {name || venueClaim?.name} is claimed
+        </h1>
         <p className="max-w-xs text-sm text-muted-foreground">
-          We verify ownership within a day. Meanwhile you can already draft your first capacity drop.
+          We verify ownership within a day. Meanwhile you can already draft your first capacity
+          drop.
         </p>
         <Link
           to="/venue/fill"
@@ -70,8 +73,8 @@ function VenueClaim() {
             Empty Tuesday? Sell it.
           </h1>
           <p className="mt-1 text-sm opacity-90">
-            Post the hours you want filled. We send people who are already deciding where to go. You pay
-            £1.80 per person who actually checks in — nothing for the rest.
+            Post the hours you want filled. We send people who are already deciding where to go. You
+            pay £1.80 per person who actually checks in — nothing for the rest.
           </p>
         </section>
 
@@ -88,7 +91,9 @@ function VenueClaim() {
         </label>
 
         <div>
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Area</p>
+          <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+            Area
+          </p>
           <div className="flex flex-wrap gap-1.5">
             {AREAS.map((a) => (
               <button
@@ -96,7 +101,9 @@ function VenueClaim() {
                 onClick={() => setArea(a)}
                 className={cn(
                   "rounded-full px-3.5 py-2 text-xs font-bold",
-                  area === a ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground",
+                  area === a
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-muted-foreground",
                 )}
               >
                 {a}

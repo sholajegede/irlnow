@@ -25,7 +25,8 @@ export const Route = createFileRoute("/create")({
       { title: "Create an event — IRL NOW" },
       {
         name: "description",
-        content: "Turn an idea into a real plan: birthday, dinner, party or meetup. Publish, share a QR and invite your people.",
+        content:
+          "Turn an idea into a real plan: birthday, dinner, party or meetup. Publish, share a QR and invite your people.",
       },
       { property: "og:title", content: "Create an event — IRL NOW" },
       { property: "og:description", content: "Bring your people together in a few taps." },
@@ -117,7 +118,11 @@ function CreatePage() {
               <ArrowLeft className="h-4 w-4" />
             </button>
           ) : (
-            <Link to="/" aria-label="Home" className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
+            <Link
+              to="/"
+              aria-label="Home"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary"
+            >
               <ArrowLeft className="h-4 w-4" />
             </Link>
           )}
@@ -133,7 +138,10 @@ function CreatePage() {
         {step < 5 && (
           <div className="mt-3 flex gap-1.5">
             {labels.slice(0, 5).map((l, i) => (
-              <div key={l} className={cn("h-1 flex-1 rounded-full", i <= step ? "bg-primary" : "bg-muted")} />
+              <div
+                key={l}
+                className={cn("h-1 flex-1 rounded-full", i <= step ? "bg-primary" : "bg-muted")}
+              />
             ))}
           </div>
         )}
@@ -143,8 +151,12 @@ function CreatePage() {
         {step === 0 && (
           <div className="flex flex-col gap-5 animate-fade-up">
             <div>
-              <h2 className="font-display text-2xl font-extrabold">What are you bringing people together for?</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Pick a starting point — you can change everything later.</p>
+              <h2 className="font-display text-2xl font-extrabold">
+                What are you bringing people together for?
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Pick a starting point — you can change everything later.
+              </p>
             </div>
             <div className="grid grid-cols-2 gap-3">
               {eventTypes.map((t) => (
@@ -302,7 +314,9 @@ function CreatePage() {
                     onClick={() => setPrice(p)}
                     className={cn(
                       "h-11 flex-1 rounded-xl text-sm font-bold transition-all active:scale-95",
-                      price === p ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground",
+                      price === p
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-secondary-foreground",
                     )}
                   >
                     {p}
@@ -344,7 +358,8 @@ function CreatePage() {
             <div>
               <h2 className="font-display text-3xl font-extrabold">{title} is live</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                {isPublic ? "It's in Discover now." : "Private — share the link with your people."} Capacity {capacity}.
+                {isPublic ? "It's in Discover now." : "Private — share the link with your people."}{" "}
+                Capacity {capacity}.
               </p>
             </div>
 
@@ -353,7 +368,10 @@ function CreatePage() {
                 {Array.from({ length: 64 }).map((_, i) => (
                   <span
                     key={i}
-                    className={cn("rounded-[1px]", (i * 7 + (i % 5)) % 3 === 0 ? "bg-background" : "bg-foreground")}
+                    className={cn(
+                      "rounded-[1px]",
+                      (i * 7 + (i % 5)) % 3 === 0 ? "bg-background" : "bg-foreground",
+                    )}
                   />
                 ))}
               </div>
@@ -394,7 +412,8 @@ function CreatePage() {
                 : "bg-muted text-muted-foreground",
             )}
           >
-            {step === 4 ? "Publish event" : "Continue"} <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
+            {step === 4 ? "Publish event" : "Continue"}{" "}
+            <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
           </button>
         </div>
       )}
@@ -406,7 +425,9 @@ function CreatePage() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{label}</span>
+      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+        {label}
+      </span>
       {children}
     </label>
   );

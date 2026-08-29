@@ -33,7 +33,8 @@ export const Route = createFileRoute("/admin/")({
       { title: "Platform admin — IRL NOW" },
       {
         name: "description",
-        content: "Internal operations: moderation queue, organiser verification, city scene density and trust metrics.",
+        content:
+          "Internal operations: moderation queue, organiser verification, city scene density and trust metrics.",
       },
       { property: "og:title", content: "Platform admin — IRL NOW" },
       { property: "og:description", content: "Keep the nights safe and the scenes dense." },
@@ -111,7 +112,12 @@ function AdminPage() {
                 <div key={s.label} className="rounded-2xl border border-border bg-card p-4">
                   <p className="font-display text-2xl font-bold">{s.value}</p>
                   <p className="text-xs text-muted-foreground">{s.label}</p>
-                  <p className={cn("mt-1 text-[11px] font-bold", s.good ? "text-accent" : "text-primary")}>
+                  <p
+                    className={cn(
+                      "mt-1 text-[11px] font-bold",
+                      s.good ? "text-accent" : "text-primary",
+                    )}
+                  >
                     {s.delta} vs last week
                   </p>
                 </div>
@@ -120,13 +126,18 @@ function AdminPage() {
             <section className="space-y-2.5 rounded-2xl border border-border bg-card p-4">
               <h2 className="font-display font-bold">What we watch</h2>
               <p className="text-sm text-muted-foreground">
-                Show-up rate is the health metric — not signups, not scroll time. If people say they're
-                going and don't turn up, the product is failing quietly.
+                Show-up rate is the health metric — not signups, not scroll time. If people say
+                they're going and don't turn up, the product is failing quietly.
               </p>
               <div className="space-y-2 pt-1">
                 <Meter label="Show-up rate" value={78} target="Target 75%" good />
                 <Meter label="Walls claimed within 24h" value={64} target="Target 60%" good />
-                <Meter label="Second event within 30 days" value={41} target="Target 50%" good={false} />
+                <Meter
+                  label="Second event within 30 days"
+                  value={41}
+                  target="Target 50%"
+                  good={false}
+                />
               </div>
             </section>
             <section className="space-y-3 rounded-2xl border border-border bg-card p-4">
@@ -160,7 +171,8 @@ function AdminPage() {
                 ))}
               </div>
               <p className="text-xs text-muted-foreground">
-                Venues paying for attendance is the biggest line — the demand engine, not the ticketing tax.
+                Venues paying for attendance is the biggest line — the demand engine, not the
+                ticketing tax.
               </p>
             </section>
           </>
@@ -171,8 +183,8 @@ function AdminPage() {
             <div className="flex items-start gap-2.5 rounded-2xl border border-primary/30 bg-primary/10 p-4">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
               <p className="text-sm text-muted-foreground">
-                High severity is reviewed within one hour. Removing an event notifies everyone going and
-                refunds every ticket automatically.
+                High severity is reviewed within one hour. Removing an event notifies everyone going
+                and refunds every ticket automatically.
               </p>
             </div>
             {reports.length > 0 && (
@@ -226,10 +238,14 @@ function AdminPage() {
                       <p
                         className={cn(
                           "mt-3 rounded-xl px-3 py-2 text-sm font-semibold",
-                          d === "approved" ? "bg-accent/15 text-accent" : "bg-secondary text-muted-foreground",
+                          d === "approved"
+                            ? "bg-accent/15 text-accent"
+                            : "bg-secondary text-muted-foreground",
                         )}
                       >
-                        {d === "approved" ? "Verified — badge is live" : "Rejected — organiser notified"}
+                        {d === "approved"
+                          ? "Verified — badge is live"
+                          : "Rejected — organiser notified"}
                       </p>
                     ) : (
                       <div className="mt-3 flex gap-2">
@@ -329,7 +345,12 @@ function ModerationCard({
           <p className="font-display font-bold leading-tight">{item.subject}</p>
           <p className="text-xs text-primary">{item.reason}</p>
         </div>
-        <span className={cn("shrink-0 rounded-full px-2 py-1 text-[11px] font-bold", severityStyle[item.severity])}>
+        <span
+          className={cn(
+            "shrink-0 rounded-full px-2 py-1 text-[11px] font-bold",
+            severityStyle[item.severity],
+          )}
+        >
           {item.severity}
         </span>
       </div>
@@ -344,7 +365,9 @@ function ModerationCard({
             decision === "removed" ? "bg-primary/15 text-primary" : "bg-accent/15 text-accent",
           )}
         >
-          {decision === "removed" ? "Removed · everyone notified and refunded" : "Kept up · reporters told why"}
+          {decision === "removed"
+            ? "Removed · everyone notified and refunded"
+            : "Kept up · reporters told why"}
         </p>
       ) : (
         <div className="mt-3 flex gap-2">
@@ -372,7 +395,17 @@ function ModerationCard({
   );
 }
 
-function Meter({ label, value, target, good }: { label: string; value: number; target: string; good: boolean }) {
+function Meter({
+  label,
+  value,
+  target,
+  good,
+}: {
+  label: string;
+  value: number;
+  target: string;
+  good: boolean;
+}) {
   return (
     <div className="mt-2">
       <div className="flex items-center justify-between text-xs">

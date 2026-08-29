@@ -9,7 +9,8 @@ type Mode = "none" | "plus" | "transfer";
 
 /** Assign a +1 or hand your whole ticket to someone else. */
 export function TicketShare({ event }: { event: IrlEvent }) {
-  const { plusOnes, setPlusOne, removePlusOne, transfers, transferTicket, cancelTransfer } = useApp();
+  const { plusOnes, setPlusOne, removePlusOne, transfers, transferTicket, cancelTransfer } =
+    useApp();
   const [mode, setMode] = useState<Mode>("none");
   const [who, setWho] = useState("");
   const [contact, setContact] = useState("");
@@ -20,10 +21,12 @@ export function TicketShare({ event }: { event: IrlEvent }) {
   if (transfer) {
     return (
       <section className="rounded-2xl border border-accent/40 bg-accent/10 p-4">
-        <p className="font-display text-base font-bold text-accent">Ticket sent to {transfer.toName}</p>
+        <p className="font-display text-base font-bold text-accent">
+          Ticket sent to {transfer.toName}
+        </p>
         <p className="mt-1 text-sm text-foreground/85">
-          They have a claim link and the code <span className="font-bold">{transfer.code}</span>. Your
-          door QR stopped working the moment you sent it.
+          They have a claim link and the code <span className="font-bold">{transfer.code}</span>.
+          Your door QR stopped working the moment you sent it.
         </p>
         <button
           onClick={() => cancelTransfer(event.id)}
@@ -65,13 +68,21 @@ export function TicketShare({ event }: { event: IrlEvent }) {
       {mode === "none" ? (
         <div className="mt-3 flex gap-2">
           <button
-            onClick={() => { setMode("plus"); setWho(""); setContact(""); }}
+            onClick={() => {
+              setMode("plus");
+              setWho("");
+              setContact("");
+            }}
             className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-secondary text-xs font-bold"
           >
             <UserPlus className="h-4 w-4" /> {plusOne ? "Change +1" : "Assign my +1"}
           </button>
           <button
-            onClick={() => { setMode("transfer"); setWho(""); setContact(""); }}
+            onClick={() => {
+              setMode("transfer");
+              setWho("");
+              setContact("");
+            }}
             className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-secondary text-xs font-bold"
           >
             <Send className="h-4 w-4" /> Transfer ticket

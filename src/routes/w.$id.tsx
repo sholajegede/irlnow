@@ -28,7 +28,9 @@ export const Route = createFileRoute("/w/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Wall unavailable — IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Wall unavailable — IRL NOW" }, { name: "robots", content: "noindex" }],
+      };
     }
     const t = `${loaderData.event.title} — the morning after`;
     return {
@@ -39,7 +41,10 @@ export const Route = createFileRoute("/w/$id")({
           content: `Photos from ${loaderData.event.title} at ${loaderData.event.location}. Find yourself, grab your shots, and see who you were with.`,
         },
         { property: "og:title", content: t },
-        { property: "og:description", content: "Everyone who was there. Every photo. No account needed to look." },
+        {
+          property: "og:description",
+          content: "Everyone who was there. Every photo. No account needed to look.",
+        },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
@@ -101,8 +106,12 @@ function WallPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/10" />
         <div className="absolute inset-x-0 bottom-0 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">The morning after</p>
-          <h1 className="mt-1 font-display text-3xl font-extrabold leading-[1.05]">{event.title}</h1>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
+            The morning after
+          </p>
+          <h1 className="mt-1 font-display text-3xl font-extrabold leading-[1.05]">
+            {event.title}
+          </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {event.location} · hosted by {event.host}
           </p>
@@ -133,8 +142,8 @@ function WallPage() {
               <Sparkles className="h-5 w-5" /> You're in {stats.yours} photos
             </p>
             <p className="mt-1 text-sm text-foreground/85">
-              Look at everything for free. To download your full-res shots and see who you were with, just tell us
-              who you are.
+              Look at everything for free. To download your full-res shots and see who you were
+              with, just tell us who you are.
             </p>
             <button
               onClick={() => setGate(true)}
@@ -200,7 +209,6 @@ function WallPage() {
           </section>
         )}
 
-
         {/* Download packs */}
         {claimed && (
           <section>
@@ -211,7 +219,10 @@ function WallPage() {
                 const key = `${event.id}:${pack.id}`;
                 const done = downloadedPacks.includes(key);
                 return (
-                  <div key={pack.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+                  <div
+                    key={pack.id}
+                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                  >
                     <div className="min-w-0 flex-1">
                       <p className="font-display text-base font-bold">{pack.label}</p>
                       <p className="text-xs text-muted-foreground">{pack.description}</p>
@@ -223,7 +234,9 @@ function WallPage() {
                       onClick={() => markPackDownloaded(key)}
                       className={cn(
                         "flex h-9 shrink-0 items-center gap-1.5 rounded-xl px-3 text-xs font-bold",
-                        done ? "bg-accent/20 text-accent" : "bg-secondary text-secondary-foreground",
+                        done
+                          ? "bg-accent/20 text-accent"
+                          : "bg-secondary text-secondary-foreground",
                       )}
                     >
                       {done ? <Check className="h-4 w-4" /> : <Download className="h-4 w-4" />}
@@ -249,7 +262,10 @@ function WallPage() {
               {suggestions.map((s) => {
                 const key = `${s.photoId}:${s.person.id}`;
                 return (
-                  <div key={key} className="w-40 shrink-0 overflow-hidden rounded-2xl border border-border bg-card">
+                  <div
+                    key={key}
+                    className="w-40 shrink-0 overflow-hidden rounded-2xl border border-border bg-card"
+                  >
                     <img
                       src={eventCovers[s.cover]}
                       alt="Suggested tag"
@@ -305,7 +321,9 @@ function WallPage() {
                 }}
                 className={cn(
                   "rounded-full px-4 py-2 text-sm font-bold transition-colors",
-                  tab === t ? "bg-foreground text-background" : "bg-secondary text-secondary-foreground",
+                  tab === t
+                    ? "bg-foreground text-background"
+                    : "bg-secondary text-secondary-foreground",
                 )}
               >
                 {t === "all" ? `All ${stats.total}` : `You (${stats.yours})`}
@@ -398,14 +416,19 @@ function WallPage() {
               <button
                 onClick={() =>
                   setLiked((l) =>
-                    l.includes(openPhoto.id) ? l.filter((x) => x !== openPhoto.id) : [...l, openPhoto.id],
+                    l.includes(openPhoto.id)
+                      ? l.filter((x) => x !== openPhoto.id)
+                      : [...l, openPhoto.id],
                   )
                 }
                 aria-label="Like photo"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary"
               >
                 <Heart
-                  className={cn("h-5 w-5", liked.includes(openPhoto.id) && "fill-primary text-primary")}
+                  className={cn(
+                    "h-5 w-5",
+                    liked.includes(openPhoto.id) && "fill-primary text-primary",
+                  )}
                 />
               </button>
               <button
@@ -413,7 +436,9 @@ function WallPage() {
                 aria-label="Download photo"
                 className={cn(
                   "flex h-10 items-center gap-1.5 rounded-full px-3 text-sm font-bold",
-                  claimed ? "bg-accent text-accent-foreground" : "bg-secondary text-secondary-foreground",
+                  claimed
+                    ? "bg-accent text-accent-foreground"
+                    : "bg-secondary text-secondary-foreground",
                 )}
               >
                 {claimed ? <Download className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
@@ -437,7 +462,14 @@ function WallPage() {
         </div>
       )}
 
-      {gate && <IdentityGate eventId={event.id} count={stats.yours} onClose={() => setGate(false)} onDone={claimWall} />}
+      {gate && (
+        <IdentityGate
+          eventId={event.id}
+          count={stats.yours}
+          onClose={() => setGate(false)}
+          onDone={claimWall}
+        />
+      )}
     </div>
   );
 }
@@ -465,7 +497,8 @@ function IdentityGate({
           {count} photos of you, ready to go
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Name and email only — so we know which face is yours and where to send the album. No password, no feed.
+          Name and email only — so we know which face is yours and where to send the album. No
+          password, no feed.
         </p>
         <input
           value={name}
@@ -488,12 +521,17 @@ function IdentityGate({
           }}
           className={cn(
             "mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-2xl font-display text-lg font-bold transition-all active:scale-[0.98]",
-            valid ? "bg-gradient-brand text-primary-foreground shadow-glow" : "bg-muted text-muted-foreground",
+            valid
+              ? "bg-gradient-brand text-primary-foreground shadow-glow"
+              : "bg-muted text-muted-foreground",
           )}
         >
           Unlock my photos
         </button>
-        <button onClick={onClose} className="mt-2 h-11 w-full text-sm font-semibold text-muted-foreground">
+        <button
+          onClick={onClose}
+          className="mt-2 h-11 w-full text-sm font-semibold text-muted-foreground"
+        >
           Keep browsing
         </button>
       </div>

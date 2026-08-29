@@ -18,7 +18,10 @@ export const Route = createFileRoute("/invite")({
           "Share your invite link, see who opened it, who joined and who actually went out — and unlock IRL NOW+ for free.",
       },
       { property: "og:title", content: "Invite friends — IRL NOW" },
-      { property: "og:description", content: "Going out is better with the people you already know." },
+      {
+        property: "og:description",
+        content: "Going out is better with the people you already know.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -43,7 +46,9 @@ function InvitePage() {
         </Link>
         <div>
           <p className="font-display text-lg font-extrabold tracking-tight">Invite friends</p>
-          <p className="text-xs text-muted-foreground">The app only works if your people are on it</p>
+          <p className="text-xs text-muted-foreground">
+            The app only works if your people are on it
+          </p>
         </div>
       </header>
 
@@ -54,7 +59,8 @@ function InvitePage() {
             Three friends = a free month
           </h1>
           <p className="mt-1 text-sm opacity-90">
-            When three people you invite actually go to something, your next month of IRL NOW+ is on us.
+            When three people you invite actually go to something, your next month of IRL NOW+ is on
+            us.
           </p>
           <div className="mt-4 flex items-center gap-2 rounded-2xl bg-background/20 p-3">
             <p className="flex-1 truncate font-mono text-xs">{link}</p>
@@ -102,7 +108,9 @@ function InvitePage() {
                   <span
                     className={cn(
                       "flex h-9 w-9 items-center justify-center rounded-xl font-display text-sm font-extrabold",
-                      done ? "bg-accent text-accent-foreground" : "bg-secondary text-muted-foreground",
+                      done
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-secondary text-muted-foreground",
                     )}
                   >
                     {done ? <Check className="h-4 w-4" strokeWidth={3} /> : s.at}
@@ -118,7 +126,9 @@ function InvitePage() {
         </section>
 
         <section>
-          <h2 className="mb-2 font-display text-sm font-extrabold uppercase tracking-wider">Your invites</h2>
+          <h2 className="mb-2 font-display text-sm font-extrabold uppercase tracking-wider">
+            Your invites
+          </h2>
           {invites.length === 0 ? (
             <EmptyState
               icon={UserPlus}
@@ -131,7 +141,10 @@ function InvitePage() {
           ) : (
             <div className="flex flex-col gap-2">
               {invites.map((i) => (
-                <div key={i.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+                <div
+                  key={i.id}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                >
                   <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-secondary text-[10px] font-bold uppercase">
                     {CHANNELS.find((c) => c.id === i.channel)?.label.slice(0, 2)}
                   </span>
@@ -163,7 +176,9 @@ function Stat({ value, label, accent }: { value: number; label: string; accent?:
   return (
     <div className="rounded-2xl border border-border bg-card p-2.5 text-center">
       <p className={cn("font-display text-xl font-extrabold", accent && "text-accent")}>{value}</p>
-      <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+        {label}
+      </p>
     </div>
   );
 }

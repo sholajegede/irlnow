@@ -39,7 +39,6 @@ export interface Plan {
   costNote?: string;
 }
 
-
 export const plans: Plan[] = [
   {
     id: "park-saturday",
@@ -55,7 +54,6 @@ export const plans: Plan[] = [
     rsvpInHours: 20,
     costPence: 2400,
     costNote: "Bread, dips and a crate of something cold",
-
   },
   {
     id: "arsenal-sunday",
@@ -71,7 +69,6 @@ export const plans: Plan[] = [
     rsvpInHours: 44,
     costPence: 3600,
     costNote: "Table deposit plus the first round",
-
   },
   {
     id: "saturday-vote",
@@ -89,8 +86,6 @@ export const plans: Plan[] = [
     costPence: 4800,
     costNote: "Rough guess — whatever we land on",
     options: [
-
-
       {
         id: "rooftop",
         label: "Rooftop drinks",
@@ -166,7 +161,9 @@ export function splitCost(plan: Plan, joined: boolean): Split | undefined {
 }
 
 /** Countdown label for the RSVP window. */
-export function rsvpCountdown(plan: Plan): { label: string; urgent: boolean; closed: boolean } | undefined {
+export function rsvpCountdown(
+  plan: Plan,
+): { label: string; urgent: boolean; closed: boolean } | undefined {
   if (plan.rsvpInHours === undefined) return undefined;
   const h = plan.rsvpInHours;
   if (h <= 0) return { label: "RSVPs closed", urgent: false, closed: true };

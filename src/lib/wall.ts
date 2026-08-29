@@ -40,7 +40,9 @@ export function wallPhotos(eventId: string, count = 24): WallPhoto[] {
     const n = seed + i * 37;
     const faceCount = 1 + (n % 3);
     const faces = Array.from(
-      new Set(Array.from({ length: faceCount }, (_, k) => uniquePool[(n + k * 5) % uniquePool.length]!)),
+      new Set(
+        Array.from({ length: faceCount }, (_, k) => uniquePool[(n + k * 5) % uniquePool.length]!),
+      ),
     );
     return {
       id: `${eventId}-p${i}`,

@@ -1,11 +1,32 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, Bookmark, Calendar, Check, ChevronRight, Clock, MapPin, MessagesSquare, Repeat, Send, Share2, Ticket, UserPlus } from "lucide-react";
+import {
+  ArrowLeft,
+  Bookmark,
+  Calendar,
+  Check,
+  ChevronRight,
+  Clock,
+  MapPin,
+  MessagesSquare,
+  Repeat,
+  Send,
+  Share2,
+  Ticket,
+  UserPlus,
+} from "lucide-react";
 import { ConnectButton } from "@/components/ConnectButton";
 import { AddToCalendar } from "@/components/AddToCalendar";
 import { AccessPanel, GettingThere } from "@/components/GettingThere";
 import { WaitlistHold } from "@/components/WaitlistHold";
 import { Avatar } from "@/components/Avatar";
-import { eventCovers, getEvent, getPerson, interests as allInterests, peopleByIds, seriesForEvent } from "@/lib/data";
+import {
+  eventCovers,
+  getEvent,
+  getPerson,
+  interests as allInterests,
+  peopleByIds,
+  seriesForEvent,
+} from "@/lib/data";
 import { useApp, waitlistPosition } from "@/lib/store";
 import { priceToPence } from "@/lib/tickets";
 import { cn } from "@/lib/utils";
@@ -18,7 +39,9 @@ export const Route = createFileRoute("/event/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Event unavailable — IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Event unavailable — IRL NOW" }, { name: "robots", content: "noindex" }],
+      };
     }
     const { event } = loaderData;
     return {
@@ -36,8 +59,18 @@ export const Route = createFileRoute("/event/$id")({
 function EventDetail() {
   const { event } = Route.useLoaderData();
   const {
-    goingIds, savedIds, toggleGoing, toggleSaved, connectedIds, toggleConnected, interests,
-    waitlistIds, toggleWaitlist, crews, toggleCrewInvite, cancelledEvents,
+    goingIds,
+    savedIds,
+    toggleGoing,
+    toggleSaved,
+    connectedIds,
+    toggleConnected,
+    interests,
+    waitlistIds,
+    toggleWaitlist,
+    crews,
+    toggleCrewInvite,
+    cancelledEvents,
   } = useApp();
   const cancelled = cancelledEvents[event.id];
   const going = goingIds.includes(event.id);
@@ -86,7 +119,6 @@ function EventDetail() {
             >
               <Share2 className="h-5 w-5" />
             </Link>
-
           </div>
         </div>
         <div className="absolute inset-x-0 bottom-0 p-5">
@@ -107,7 +139,9 @@ function EventDetail() {
             </p>
             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
               {cancelled.message || cancelled.reason}
-              {cancelled.refunded ? " Your ticket was refunded in full — it lands in 3–5 days." : ""}
+              {cancelled.refunded
+                ? " Your ticket was refunded in full — it lands in 3–5 days."
+                : ""}
             </p>
             <Link to="/" className="mt-2 inline-block text-xs font-bold text-primary">
               Find something else on
@@ -116,7 +150,11 @@ function EventDetail() {
         )}
 
         <div className="grid grid-cols-3 gap-2">
-          <InfoTile icon={Calendar} label={event.dateLabel.split(" · ")[0] ?? ""} sub={event.dateLabel.split(" · ")[1] ?? ""} />
+          <InfoTile
+            icon={Calendar}
+            label={event.dateLabel.split(" · ")[0] ?? ""}
+            sub={event.dateLabel.split(" · ")[1] ?? ""}
+          />
           <InfoTile icon={MapPin} label={event.area} sub={event.distance} />
           <InfoTile
             icon={Ticket}
@@ -135,8 +173,12 @@ function EventDetail() {
               <Repeat className="h-5 w-5 text-primary" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Part of a series</p>
-              <p className="truncate font-semibold">{series.name} · {series.cadence}</p>
+              <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+                Part of a series
+              </p>
+              <p className="truncate font-semibold">
+                {series.name} · {series.cadence}
+              </p>
             </div>
             <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
           </Link>
@@ -154,15 +196,16 @@ function EventDetail() {
 
         <WaitlistHold event={event} />
 
-        {going && (
-          <AddToCalendar eventId={event.id} className="w-full" />
-        )}
+        {going && <AddToCalendar eventId={event.id} className="w-full" />}
 
         <p className="text-[15px] leading-relaxed text-foreground/90">{event.description}</p>
 
         <div className="flex flex-wrap gap-2">
           {event.vibes.map((v) => (
-            <span key={v} className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold text-secondary-foreground">
+            <span
+              key={v}
+              className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold text-secondary-foreground"
+            >
               {v}
             </span>
           ))}
@@ -189,12 +232,19 @@ function EventDetail() {
           <div className="mt-3 flex flex-col gap-2">
             {attendees.map((p) => {
               return (
-                <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+                <div
+                  key={p.id}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                >
                   <Link to="/person/$id" params={{ id: p.id }}>
                     <Avatar person={p} />
                   </Link>
                   <div className="min-w-0 flex-1">
-                    <Link to="/person/$id" params={{ id: p.id }} className="font-display text-base font-bold">
+                    <Link
+                      to="/person/$id"
+                      params={{ id: p.id }}
+                      className="font-display text-base font-bold"
+                    >
                       {p.name}
                     </Link>
                     <p className="truncate text-xs text-muted-foreground">{p.reason}</p>
@@ -237,7 +287,10 @@ function EventDetail() {
               {connections.map((p) => {
                 const invited = crew.includes(p.id);
                 return (
-                  <div key={p.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+                  <div
+                    key={p.id}
+                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                  >
                     <Avatar person={p} />
                     <div className="min-w-0 flex-1">
                       <p className="font-display text-base font-bold">{p.name}</p>
@@ -249,10 +302,16 @@ function EventDetail() {
                       onClick={() => toggleCrewInvite(event.id, p.id)}
                       className={cn(
                         "flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-bold transition-all active:scale-95",
-                        invited ? "bg-accent text-accent-foreground" : "bg-secondary text-secondary-foreground",
+                        invited
+                          ? "bg-accent text-accent-foreground"
+                          : "bg-secondary text-secondary-foreground",
                       )}
                     >
-                      {invited ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : <Send className="h-3.5 w-3.5" />}
+                      {invited ? (
+                        <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                      ) : (
+                        <Send className="h-3.5 w-3.5" />
+                      )}
                       {invited ? "Invited" : "Invite"}
                     </button>
                   </div>
@@ -267,7 +326,9 @@ function EventDetail() {
         <AccessPanel event={event} />
 
         <section className="rounded-2xl border border-border bg-card p-4">
-          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Hosted by</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+            Hosted by
+          </p>
           <div className="mt-2 flex items-center gap-3">
             <Avatar person={{ name: event.host, avatar: 4 }} />
             <div>
@@ -280,8 +341,8 @@ function EventDetail() {
         <section className="rounded-2xl border border-border bg-card p-4">
           <p className="font-display text-base font-bold">At the door</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Scan the event QR when you arrive to check in and join the live photo wall — works in the
-            browser, no download.
+            Scan the event QR when you arrive to check in and join the live photo wall — works in
+            the browser, no download.
           </p>
           <div className="mt-3 flex gap-2">
             <Link
@@ -339,28 +400,31 @@ function EventDetail() {
             )}
           >
             {waitlisted ? (
-              <><Check className="h-5 w-5" strokeWidth={3} /> On the waitlist · #{waitlistPosition(event.id)}</>
+              <>
+                <Check className="h-5 w-5" strokeWidth={3} /> On the waitlist · #
+                {waitlistPosition(event.id)}
+              </>
             ) : (
-              <><Clock className="h-5 w-5" /> Join the waitlist</>
+              <>
+                <Clock className="h-5 w-5" /> Join the waitlist
+              </>
             )}
           </button>
+        ) : isPaid ? (
+          <Link
+            to="/checkout/$id"
+            params={{ id: event.id }}
+            className="flex h-14 w-full items-center justify-center rounded-2xl bg-gradient-brand font-display text-lg font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98]"
+          >
+            Get a ticket · {event.price}
+          </Link>
         ) : (
-          isPaid ? (
-            <Link
-              to="/checkout/$id"
-              params={{ id: event.id }}
-              className="flex h-14 w-full items-center justify-center rounded-2xl bg-gradient-brand font-display text-lg font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98]"
-            >
-              Get a ticket · {event.price}
-            </Link>
-          ) : (
-            <button
-              onClick={() => toggleGoing(event.id)}
-              className="flex h-14 w-full items-center justify-center rounded-2xl bg-gradient-brand font-display text-lg font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98]"
-            >
-              I'm Going · {event.price}
-            </button>
-          )
+          <button
+            onClick={() => toggleGoing(event.id)}
+            className="flex h-14 w-full items-center justify-center rounded-2xl bg-gradient-brand font-display text-lg font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98]"
+          >
+            I'm Going · {event.price}
+          </button>
         )}
       </div>
     </div>

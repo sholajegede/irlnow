@@ -39,15 +39,15 @@ The app runs at http://localhost:8080.
 
 ## Commands
 
-| Command | What it does |
-| --- | --- |
-| `bun run dev` | Start the dev server with HMR |
-| `bun run build` | Production build into `.output/` |
-| `bun run start` | Run the built server bundle |
-| `bun run typecheck` | TypeScript, no emit |
-| `bun run lint` | ESLint |
-| `bun run format` | Prettier, write |
-| `bun run check` | Typecheck + lint — run before every commit |
+| Command             | What it does                               |
+| ------------------- | ------------------------------------------ |
+| `bun run dev`       | Start the dev server with HMR              |
+| `bun run build`     | Production build into `.output/`           |
+| `bun run start`     | Run the built server bundle                |
+| `bun run typecheck` | TypeScript, no emit                        |
+| `bun run lint`      | ESLint                                     |
+| `bun run format`    | Prettier, write                            |
+| `bun run check`     | Typecheck + lint — run before every commit |
 
 ## Environment
 
@@ -80,6 +80,6 @@ NITRO_PRESET=vercel            bun run build
 - **Web** — TanStack Start (React 19, SSR, file-based routing)
 - **Styling** — Tailwind CSS v4, shadcn/ui, Syne + Plus Jakarta Sans
 - **Language** — TypeScript, strict
-- **Mobile** *(planned)* — React Native + Expo
-- **Backend** *(planned)* — Convex
-- **Identity** *(planned)* — Kinde
+- **Mobile** _(planned)_ — React Native + Expo
+- **Backend** _(planned)_ — Convex
+- **Identity** _(planned)_ — Kinde

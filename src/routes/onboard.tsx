@@ -10,7 +10,10 @@ export const Route = createFileRoute("/onboard")({
   head: () => ({
     meta: [
       { title: "Get started — IRL NOW" },
-      { name: "description", content: "Tell us what you're into and see the people and plans made for you." },
+      {
+        name: "description",
+        content: "Tell us what you're into and see the people and plans made for you.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -40,7 +43,6 @@ function OnboardPage() {
       .slice(0, 4);
   }, [picked]);
 
-
   useEffect(() => {
     if (step !== "processing") return;
     const t = setTimeout(() => setStep("reveal"), 2200);
@@ -53,7 +55,15 @@ function OnboardPage() {
   };
 
   const canContinue =
-    step === "city" ? !!city : step === "name" ? name.trim().length >= 2 : step === "email" ? /.+@.+\..+/.test(email) : step === "interests" ? picked.length >= 3 : true;
+    step === "city"
+      ? !!city
+      : step === "name"
+        ? name.trim().length >= 2
+        : step === "email"
+          ? /.+@.+\..+/.test(email)
+          : step === "interests"
+            ? picked.length >= 3
+            : true;
 
   const next = () => {
     const i = stepOrder.indexOf(step);
@@ -105,7 +115,8 @@ function OnboardPage() {
               IRL<span className="text-primary">·</span>NOW
             </h1>
             <p className="max-w-xs text-lg font-medium text-foreground/90">
-              Less feed. More life. Find things to do and people worth doing them with — then actually go.
+              Less feed. More life. Find things to do and people worth doing them with — then
+              actually go.
             </p>
             <button
               onClick={next}
@@ -113,7 +124,9 @@ function OnboardPage() {
             >
               Get me out there <ArrowRight className="h-5 w-5" strokeWidth={2.5} />
             </button>
-            <p className="text-center text-xs text-muted-foreground">2 minutes · no endless scrolling, promise</p>
+            <p className="text-center text-xs text-muted-foreground">
+              2 minutes · no endless scrolling, promise
+            </p>
           </div>
         </div>
       )}
@@ -121,7 +134,9 @@ function OnboardPage() {
       {step === "city" && (
         <div className="flex flex-1 flex-col gap-6 p-6 animate-fade-up">
           <div>
-            <h2 className="font-display text-3xl font-extrabold tracking-tight">Where's your scene?</h2>
+            <h2 className="font-display text-3xl font-extrabold tracking-tight">
+              Where's your scene?
+            </h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Pick a city — no GPS permission needed. You can change it anytime.
             </p>
@@ -136,7 +151,9 @@ function OnboardPage() {
                   city === c ? "border-primary bg-primary/15" : "border-border bg-card",
                 )}
               >
-                <MapPin className={cn("h-5 w-5", city === c ? "text-primary" : "text-muted-foreground")} />
+                <MapPin
+                  className={cn("h-5 w-5", city === c ? "text-primary" : "text-muted-foreground")}
+                />
                 <span className="font-display text-lg font-bold">{c}</span>
               </button>
             ))}
@@ -148,7 +165,9 @@ function OnboardPage() {
       {step === "name" && (
         <div className="flex flex-1 flex-col gap-6 p-6 animate-fade-up">
           <div>
-            <h2 className="font-display text-3xl font-extrabold tracking-tight">What should people call you?</h2>
+            <h2 className="font-display text-3xl font-extrabold tracking-tight">
+              What should people call you?
+            </h2>
             <p className="mt-1 text-sm text-muted-foreground">
               First name only. It's how hosts greet you and how you show up on "who's going".
             </p>
@@ -167,9 +186,12 @@ function OnboardPage() {
       {step === "email" && (
         <div className="flex flex-1 flex-col gap-6 p-6 animate-fade-up">
           <div>
-            <h2 className="font-display text-3xl font-extrabold tracking-tight">Where do we send the good stuff?</h2>
+            <h2 className="font-display text-3xl font-extrabold tracking-tight">
+              Where do we send the good stuff?
+            </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Event updates, your photos the morning after, and account continuity. No spam — event-driven only.
+              Event updates, your photos the morning after, and account continuity. No spam —
+              event-driven only.
             </p>
           </div>
           <input
@@ -187,7 +209,9 @@ function OnboardPage() {
       {step === "interests" && (
         <div className="flex flex-1 flex-col gap-6 p-6 animate-fade-up">
           <div>
-            <h2 className="font-display text-3xl font-extrabold tracking-tight">What pulls you out of the house?</h2>
+            <h2 className="font-display text-3xl font-extrabold tracking-tight">
+              What pulls you out of the house?
+            </h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Pick at least 3 — this is how we find your people, not just events.
             </p>
@@ -203,7 +227,9 @@ function OnboardPage() {
                   }
                   className={cn(
                     "flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-bold transition-all active:scale-95",
-                    on ? "border-primary bg-primary text-primary-foreground shadow-glow" : "border-border bg-card text-foreground",
+                    on
+                      ? "border-primary bg-primary text-primary-foreground shadow-glow"
+                      : "border-border bg-card text-foreground",
                   )}
                 >
                   <span>{i.emoji}</span> {i.label}
@@ -240,7 +266,9 @@ function OnboardPage() {
       {step === "reveal" && (
         <div className="flex flex-1 flex-col gap-6 p-6 animate-fade-up">
           <div className="pt-4 text-center">
-            <p className="text-xs font-bold uppercase tracking-widest text-primary">Your personalised reveal</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-primary">
+              Your personalised reveal
+            </p>
             <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">
               {name || "Hey"}, this is your week in {city}
             </h2>

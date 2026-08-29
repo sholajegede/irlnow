@@ -26,8 +26,15 @@ export const Route = createFileRoute("/privacy")({
 });
 
 function PrivacyPage() {
-  const { privacy, updatePrivacy, notifPrefs, updateNotifPrefs, blockedIds, unblockPerson, reportedIds } =
-    useApp();
+  const {
+    privacy,
+    updatePrivacy,
+    notifPrefs,
+    updateNotifPrefs,
+    blockedIds,
+    unblockPerson,
+    reportedIds,
+  } = useApp();
 
   return (
     <div className="flex min-h-dvh flex-col pb-24">
@@ -45,8 +52,8 @@ function PrivacyPage() {
         <div className="flex items-start gap-3 rounded-2xl border border-accent/30 bg-accent/10 p-4">
           <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
           <p className="text-xs leading-relaxed">
-            Your email, phone number and exact location are never shown to anyone. Nobody can message you
-            until you both agree to connect.
+            Your email, phone number and exact location are never shown to anyone. Nobody can
+            message you until you both agree to connect.
           </p>
         </div>
 
@@ -54,7 +61,9 @@ function PrivacyPage() {
           <Segmented
             label="Your profile is visible to"
             value={privacy.profileVisibility}
-            onChange={(v) => updatePrivacy({ profileVisibility: v as typeof privacy.profileVisibility })}
+            onChange={(v) =>
+              updatePrivacy({ profileVisibility: v as typeof privacy.profileVisibility })
+            }
             options={[
               { value: "attendees", label: "People at my events" },
               { value: "connections", label: "Connections" },
@@ -88,7 +97,9 @@ function PrivacyPage() {
           <Segmented
             label="Location shown to others"
             value={privacy.locationPrecision}
-            onChange={(v) => updatePrivacy({ locationPrecision: v as typeof privacy.locationPrecision })}
+            onChange={(v) =>
+              updatePrivacy({ locationPrecision: v as typeof privacy.locationPrecision })
+            }
             options={[
               { value: "exact", label: "Exact" },
               { value: "area", label: "Area only" },
@@ -101,7 +112,9 @@ function PrivacyPage() {
           <Segmented
             label="Messages allowed from"
             value={privacy.allowMessagesFrom}
-            onChange={(v) => updatePrivacy({ allowMessagesFrom: v as typeof privacy.allowMessagesFrom })}
+            onChange={(v) =>
+              updatePrivacy({ allowMessagesFrom: v as typeof privacy.allowMessagesFrom })
+            }
             options={[
               { value: "attendees", label: "Event chats + connections" },
               { value: "connections", label: "Connections only" },
@@ -148,7 +161,6 @@ function PrivacyPage() {
             value={notifPrefs.quietHours}
             onChange={(v) => updateNotifPrefs({ quietHours: v })}
           />
-
         </Section>
 
         <Section icon={Ban} title="Blocked people">
@@ -162,7 +174,10 @@ function PrivacyPage() {
                 const person = getPerson(id);
                 if (!person) return null;
                 return (
-                  <div key={id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+                  <div
+                    key={id}
+                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                  >
                     <Avatar person={person} />
                     <div className="min-w-0 flex-1">
                       <p className="font-display text-sm font-bold">{person.name}</p>
@@ -183,14 +198,15 @@ function PrivacyPage() {
           )}
           {reportedIds.length > 0 && (
             <p className="text-center text-xs text-muted-foreground">
-              {reportedIds.length} report{reportedIds.length > 1 ? "s" : ""} under review by our safety team.
+              {reportedIds.length} report{reportedIds.length > 1 ? "s" : ""} under review by our
+              safety team.
             </p>
           )}
         </Section>
 
         <p className="pb-4 text-center text-xs leading-relaxed text-muted-foreground">
-          At an event and something's wrong? Tap the shield on any profile or message to report it. We
-          respond within 24 hours.
+          At an event and something's wrong? Tap the shield on any profile or message to report it.
+          We respond within 24 hours.
         </p>
       </main>
 
@@ -278,7 +294,9 @@ function Segmented({
             onClick={() => onChange(o.value)}
             className={cn(
               "rounded-xl px-3.5 py-2.5 text-left text-xs font-semibold transition-colors",
-              value === o.value ? "bg-primary/15 text-foreground ring-1 ring-primary" : "bg-secondary/50 text-muted-foreground",
+              value === o.value
+                ? "bg-primary/15 text-foreground ring-1 ring-primary"
+                : "bg-secondary/50 text-muted-foreground",
             )}
           >
             {o.label}

@@ -47,7 +47,12 @@ function SharePage() {
   return (
     <div className="flex min-h-dvh flex-col pb-10">
       <header className="sticky top-0 z-40 flex items-center gap-2 border-b border-border/60 bg-background/90 px-4 py-3 backdrop-blur-xl">
-        <Link to="/event/$id" params={{ id }} aria-label="Back" className="rounded-full p-1.5 active:bg-secondary">
+        <Link
+          to="/event/$id"
+          params={{ id }}
+          aria-label="Back"
+          className="rounded-full p-1.5 active:bg-secondary"
+        >
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div>
@@ -77,7 +82,9 @@ function SharePage() {
                 </span>
               ))}
             </div>
-            <p className="mt-3 font-display text-sm font-extrabold">{event?.title ?? "Something tonight"}</p>
+            <p className="mt-3 font-display text-sm font-extrabold">
+              {event?.title ?? "Something tonight"}
+            </p>
             <p className="text-xs opacity-80">
               {event?.dateLabel ?? "Soon"} · {event?.area ?? "Near you"}
             </p>
@@ -92,7 +99,9 @@ function SharePage() {
               onClick={() => setLook(l.id)}
               className={cn(
                 "rounded-full px-4 py-2 text-xs font-bold",
-                look === l.id ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground",
+                look === l.id
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-muted-foreground",
               )}
             >
               {l.label}
@@ -131,7 +140,8 @@ function SharePage() {
         </div>
 
         <p className="text-center text-[11px] text-muted-foreground">
-          Anyone who taps it lands on the event with {name || "your"} name on it — {goingIds.includes(id) ? "and sees you're going" : "no account needed to look"}.
+          Anyone who taps it lands on the event with {name || "your"} name on it —{" "}
+          {goingIds.includes(id) ? "and sees you're going" : "no account needed to look"}.
         </p>
       </main>
     </div>

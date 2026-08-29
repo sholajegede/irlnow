@@ -1,5 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, CalendarClock, MapPin, MessagesSquare, Ticket as TicketIcon, Undo2 } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarClock,
+  MapPin,
+  MessagesSquare,
+  Ticket as TicketIcon,
+  Undo2,
+} from "lucide-react";
 import { useState } from "react";
 import { QrCode } from "@/components/QrCode";
 import { absoluteUrl } from "@/config/app";
@@ -17,7 +24,9 @@ export const Route = createFileRoute("/ticket/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Ticket unavailable | IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Ticket unavailable | IRL NOW" }, { name: "robots", content: "noindex" }],
+      };
     }
     const t = `Your ticket — ${loaderData.event.title} | IRL NOW`;
     return {
@@ -51,8 +60,8 @@ function TicketPage() {
         <Undo2 className="h-10 w-10 text-accent" />
         <h1 className="font-display text-2xl font-bold">Refunded</h1>
         <p className="max-w-xs text-sm text-muted-foreground">
-          {money(order?.total ?? 0)} is on its way back to your card, booking fee included. Your spot has
-          gone to the next person on the waitlist.
+          {money(order?.total ?? 0)} is on its way back to your card, booking fee included. Your
+          spot has gone to the next person on the waitlist.
         </p>
         <Link to="/going" className="mt-2 text-sm font-bold text-primary">
           Back to your agenda
@@ -81,7 +90,9 @@ function TicketPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
             <div className="absolute bottom-3 left-4 right-4">
               <p className="font-display text-xl font-bold leading-tight">{event.title}</p>
-              <p className="text-xs text-muted-foreground">{event.host} · {event.area}</p>
+              <p className="text-xs text-muted-foreground">
+                {event.host} · {event.area}
+              </p>
             </div>
           </div>
 
@@ -92,11 +103,16 @@ function TicketPage() {
           <div className="space-y-3 p-4">
             <div className="text-center">
               <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Door code</p>
-              <p className="font-display text-2xl font-bold tracking-[0.1em] text-primary">{code}</p>
+              <p className="font-display text-2xl font-bold tracking-[0.1em] text-primary">
+                {code}
+              </p>
             </div>
             <Detail icon={CalendarClock} label={event.dateLabel} />
             <Detail icon={MapPin} label={event.location} />
-            <Detail icon={TicketIcon} label={`${order?.tierName ?? "Standard entry"} × ${order?.qty ?? 1}`} />
+            <Detail
+              icon={TicketIcon}
+              label={`${order?.tierName ?? "Standard entry"} × ${order?.qty ?? 1}`}
+            />
             <div className="flex items-center justify-between border-t border-border pt-3">
               <span className="text-sm text-muted-foreground">
                 {order ? "Paid" : "Reserved"} {order?.purchasedAt ? `· ${order.purchasedAt}` : ""}
@@ -145,7 +161,13 @@ function TicketPage() {
   );
 }
 
-function Detail({ icon: Icon, label }: { icon: React.ComponentType<{ className?: string }>; label: string }) {
+function Detail({
+  icon: Icon,
+  label,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+}) {
   return (
     <div className="flex items-center gap-2.5 text-sm">
       <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />

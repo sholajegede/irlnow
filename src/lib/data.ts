@@ -8,7 +8,17 @@ import climb from "@/assets/event-climb.jpg";
 import games from "@/assets/event-games.jpg";
 import market from "@/assets/event-market.jpg";
 
-export const eventCovers = { rooftop, jazz, supper, run, gallery, streetfood, climb, games, market };
+export const eventCovers = {
+  rooftop,
+  jazz,
+  supper,
+  run,
+  gallery,
+  streetfood,
+  climb,
+  games,
+  market,
+};
 export type CoverKey = keyof typeof eventCovers;
 
 export interface Interest {
@@ -44,16 +54,98 @@ export interface Person {
 }
 
 export const people: Person[] = [
-  { id: "maya", name: "Maya", avatar: 0, interests: ["music", "food", "photo"], bio: "Jazz bars, natural wine and my film camera.", reason: "3 shared interests · going to the same event", mutuals: 4 },
-  { id: "josh", name: "Josh", avatar: 1, interests: ["running", "wellness", "tech"], bio: "Sunrise runs and strong coffee.", reason: "You both like Running · 2 mutual connections", mutuals: 2, goingSolo: true },
-  { id: "priya", name: "Priya", avatar: 2, interests: ["art", "film", "food"], bio: "Gallery lates > everything.", reason: "Going to the same event · you both like Art", mutuals: 1 },
-  { id: "tomas", name: "Tomás", avatar: 3, interests: ["food", "comedy", "games"], bio: "Will travel for dumplings.", reason: "3 shared interests", mutuals: 3 },
-  { id: "amara", name: "Amara", avatar: 4, interests: ["nightlife", "music", "art"], bio: "A&R by day, dancefloor by night.", reason: "Going to the same event", mutuals: 5, goingSolo: true },
-  { id: "leo", name: "Leo", avatar: 5, interests: ["climbing", "running", "wellness"], bio: "Slab enthusiast. Terrible at resting.", reason: "You both like Climbing", mutuals: 0 },
-  { id: "freya", name: "Freya", avatar: 6, interests: ["games", "film", "comedy"], bio: "Undefeated at Catan (ask anyone).", reason: "2 shared interests · 1 mutual connection", mutuals: 1 },
-  { id: "dev", name: "Dev", avatar: 7, interests: ["tech", "food", "running"], bio: "Building things, eating things.", reason: "You both like Tech & startups", mutuals: 2 },
-  { id: "nina", name: "Nina", avatar: 1, interests: ["photo", "art", "wellness"], bio: "Chasing golden hour.", reason: "2 shared interests", mutuals: 0 },
-  { id: "marcus", name: "Marcus", avatar: 2, interests: ["music", "nightlife", "comedy"], bio: "Here for the encore.", reason: "Going to the same event", mutuals: 6 },
+  {
+    id: "maya",
+    name: "Maya",
+    avatar: 0,
+    interests: ["music", "food", "photo"],
+    bio: "Jazz bars, natural wine and my film camera.",
+    reason: "3 shared interests · going to the same event",
+    mutuals: 4,
+  },
+  {
+    id: "josh",
+    name: "Josh",
+    avatar: 1,
+    interests: ["running", "wellness", "tech"],
+    bio: "Sunrise runs and strong coffee.",
+    reason: "You both like Running · 2 mutual connections",
+    mutuals: 2,
+    goingSolo: true,
+  },
+  {
+    id: "priya",
+    name: "Priya",
+    avatar: 2,
+    interests: ["art", "film", "food"],
+    bio: "Gallery lates > everything.",
+    reason: "Going to the same event · you both like Art",
+    mutuals: 1,
+  },
+  {
+    id: "tomas",
+    name: "Tomás",
+    avatar: 3,
+    interests: ["food", "comedy", "games"],
+    bio: "Will travel for dumplings.",
+    reason: "3 shared interests",
+    mutuals: 3,
+  },
+  {
+    id: "amara",
+    name: "Amara",
+    avatar: 4,
+    interests: ["nightlife", "music", "art"],
+    bio: "A&R by day, dancefloor by night.",
+    reason: "Going to the same event",
+    mutuals: 5,
+    goingSolo: true,
+  },
+  {
+    id: "leo",
+    name: "Leo",
+    avatar: 5,
+    interests: ["climbing", "running", "wellness"],
+    bio: "Slab enthusiast. Terrible at resting.",
+    reason: "You both like Climbing",
+    mutuals: 0,
+  },
+  {
+    id: "freya",
+    name: "Freya",
+    avatar: 6,
+    interests: ["games", "film", "comedy"],
+    bio: "Undefeated at Catan (ask anyone).",
+    reason: "2 shared interests · 1 mutual connection",
+    mutuals: 1,
+  },
+  {
+    id: "dev",
+    name: "Dev",
+    avatar: 7,
+    interests: ["tech", "food", "running"],
+    bio: "Building things, eating things.",
+    reason: "You both like Tech & startups",
+    mutuals: 2,
+  },
+  {
+    id: "nina",
+    name: "Nina",
+    avatar: 1,
+    interests: ["photo", "art", "wellness"],
+    bio: "Chasing golden hour.",
+    reason: "2 shared interests",
+    mutuals: 0,
+  },
+  {
+    id: "marcus",
+    name: "Marcus",
+    avatar: 2,
+    interests: ["music", "nightlife", "comedy"],
+    bio: "Here for the encore.",
+    reason: "Going to the same event",
+    mutuals: 6,
+  },
 ];
 
 export interface IrlEvent {
@@ -313,7 +405,13 @@ export const eventSeries: EventSeries[] = [
     blurb: "One long table, five courses, twenty strangers. Running for 14 months and counting.",
     followers: 412,
     editions: [
-      { id: "lt-15", label: "Vol. 15 · Sat 7pm", eventId: "supper-club", status: "upcoming", goingCount: 20 },
+      {
+        id: "lt-15",
+        label: "Vol. 15 · Sat 7pm",
+        eventId: "supper-club",
+        status: "upcoming",
+        goingCount: 20,
+      },
       { id: "lt-16", label: "Vol. 16 · Sat 27 Sep", status: "upcoming", goingCount: 9 },
       { id: "lt-14", label: "Vol. 14 · Aug", status: "past", goingCount: 20 },
       { id: "lt-13", label: "Vol. 13 · Jul", status: "past", goingCount: 18 },
@@ -328,7 +426,13 @@ export const eventSeries: EventSeries[] = [
     blurb: "All paces, all weather, coffee after. The friendliest alarm clock in London.",
     followers: 689,
     editions: [
-      { id: "dr-88", label: "Run #88 · Sun 6:45am", eventId: "sunrise-run", status: "upcoming", goingCount: 57 },
+      {
+        id: "dr-88",
+        label: "Run #88 · Sun 6:45am",
+        eventId: "sunrise-run",
+        status: "upcoming",
+        goingCount: 57,
+      },
       { id: "dr-89", label: "Run #89 · Sun 6 Sep", status: "upcoming", goingCount: 31 },
       { id: "dr-87", label: "Run #87 · last Sun", status: "past", goingCount: 63 },
     ],
@@ -342,7 +446,13 @@ export const eventSeries: EventSeries[] = [
     blurb: "Emerging artists, warehouse spaces, wine in hand. Peckham's best night out.",
     followers: 234,
     editions: [
-      { id: "ad-6", label: "No. 6 · Fri 8pm", eventId: "gallery-late", status: "upcoming", goingCount: 63 },
+      {
+        id: "ad-6",
+        label: "No. 6 · Fri 8pm",
+        eventId: "gallery-late",
+        status: "upcoming",
+        goingCount: 63,
+      },
       { id: "ad-5", label: "No. 5 · Jul", status: "past", goingCount: 71 },
     ],
   },
@@ -371,7 +481,17 @@ export function getPerson(id: string): Person | undefined {
   return people.find((p) => p.id === id);
 }
 
-export const memoryMedia: CoverKey[] = ["supper", "games", "jazz", "rooftop", "streetfood", "gallery", "supper", "climb", "supper"];
+export const memoryMedia: CoverKey[] = [
+  "supper",
+  "games",
+  "jazz",
+  "rooftop",
+  "streetfood",
+  "gallery",
+  "supper",
+  "climb",
+  "supper",
+];
 
 /* ---------- Organiser workspace ---------- */
 
@@ -390,8 +510,30 @@ export interface Guest {
 }
 
 const firstNames = [
-  "Maya","Marcus","Nina","Josh","Priya","Tomás","Amara","Leo","Freya","Dev","Ola","Sasha",
-  "Bea","Kofi","Ines","Rory","Tara","Zayn","Ellie","Noor","Hugo","Mimi","Kai","Ada",
+  "Maya",
+  "Marcus",
+  "Nina",
+  "Josh",
+  "Priya",
+  "Tomás",
+  "Amara",
+  "Leo",
+  "Freya",
+  "Dev",
+  "Ola",
+  "Sasha",
+  "Bea",
+  "Kofi",
+  "Ines",
+  "Rory",
+  "Tara",
+  "Zayn",
+  "Ellie",
+  "Noor",
+  "Hugo",
+  "Mimi",
+  "Kai",
+  "Ada",
 ];
 const sources: Guest["source"][] = ["Discover", "Shared link", "Invited", "QR at door"];
 
@@ -401,7 +543,13 @@ export function guestList(eventId: string, count: number): Guest[] {
     const n = seed + i * 17;
     const statusRoll = n % 10;
     const status: GuestStatus =
-      statusRoll < 5 ? "checked-in" : statusRoll < 8 ? "going" : statusRoll === 8 ? "waitlist" : "declined";
+      statusRoll < 5
+        ? "checked-in"
+        : statusRoll < 8
+          ? "going"
+          : statusRoll === 8
+            ? "waitlist"
+            : "declined";
     return {
       id: `${eventId}-g${i}`,
       name: `${firstNames[n % firstNames.length]} ${String.fromCharCode(65 + (n % 26))}.`,
@@ -422,9 +570,27 @@ export interface HostNote {
 }
 
 export const hostNotes: HostNote[] = [
-  { id: "n1", from: "Maya", avatar: 0, text: "Best rooftop I've been to this year. The sunset set was unreal.", time: "22:14" },
-  { id: "n2", from: "Dev", avatar: 7, text: "Came alone, left with four new numbers. Thank you for this.", time: "21:48" },
-  { id: "n3", from: "Nina", avatar: 1, text: "Lighting was perfect for photos — I'll send you the good ones.", time: "20:31" },
+  {
+    id: "n1",
+    from: "Maya",
+    avatar: 0,
+    text: "Best rooftop I've been to this year. The sunset set was unreal.",
+    time: "22:14",
+  },
+  {
+    id: "n2",
+    from: "Dev",
+    avatar: 7,
+    text: "Came alone, left with four new numbers. Thank you for this.",
+    time: "21:48",
+  },
+  {
+    id: "n3",
+    from: "Nina",
+    avatar: 1,
+    text: "Lighting was perfect for photos — I'll send you the good ones.",
+    time: "20:31",
+  },
 ];
 
 export interface TrafficRow {
@@ -475,13 +641,72 @@ export interface Organiser {
 }
 
 export const organisers: Organiser[] = [
-  { id: "amara", name: "Amara", avatar: 4, blurb: "Rooftop socials & sunset sets across east London.", eventsHosted: 24, rating: 4.9, verified: true },
-  { id: "tomas", name: "Tomás", avatar: 3, blurb: "Long Table Supper Club — five courses, twenty strangers.", eventsHosted: 15, rating: 4.9, verified: true, seriesId: "long-table" },
-  { id: "josh", name: "Josh", avatar: 1, blurb: "Bridge at Dawn Run Club. All paces, coffee after.", eventsHosted: 88, rating: 4.8, verified: true, seriesId: "dawn-run" },
-  { id: "priya", name: "Priya", avatar: 2, blurb: "After Dark Gallery Lates in Peckham warehouses.", eventsHosted: 6, rating: 4.7, verified: false, seriesId: "after-dark" },
-  { id: "marcus", name: "Marcus", avatar: 2, blurb: "Velvet Room jazz nights, Soho basements only.", eventsHosted: 31, rating: 4.8, verified: true },
-  { id: "leo", name: "Leo", avatar: 5, blurb: "Beginner-friendly bouldering socials.", eventsHosted: 9, rating: 4.6, verified: false },
-  { id: "freya", name: "Freya", avatar: 6, blurb: "Board game takeovers in Camden.", eventsHosted: 12, rating: 4.7, verified: false },
+  {
+    id: "amara",
+    name: "Amara",
+    avatar: 4,
+    blurb: "Rooftop socials & sunset sets across east London.",
+    eventsHosted: 24,
+    rating: 4.9,
+    verified: true,
+  },
+  {
+    id: "tomas",
+    name: "Tomás",
+    avatar: 3,
+    blurb: "Long Table Supper Club — five courses, twenty strangers.",
+    eventsHosted: 15,
+    rating: 4.9,
+    verified: true,
+    seriesId: "long-table",
+  },
+  {
+    id: "josh",
+    name: "Josh",
+    avatar: 1,
+    blurb: "Bridge at Dawn Run Club. All paces, coffee after.",
+    eventsHosted: 88,
+    rating: 4.8,
+    verified: true,
+    seriesId: "dawn-run",
+  },
+  {
+    id: "priya",
+    name: "Priya",
+    avatar: 2,
+    blurb: "After Dark Gallery Lates in Peckham warehouses.",
+    eventsHosted: 6,
+    rating: 4.7,
+    verified: false,
+    seriesId: "after-dark",
+  },
+  {
+    id: "marcus",
+    name: "Marcus",
+    avatar: 2,
+    blurb: "Velvet Room jazz nights, Soho basements only.",
+    eventsHosted: 31,
+    rating: 4.8,
+    verified: true,
+  },
+  {
+    id: "leo",
+    name: "Leo",
+    avatar: 5,
+    blurb: "Beginner-friendly bouldering socials.",
+    eventsHosted: 9,
+    rating: 4.6,
+    verified: false,
+  },
+  {
+    id: "freya",
+    name: "Freya",
+    avatar: 6,
+    blurb: "Board game takeovers in Camden.",
+    eventsHosted: 12,
+    rating: 4.7,
+    verified: false,
+  },
 ];
 
 export function getOrganiser(id: string) {
@@ -533,9 +758,7 @@ export function searchEvents(q: string): IrlEvent[] {
 export function searchPeople(q: string): Person[] {
   const s = q.trim().toLowerCase();
   if (!s) return [];
-  return people.filter((p) =>
-    [p.name, p.bio, ...p.interests].join(" ").toLowerCase().includes(s),
-  );
+  return people.filter((p) => [p.name, p.bio, ...p.interests].join(" ").toLowerCase().includes(s));
 }
 
 export function searchOrganisers(q: string): Organiser[] {

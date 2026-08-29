@@ -106,7 +106,13 @@ export function peopleToMeet(
 
 export interface PersonOut {
   person: Person;
-  event: { id: string; title: string; area: string; dateLabel: string; when: "tonight" | "weekend" };
+  event: {
+    id: string;
+    title: string;
+    area: string;
+    dateLabel: string;
+    when: "tonight" | "weekend";
+  };
   /** why this person is surfaced — always tied to an event, never stranger-browsing */
   reason: string;
   likeYou: boolean;
@@ -120,10 +126,7 @@ export interface PersonOut {
  * Everyone who is out in the next few days, derived from Person -> Going -> Event.
  * A person only appears here because they said yes to something you can join.
  */
-export function peopleOut(
-  myInterests: string[] = [],
-  metPersonIds: string[] = [],
-): PersonOut[] {
+export function peopleOut(myInterests: string[] = [], metPersonIds: string[] = []): PersonOut[] {
   const seen = new Set<string>();
   const out: PersonOut[] = [];
 
@@ -163,8 +166,7 @@ export function peopleOut(
         solo,
         mutual,
         met,
-        score:
-          (met ? 5 : 0) + shared.length * 2 + (solo ? 2 : 0) + Math.min(person.mutuals, 3),
+        score: (met ? 5 : 0) + shared.length * 2 + (solo ? 2 : 0) + Math.min(person.mutuals, 3),
       });
     }
   }

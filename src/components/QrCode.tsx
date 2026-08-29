@@ -39,7 +39,10 @@ export function QrCode({ value, className }: { value: string; className?: string
     >
       <div
         className="grid h-full w-full"
-        style={{ gridTemplateColumns: `repeat(${size}, 1fr)`, gridTemplateRows: `repeat(${size}, 1fr)` }}
+        style={{
+          gridTemplateColumns: `repeat(${size}, 1fr)`,
+          gridTemplateRows: `repeat(${size}, 1fr)`,
+        }}
       >
         {Array.from({ length: size * size }).map((_, i) => {
           const r = Math.floor(i / size);

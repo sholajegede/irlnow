@@ -1,6 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowLeft, BadgeCheck, MapPin, Search as SearchIcon, SlidersHorizontal, X } from "lucide-react";
+import {
+  ArrowLeft,
+  BadgeCheck,
+  MapPin,
+  Search as SearchIcon,
+  SlidersHorizontal,
+  X,
+} from "lucide-react";
 import { Avatar, AvatarStack } from "@/components/Avatar";
 import { BottomNav } from "@/components/BottomNav";
 import {
@@ -89,7 +96,9 @@ function SearchPage() {
             aria-label="Filters"
             className={cn(
               "relative rounded-full p-2.5",
-              showFilters || activeFilterCount ? "bg-primary text-primary-foreground" : "bg-secondary",
+              showFilters || activeFilterCount
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary",
             )}
           >
             <SlidersHorizontal className="h-4 w-4" />
@@ -131,7 +140,10 @@ function SearchPage() {
                   key={d}
                   active={filters.maxDistanceKm === d}
                   onClick={() =>
-                    setFilters((f) => ({ ...f, maxDistanceKm: f.maxDistanceKm === d ? undefined : d }))
+                    setFilters((f) => ({
+                      ...f,
+                      maxDistanceKm: f.maxDistanceKm === d ? undefined : d,
+                    }))
                   }
                 >
                   Within {d} km
@@ -167,9 +179,7 @@ function SearchPage() {
       <main className="flex-1 px-4 pt-4">
         {!q && (
           <div className="pb-4">
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              Try
-            </p>
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Try</p>
             <div className="mt-2 flex flex-wrap gap-2">
               {quickSearches.map((s) => (
                 <button

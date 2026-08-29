@@ -67,7 +67,8 @@ function VenuePortal() {
             This week
           </p>
           <p className="mt-1 font-display text-4xl font-extrabold tracking-tight">
-            {delivered} <span className="text-lg font-bold text-muted-foreground">people through the door</span>
+            {delivered}{" "}
+            <span className="text-lg font-bold text-muted-foreground">people through the door</span>
           </p>
           <div className="mt-4 grid grid-cols-3 gap-2">
             {[
@@ -96,24 +97,24 @@ function VenuePortal() {
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-extrabold">Your capacity drops</h2>
             <div className="flex items-center gap-2">
-            <Link
-              to="/venue/claim"
-              className="flex h-11 flex-1 items-center justify-center rounded-2xl border border-border bg-card font-display text-sm font-bold"
-            >
-              Claim a venue
-            </Link>
-            <Link
-              to="/venue/billing"
-              className="flex items-center gap-1 rounded-full border border-border bg-card px-3.5 py-2 text-xs font-bold"
-            >
-              <Receipt className="h-3.5 w-3.5" /> Billing
-            </Link>
-            <Link
-              to="/venue/fill"
-              className="flex items-center gap-1 rounded-full bg-gradient-brand px-3.5 py-2 text-xs font-bold text-primary-foreground shadow-glow"
-            >
-              <Plus className="h-3.5 w-3.5" /> Fill seats
-            </Link>
+              <Link
+                to="/venue/claim"
+                className="flex h-11 flex-1 items-center justify-center rounded-2xl border border-border bg-card font-display text-sm font-bold"
+              >
+                Claim a venue
+              </Link>
+              <Link
+                to="/venue/billing"
+                className="flex items-center gap-1 rounded-full border border-border bg-card px-3.5 py-2 text-xs font-bold"
+              >
+                <Receipt className="h-3.5 w-3.5" /> Billing
+              </Link>
+              <Link
+                to="/venue/fill"
+                className="flex items-center gap-1 rounded-full bg-gradient-brand px-3.5 py-2 text-xs font-bold text-primary-foreground shadow-glow"
+              >
+                <Plus className="h-3.5 w-3.5" /> Fill seats
+              </Link>
             </div>
           </div>
 
@@ -160,7 +161,10 @@ function VenuePortal() {
                 </div>
 
                 <div className="mt-3 h-2 overflow-hidden rounded-full bg-secondary">
-                  <div className="h-full rounded-full bg-gradient-brand" style={{ width: `${pct}%` }} />
+                  <div
+                    className="h-full rounded-full bg-gradient-brand"
+                    style={{ width: `${pct}%` }}
+                  />
                 </div>
                 <p className="mt-1.5 text-xs text-muted-foreground">
                   {claims} claimed · {spotsLeft(d, extra(d.id))} spots still open · shown to{" "}

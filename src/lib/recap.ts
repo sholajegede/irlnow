@@ -1,4 +1,12 @@
-import { events, getEvent, getOrganiser, people, type CoverKey, type IrlEvent, type Person } from "./data";
+import {
+  events,
+  getEvent,
+  getOrganiser,
+  people,
+  type CoverKey,
+  type IrlEvent,
+  type Person,
+} from "./data";
 import { peopleWithYou, wallPhotos, wallStats } from "./wall";
 
 /* ---------------- Auto-generated recap ---------------- */
@@ -120,7 +128,20 @@ export interface ArchiveEntry {
   cover: CoverKey;
 }
 
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 /** A deterministic month bucket per event so the timeline reads like a real year. */
 function monthFor(eventId: string) {
@@ -194,7 +215,11 @@ export interface TagSuggestion {
 }
 
 /** Suggests "is this X?" for unconfirmed faces in photos you're in. */
-export function tagSuggestions(eventId: string, confirmed: string[], skipped: string[]): TagSuggestion[] {
+export function tagSuggestions(
+  eventId: string,
+  confirmed: string[],
+  skipped: string[],
+): TagSuggestion[] {
   const out: TagSuggestion[] = [];
   for (const photo of wallPhotos(eventId)) {
     if (!photo.youIn) continue;

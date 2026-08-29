@@ -1,5 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Bell, Bookmark, Crown, Gift, LifeBuoy, ChevronRight, HelpCircle, History, Images, LayoutDashboard, MessageCircle, Settings, Shield, ShieldAlert, Sparkles, Store, Users, Wallet } from "lucide-react";
+import {
+  Bell,
+  Bookmark,
+  Crown,
+  Gift,
+  LifeBuoy,
+  ChevronRight,
+  HelpCircle,
+  History,
+  Images,
+  LayoutDashboard,
+  MessageCircle,
+  Settings,
+  Shield,
+  ShieldAlert,
+  Sparkles,
+  Store,
+  Users,
+  Wallet,
+} from "lucide-react";
 import { StreakCard } from "@/components/StreakCard";
 import { AppHeader } from "@/components/AppHeader";
 import { BottomNav } from "@/components/BottomNav";
@@ -13,7 +32,8 @@ export const Route = createFileRoute("/you")({
       { title: "Your profile — IRL NOW" },
       {
         name: "description",
-        content: "Your interests, upcoming plans, connections, memories and privacy controls in one place.",
+        content:
+          "Your interests, upcoming plans, connections, memories and privacy controls in one place.",
       },
       { property: "og:title", content: "Your profile — IRL NOW" },
       { property: "og:description", content: "Interests, plans, connections and memories." },
@@ -23,7 +43,19 @@ export const Route = createFileRoute("/you")({
 });
 
 function YouPage() {
-  const { name, onboarded, interests, goingIds, connectedIds, createdEvents, city, savedIds, incomingRequests, myPlans, session } = useApp();
+  const {
+    name,
+    onboarded,
+    interests,
+    goingIds,
+    connectedIds,
+    createdEvents,
+    city,
+    savedIds,
+    incomingRequests,
+    myPlans,
+    session,
+  } = useApp();
   const going = events.filter((e) => goingIds.includes(e.id));
   const connections = people.filter((p) => connectedIds.includes(p.id));
 
@@ -78,7 +110,10 @@ function YouPage() {
             {interests.map((i) => {
               const meta = allInterests.find((x) => x.id === i);
               return (
-                <span key={i} className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold">
+                <span
+                  key={i}
+                  className="rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold"
+                >
                   {meta?.emoji} {meta?.label}
                 </span>
               );
@@ -109,9 +144,19 @@ function YouPage() {
         )}
 
         <section className="flex flex-col gap-1.5">
-          <Row to="/wallet" icon={Wallet} label="Wallet & receipts" hint="Cards, tickets, refunds" />
+          <Row
+            to="/wallet"
+            icon={Wallet}
+            label="Wallet & receipts"
+            hint="Cards, tickets, refunds"
+          />
           <Row to="/membership" icon={Crown} label="IRL NOW+" hint="Early access, no fees" />
-          <Row to="/plans" icon={Users} label="Plans" hint={myPlans.length ? `${myPlans.length} yours` : "Bring people"} />
+          <Row
+            to="/plans"
+            icon={Users}
+            label="Plans"
+            hint={myPlans.length ? `${myPlans.length} yours` : "Bring people"}
+          />
           <Row to="/host" icon={LayoutDashboard} label="Organiser workspace" hint="2 events" />
           <Row to="/venue" icon={Store} label="Venue portal" hint="Fill empty capacity" />
           <Row to="/admin" icon={ShieldAlert} label="Platform admin" hint="Internal" />
@@ -119,19 +164,32 @@ function YouPage() {
             to="/connections"
             icon={Users}
             label="Connections"
-            hint={incomingRequests.length ? `${incomingRequests.length} requests` : `${connections.length} people`}
+            hint={
+              incomingRequests.length
+                ? `${incomingRequests.length} requests`
+                : `${connections.length} people`
+            }
           />
           <Row to="/messages" icon={MessageCircle} label="Messages" hint="Chats & DMs" />
           <Row to="/notifications" icon={Bell} label="Notifications" hint="Events & people only" />
           <Row to="/saved" icon={Bookmark} label="Saved" hint={`${savedIds.length} plans`} />
           <Row to="/memories" icon={Images} label="My memories" hint="9 photos" />
-          <Row to="/archive" icon={History} label="Memory archive" hint="Your year, month by month" />
-
+          <Row
+            to="/archive"
+            icon={History}
+            label="Memory archive"
+            hint="Your year, month by month"
+          />
 
           <Row to="/invite" icon={Gift} label="Invite friends" hint="3 friends = a free month" />
           <Row to="/safety" icon={LifeBuoy} label="Safety centre" hint="Blocks, reports, help" />
           <Row to="/privacy" icon={Shield} label="Privacy & safety" hint="Who sees you" />
-          <Row to="/settings" icon={Settings} label="Account settings" hint={session ? session.handle : "Not signed in"} />
+          <Row
+            to="/settings"
+            icon={Settings}
+            label="Account settings"
+            hint={session ? session.handle : "Not signed in"}
+          />
           <RowStatic icon={HelpCircle} label="Help & support" />
         </section>
       </main>
@@ -144,14 +202,26 @@ function Stat({ value, label }: { value: number; label: string }) {
   return (
     <div className="rounded-2xl border border-border bg-card p-3 text-center">
       <p className="font-display text-2xl font-extrabold">{value}</p>
-      <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </p>
     </div>
   );
 }
 
 type IconType = React.ComponentType<{ className?: string }>;
 
-function Row({ to, icon: Icon, label, hint }: { to: string; icon: IconType; label: string; hint?: string }) {
+function Row({
+  to,
+  icon: Icon,
+  label,
+  hint,
+}: {
+  to: string;
+  icon: IconType;
+  label: string;
+  hint?: string;
+}) {
   return (
     <Link
       to={to}

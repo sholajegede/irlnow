@@ -10,7 +10,13 @@ const tierStyles: Record<string, string> = {
   "Signature host": "bg-gradient-brand text-primary-foreground",
 };
 
-export function HostReputation({ organiserId, compact }: { organiserId: string; compact?: boolean }) {
+export function HostReputation({
+  organiserId,
+  compact,
+}: {
+  organiserId: string;
+  compact?: boolean;
+}) {
   const { eventRatings, verifiedSteps, completeVerification } = useApp();
   const r = hostReliability(organiserId, Object.values(eventRatings));
   const doneSteps = verificationSteps.filter((s) => verifiedSteps.includes(s.id)).length;
@@ -39,17 +45,29 @@ export function HostReputation({ organiserId, compact }: { organiserId: string; 
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        <Signal icon={Users} value={`${Math.round(r.showRate * 100)}%`} label="Turn up after saying yes" />
-        <Signal icon={Repeat} value={`${Math.round(r.returnRate * 100)}%`} label="Would come again" />
-        <Signal icon={Clock3} value={`${Math.round(r.onTimeRate * 100)}%`} label="Started on time" />
+        <Signal
+          icon={Users}
+          value={`${Math.round(r.showRate * 100)}%`}
+          label="Turn up after saying yes"
+        />
+        <Signal
+          icon={Repeat}
+          value={`${Math.round(r.returnRate * 100)}%`}
+          label="Would come again"
+        />
+        <Signal
+          icon={Clock3}
+          value={`${Math.round(r.onTimeRate * 100)}%`}
+          label="Started on time"
+        />
         <Signal icon={TrendingUp} value={String(r.repeatGuests)} label="Guests who came back" />
       </div>
 
       {!compact && (
         <>
           <p className="text-xs text-muted-foreground">
-            Reputation decides where your events sit in Discover. Turnout and honest descriptions move it
-            more than ratings do — replies within {r.responseHours}h keep it steady.
+            Reputation decides where your events sit in Discover. Turnout and honest descriptions
+            move it more than ratings do — replies within {r.responseHours}h keep it steady.
           </p>
 
           {r.nextTier && (
@@ -80,7 +98,9 @@ export function HostReputation({ organiserId, compact }: { organiserId: string; 
                   <span
                     className={cn(
                       "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold",
-                      done ? "bg-accent text-accent-foreground" : "bg-background text-muted-foreground",
+                      done
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-background text-muted-foreground",
                     )}
                   >
                     {done ? "✓" : `${s.minutes}m`}

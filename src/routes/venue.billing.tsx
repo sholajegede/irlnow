@@ -44,10 +44,15 @@ function VenueBilling() {
 
       <main className="flex flex-col gap-5 p-4">
         <section className="rounded-3xl border border-border bg-card p-4">
-          <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Outstanding</p>
-          <p className="mt-1 font-display text-4xl font-extrabold tracking-tight">{money(outstanding)}</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            Outstanding
+          </p>
+          <p className="mt-1 font-display text-4xl font-extrabold tracking-tight">
+            {money(outstanding)}
+          </p>
           <p className="mt-2 text-xs text-muted-foreground">
-            No subscription, no listing fee. You're charged only for people who claimed a spot and turned up.
+            No subscription, no listing fee. You're charged only for people who claimed a spot and
+            turned up.
           </p>
         </section>
 
@@ -62,7 +67,8 @@ function VenueBilling() {
                     <p className="font-display font-bold">{inv.period}</p>
                     <p className="text-xs text-muted-foreground">
                       {inv.attendees} attendees delivered ·{" "}
-                      {inv.attendees ? money(Math.round(inv.amount / inv.attendees)) : money(0)} each
+                      {inv.attendees ? money(Math.round(inv.amount / inv.attendees)) : money(0)}{" "}
+                      each
                     </p>
                   </div>
                   <p className="font-display text-lg font-extrabold">{money(inv.amount)}</p>

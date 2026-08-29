@@ -167,7 +167,6 @@ function KeepPage() {
     );
   }
 
-
   return (
     <div className="relative flex min-h-dvh flex-col">
       {/* Fading grid of what's at stake */}
@@ -222,8 +221,8 @@ function KeepPage() {
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           {stats.total} photos, {stats.contributors} people and every face tag from{" "}
           <span className="font-semibold text-foreground">{event?.title ?? "this event"}</span>.
-          Free accounts keep a wall for {FREE_RETENTION_DAYS} days. Members keep every wall they were
-          ever on.
+          Free accounts keep a wall for {FREE_RETENTION_DAYS} days. Members keep every wall they
+          were ever on.
         </p>
 
         <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-secondary">
@@ -238,12 +237,19 @@ function KeepPage() {
 
         <ul className="mt-5 space-y-2">
           {[
-            { icon: InfinityIcon, t: "Every wall kept forever", s: "Past, present and future events" },
+            {
+              icon: InfinityIcon,
+              t: "Every wall kept forever",
+              s: "Past, present and future events",
+            },
             { icon: Download, t: "Full-resolution downloads", s: "Your photo pack, no watermark" },
             { icon: Users, t: "Face tags stay searchable", s: "Find the people you met again" },
             { icon: Sparkles, t: "No booking fees", s: "Members skip the fee on every ticket" },
           ].map((f) => (
-            <li key={f.t} className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card/80 p-3 backdrop-blur">
+            <li
+              key={f.t}
+              className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card/80 p-3 backdrop-blur"
+            >
               <f.icon className="h-4.5 w-4.5 shrink-0 text-accent" />
               <span className="min-w-0">
                 <span className="block text-sm font-bold">{f.t}</span>
@@ -301,8 +307,7 @@ function KeepPage() {
 
           className="mt-4 flex h-14 items-center justify-center gap-2 rounded-2xl bg-gradient-brand font-display text-base font-extrabold text-primary-foreground shadow-glow active:scale-[0.98]"
         >
-          <Check className="h-5 w-5" strokeWidth={3} /> Keep them for £
-          {(price / 100).toFixed(2)}
+          <Check className="h-5 w-5" strokeWidth={3} /> Keep them for £{(price / 100).toFixed(2)}
         </button>
         <p className="mt-2 text-center text-[11px] text-muted-foreground">
           Cancel any time — anything you've kept stays kept for 12 months after.

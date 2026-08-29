@@ -90,7 +90,9 @@ function MessagesPage() {
         </Link>
         <div>
           <p className="font-display text-lg font-extrabold tracking-tight">Messages</p>
-          <p className="text-xs text-muted-foreground">Only events you're going to and people you've met</p>
+          <p className="text-xs text-muted-foreground">
+            Only events you're going to and people you've met
+          </p>
         </div>
       </header>
 

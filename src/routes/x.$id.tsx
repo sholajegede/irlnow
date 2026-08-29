@@ -17,10 +17,8 @@ export const Route = createFileRoute("/x/$id")({
     }
     const e = loaderData.event;
     const title = `${e.title} — ${e.dateLabel}, ${e.area} | IRL NOW`;
-    const description = `${e.description} ${e.goingCount} people going. ${e.price} · ${e.location}.`.slice(
-      0,
-      158,
-    );
+    const description =
+      `${e.description} ${e.goingCount} people going. ${e.price} · ${e.location}.`.slice(0, 158);
     return {
       meta: [
         { title },

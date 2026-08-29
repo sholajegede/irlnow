@@ -141,7 +141,6 @@ export interface KeepReceipt {
   card: string;
 }
 
-
 interface AppState {
   onboarded: boolean;
   name: string;
@@ -213,7 +212,12 @@ interface AppState {
   addCard: (m: PaymentMethod) => void;
   removeCard: (id: string) => void;
   setDefaultCard: (id: string) => void;
-  completeOnboarding: (p: { name: string; email: string; city: string; interests: string[] }) => void;
+  completeOnboarding: (p: {
+    name: string;
+    email: string;
+    city: string;
+    interests: string[];
+  }) => void;
   toggleGoing: (id: string) => void;
   toggleSaved: (id: string) => void;
   toggleConnected: (id: string) => void;
@@ -370,7 +374,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [mutedThreads, setMutedThreads] = useState<string[]>([]);
   const [readNotificationIds, setReadNotificationIds] = useState<string[]>([]);
   const [liveReplies, setLiveReplies] = useState<Record<string, LiveMessage[]>>({});
-  const [unreadThreads, setUnreadThreads] = useState<string[]>(["event:rooftop-golden-hour", "dm:marcus"]);
+  const [unreadThreads, setUnreadThreads] = useState<string[]>([
+    "event:rooftop-golden-hour",
+    "dm:marcus",
+  ]);
   const [pinnedMessages, setPinnedMessages] = useState<Record<string, string>>({});
   const [reactions, setReactions] = useState<Record<string, string[]>>({});
   const [dismissedNotificationIds, setDismissedNotificationIds] = useState<string[]>([]);
@@ -429,7 +436,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [reviews, setReviews] = useState<Record<string, OrganiserReview>>({});
   const [noShows, setNoShows] = useState<Record<string, string[]>>({});
   const [hostOnboardSteps, setHostOnboardSteps] = useState<string[]>([]);
-  const [venueClaim, setVenueClaim] = useState<{ name: string; area: string; capacity: number } | null>(null);
+  const [venueClaim, setVenueClaim] = useState<{
+    name: string;
+    area: string;
+    capacity: number;
+  } | null>(null);
   const [broadcasts, setBroadcasts] = useState<Broadcast[]>([]);
   const [eventEdits, setEventEdits] = useState<Record<string, EventEdit>>({});
   const [keptForever, setKeptForever] = useState<string[]>([]);
@@ -453,8 +464,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     decidedAt: null,
   });
   const [keepReceipts, setKeepReceipts] = useState<Record<string, KeepReceipt>>({});
-
-
 
   const value = useMemo<AppState>(
     () => ({
@@ -545,9 +554,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       toggleSaved: (id) =>
         setSavedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])),
       toggleConnected: (id) =>
-        setConnectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])),
+        setConnectedIds((prev) =>
+          prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+        ),
       toggleGoingSolo: (id) =>
-        setGoingSoloIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])),
+        setGoingSoloIds((prev) =>
+          prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+        ),
       addCreatedEvent: (e) => setCreatedEvents((prev) => [...prev, e]),
       setGuest: (p) => {
         setGuestName(p.name);
@@ -558,17 +571,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
       addUploads: (eventId, items) =>
         setUploads((prev) => ({ ...prev, [eventId]: [...items, ...(prev[eventId] ?? [])] })),
       toggleWaitlist: (id) =>
-        setWaitlistIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])),
+        setWaitlistIds((prev) =>
+          prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+        ),
       toggleCrewInvite: (eventId, personId) =>
         setCrews((prev) => {
           const cur = prev[eventId] ?? [];
           return {
             ...prev,
-            [eventId]: cur.includes(personId) ? cur.filter((x) => x !== personId) : [...cur, personId],
+            [eventId]: cur.includes(personId)
+              ? cur.filter((x) => x !== personId)
+              : [...cur, personId],
           };
         }),
       toggleFollowSeries: (id) =>
-        setFollowedSeriesIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])),
+        setFollowedSeriesIds((prev) =>
+          prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+        ),
       claimWall: (eventId, identity) => {
         setGuestName(identity.name);
         setGuestEmail(identity.email);
@@ -596,7 +615,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       sendMessage: (threadId, text) => {
         setSentMessages((prev) => ({
           ...prev,
-          [threadId]: [...(prev[threadId] ?? []), { id: `${threadId}-${Date.now()}`, text, minutesAgo: 0 }],
+          [threadId]: [
+            ...(prev[threadId] ?? []),
+            { id: `${threadId}-${Date.now()}`, text, minutesAgo: 0 },
+          ],
         }));
         setUnreadThreads((prev) => prev.filter((x) => x !== threadId));
       },
@@ -613,7 +635,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       toggleReaction: (key, emoji) =>
         setReactions((prev) => {
           const list = prev[key] ?? [];
-          return { ...prev, [key]: list.includes(emoji) ? list.filter((x) => x !== emoji) : [...list, emoji] };
+          return {
+            ...prev,
+            [key]: list.includes(emoji) ? list.filter((x) => x !== emoji) : [...list, emoji],
+          };
         }),
       dismissNotification: (id) =>
         setDismissedNotificationIds((prev) => (prev.includes(id) ? prev : [...prev, id])),
@@ -642,7 +667,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       releaseDrop: (id) => setClaimedDropIds((prev) => prev.filter((x) => x !== id)),
       addPlan: (p) => setMyPlans((prev) => [p, ...prev]),
       togglePlanIn: (id) =>
-        setJoinedPlanIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])),
+        setJoinedPlanIds((prev) =>
+          prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+        ),
       votePlan: (planId, optionId) => setPlanVotes((prev) => ({ ...prev, [planId]: optionId })),
       publishDrop: (d) => setPublishedDrops((prev) => [d, ...prev]),
       confirmTag: (key) => setConfirmedTags((prev) => (prev.includes(key) ? prev : [...prev, key])),
@@ -701,7 +728,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       },
       markCalendarAdded: (eventId) =>
         setCalendarAdded((prev) => (prev.includes(eventId) ? prev : [...prev, eventId])),
-      lockPlan: (planId) => setLockedPlans((prev) => (prev.includes(planId) ? prev : [...prev, planId])),
+      lockPlan: (planId) =>
+        setLockedPlans((prev) => (prev.includes(planId) ? prev : [...prev, planId])),
       togglePlanSplit: (planId) =>
         setPlanSplitsIn((prev) =>
           prev.includes(planId) ? prev.filter((x) => x !== planId) : [...prev, planId],
@@ -781,7 +809,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
           const list = prev[eventId] ?? [];
           return {
             ...prev,
-            [eventId]: list.includes(guestId) ? list.filter((x) => x !== guestId) : [...list, guestId],
+            [eventId]: list.includes(guestId)
+              ? list.filter((x) => x !== guestId)
+              : [...list, guestId],
           };
         }),
       hostOnboardSteps,
@@ -807,7 +837,87 @@ export function AppProvider({ children }: { children: ReactNode }) {
       settings,
       updateSettings: (s) => setSettings((prev) => ({ ...prev, ...s })),
     }),
-    [onboarded, name, email, city, interests, goingIds, savedIds, connectedIds, goingSoloIds, createdEvents, guestName, guestEmail, checkedInIds, uploads, waitlistIds, crews, followedSeriesIds, claimedWallIds, birthday, recapDismissed, incomingRequests, outgoingRequests, blockedIds, reportedIds, sentMessages, mutedThreads, readNotificationIds, liveReplies, unreadThreads, pinnedMessages, reactions, dismissedNotificationIds, privacy, notifPrefs, orders, claimedDropIds, myPlans, joinedPlanIds, planVotes, publishedDrops, confirmedTags, skippedTags, downloadedPacks, eventRatings, metRequests, dismissedMetPrompts, sharedRecaps, waitlistHolds, declinedHolds, plusOnes, transfers, calendarAdded, lockedPlans, planSplitsIn, doorCheckins, savedTemplates, templateDraft, verifiedSteps, repeatSchedules, membership, boosts, paidInvoices, cards, defaultCardId, session, reports, cancelledEvents, invites, reviews, noShows, hostOnboardSteps, venueClaim, broadcasts, eventEdits, keptForever, notifRetention, devicePush, keepReceipts, settings],
+    [
+      onboarded,
+      name,
+      email,
+      city,
+      interests,
+      goingIds,
+      savedIds,
+      connectedIds,
+      goingSoloIds,
+      createdEvents,
+      guestName,
+      guestEmail,
+      checkedInIds,
+      uploads,
+      waitlistIds,
+      crews,
+      followedSeriesIds,
+      claimedWallIds,
+      birthday,
+      recapDismissed,
+      incomingRequests,
+      outgoingRequests,
+      blockedIds,
+      reportedIds,
+      sentMessages,
+      mutedThreads,
+      readNotificationIds,
+      liveReplies,
+      unreadThreads,
+      pinnedMessages,
+      reactions,
+      dismissedNotificationIds,
+      privacy,
+      notifPrefs,
+      orders,
+      claimedDropIds,
+      myPlans,
+      joinedPlanIds,
+      planVotes,
+      publishedDrops,
+      confirmedTags,
+      skippedTags,
+      downloadedPacks,
+      eventRatings,
+      metRequests,
+      dismissedMetPrompts,
+      sharedRecaps,
+      waitlistHolds,
+      declinedHolds,
+      plusOnes,
+      transfers,
+      calendarAdded,
+      lockedPlans,
+      planSplitsIn,
+      doorCheckins,
+      savedTemplates,
+      templateDraft,
+      verifiedSteps,
+      repeatSchedules,
+      membership,
+      boosts,
+      paidInvoices,
+      cards,
+      defaultCardId,
+      session,
+      reports,
+      cancelledEvents,
+      invites,
+      reviews,
+      noShows,
+      hostOnboardSteps,
+      venueClaim,
+      broadcasts,
+      eventEdits,
+      keptForever,
+      notifRetention,
+      devicePush,
+      keepReceipts,
+      settings,
+    ],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

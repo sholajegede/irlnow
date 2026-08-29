@@ -24,7 +24,10 @@ export const Route = createFileRoute("/host/templates")({
           "Turn a night that worked into a repeatable format: reuse the details, pick a cadence and publish the next four dates in one go.",
       },
       { property: "og:title", content: "Run it again — event templates" },
-      { property: "og:description", content: "The second event should take two minutes, not twenty." },
+      {
+        property: "og:description",
+        content: "The second event should take two minutes, not twenty.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -34,7 +37,8 @@ export const Route = createFileRoute("/host/templates")({
 
 function TemplatesPage() {
   const navigate = useNavigate();
-  const { savedTemplates, useTemplate, removeTemplate, scheduleRepeats, repeatSchedules } = useApp();
+  const { savedTemplates, useTemplate, removeTemplate, scheduleRepeats, repeatSchedules } =
+    useApp();
   const [open, setOpen] = useState<string | null>(null);
   const [cadence, setCadence] = useState<Cadence>("monthly");
 
@@ -50,7 +54,11 @@ function TemplatesPage() {
   return (
     <div className="flex min-h-dvh flex-col pb-24">
       <header className="sticky top-0 z-40 flex items-center gap-3 border-b border-border/60 bg-background/85 px-4 py-3 backdrop-blur-xl">
-        <Link to="/host" aria-label="Back" className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
+        <Link
+          to="/host"
+          aria-label="Back"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary"
+        >
           <ArrowLeft className="h-4 w-4" />
         </Link>
         <h1 className="font-display text-lg font-extrabold">Run it again</h1>
@@ -58,8 +66,9 @@ function TemplatesPage() {
 
       <main className="flex flex-col gap-6 p-4">
         <p className="text-sm text-muted-foreground">
-          The events that build a following are the ones that come back. Reuse a format, pick how often, and
-          the next dates go up together — people can follow the whole series instead of catching one night.
+          The events that build a following are the ones that come back. Reuse a format, pick how
+          often, and the next dates go up together — people can follow the whole series instead of
+          catching one night.
         </p>
 
         {all.map((group) => (
@@ -69,7 +78,10 @@ function TemplatesPage() {
               const scheduled = repeatSchedules[t.id] ?? [];
               const isOpen = open === t.id;
               return (
-                <article key={t.id} className="overflow-hidden rounded-3xl border border-border bg-card">
+                <article
+                  key={t.id}
+                  className="overflow-hidden rounded-3xl border border-border bg-card"
+                >
                   <div className="flex gap-3 p-3">
                     <img
                       src={eventCovers[t.cover]}
@@ -95,7 +107,9 @@ function TemplatesPage() {
                       <p className="text-xs font-bold text-accent">
                         {scheduled.length} dates published · following opens today
                       </p>
-                      <p className="mt-0.5 text-xs text-muted-foreground">{scheduled.join(" · ")}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        {scheduled.join(" · ")}
+                      </p>
                     </div>
                   )}
 
@@ -125,7 +139,10 @@ function TemplatesPage() {
                       </p>
                       <button
                         onClick={() => {
-                          scheduleRepeats(t.id, dates.map((d) => d.label));
+                          scheduleRepeats(
+                            t.id,
+                            dates.map((d) => d.label),
+                          );
                           setOpen(null);
                         }}
                         className="mt-3 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-brand text-sm font-bold text-primary-foreground shadow-glow"

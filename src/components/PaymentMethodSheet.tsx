@@ -115,9 +115,13 @@ export function PaymentMethodSheet({
             saving && "opacity-70",
           )}
         >
-          {saving ? "Saving…" : <>
-            <Plus className="h-4 w-4" /> Save card
-          </>}
+          {saving ? (
+            "Saving…"
+          ) : (
+            <>
+              <Plus className="h-4 w-4" /> Save card
+            </>
+          )}
         </button>
       </div>
     </div>
@@ -157,7 +161,9 @@ export function MethodPicker({
               <span className="block text-xs text-muted-foreground">Expires {m.expiry}</span>
             )}
           </span>
-          {selectedId === m.id && <Check className="h-4 w-4 shrink-0 text-primary" strokeWidth={3} />}
+          {selectedId === m.id && (
+            <Check className="h-4 w-4 shrink-0 text-primary" strokeWidth={3} />
+          )}
         </button>
       ))}
       <button

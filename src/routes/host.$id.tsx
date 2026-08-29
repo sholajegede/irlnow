@@ -42,7 +42,9 @@ export const Route = createFileRoute("/host/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Event unavailable | IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Event unavailable | IRL NOW" }, { name: "robots", content: "noindex" }],
+      };
     }
     const t = `Manage ${loaderData.event.title} | IRL NOW`;
     return {
@@ -102,12 +104,20 @@ function HostEvent() {
     <div className="flex min-h-dvh flex-col pb-24">
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur-xl">
         <div className="flex items-center gap-3 px-4 py-3">
-          <Link to="/host" aria-label="Back to workspace" className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
+          <Link
+            to="/host"
+            aria-label="Back to workspace"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary"
+          >
             <ArrowLeft className="h-4 w-4" />
           </Link>
           <div className="min-w-0">
-            <h1 className="truncate font-display text-lg font-extrabold leading-tight">{event.title}</h1>
-            <p className="text-xs text-muted-foreground">{event.dateLabel} · {event.area}</p>
+            <h1 className="truncate font-display text-lg font-extrabold leading-tight">
+              {event.title}
+            </h1>
+            <p className="text-xs text-muted-foreground">
+              {event.dateLabel} · {event.area}
+            </p>
           </div>
         </div>
         <div className="flex gap-1 overflow-x-auto px-3 pb-2">
@@ -117,7 +127,9 @@ function HostEvent() {
               onClick={() => setTab(t.id)}
               className={cn(
                 "h-9 shrink-0 rounded-full px-4 text-xs font-bold transition-colors",
-                tab === t.id ? "bg-gradient-brand text-primary-foreground" : "bg-secondary text-secondary-foreground",
+                tab === t.id
+                  ? "bg-gradient-brand text-primary-foreground"
+                  : "bg-secondary text-secondary-foreground",
               )}
             >
               {t.label}
@@ -147,7 +159,8 @@ function HostEvent() {
                 />
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
-                Filling faster than {Math.round(60 + event.goingCount / 4)}% of events in {event.area}.
+                Filling faster than {Math.round(60 + event.goingCount / 4)}% of events in{" "}
+                {event.area}.
               </p>
             </section>
 
@@ -165,7 +178,10 @@ function HostEvent() {
                     </span>
                   </div>
                   <div className="h-1.5 overflow-hidden rounded-full bg-muted">
-                    <div className="h-full rounded-full bg-accent" style={{ width: `${(row.going / 60) * 100}%` }} />
+                    <div
+                      className="h-full rounded-full bg-accent"
+                      style={{ width: `${(row.going / 60) * 100}%` }}
+                    />
                   </div>
                 </div>
               ))}
@@ -191,7 +207,8 @@ function HostEvent() {
                 className="flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-brand text-sm font-bold text-primary-foreground disabled:opacity-40"
                 disabled={!broadcast.trim()}
               >
-                <Send className="h-4 w-4" /> {sent ? "Sent to all guests" : `Send to ${event.goingCount} guests`}
+                <Send className="h-4 w-4" />{" "}
+                {sent ? "Sent to all guests" : `Send to ${event.goingCount} guests`}
               </button>
             </section>
 
@@ -250,7 +267,8 @@ function HostEvent() {
               />
             </div>
             <p className="text-xs text-muted-foreground">
-              {checkedIn} checked in · {filtered.length} shown. Tap a guest to check them in at the door.
+              {checkedIn} checked in · {filtered.length} shown. Tap a guest to check them in at the
+              door.
             </p>
             <div className="flex flex-col gap-2">
               {filtered.map((g) => (
@@ -259,7 +277,9 @@ function HostEvent() {
                   guest={g}
                   manual={manual.includes(g.id)}
                   onToggle={() =>
-                    setManual((prev) => (prev.includes(g.id) ? prev.filter((x) => x !== g.id) : [...prev, g.id]))
+                    setManual((prev) =>
+                      prev.includes(g.id) ? prev.filter((x) => x !== g.id) : [...prev, g.id],
+                    )
                   }
                 />
               ))}
@@ -298,7 +318,8 @@ function HostEvent() {
                 ))}
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
-                Guests upload straight from the door QR — no app, no account. Hide anything you don't want on the wall.
+                Guests upload straight from the door QR — no app, no account. Hide anything you
+                don't want on the wall.
               </p>
             </section>
 
@@ -322,7 +343,9 @@ function HostEvent() {
           </>
         )}
 
-        {tab === "money" && <MoneyTab event={event} sold={Math.max(6, Math.round(event.goingCount * 0.6))} />}
+        {tab === "money" && (
+          <MoneyTab event={event} sold={Math.max(6, Math.round(event.goingCount * 0.6))} />
+        )}
 
         {tab === "recap" && (
           <>
@@ -330,15 +353,24 @@ function HostEvent() {
               <Heart className="mx-auto h-8 w-8 text-primary" />
               <h2 className="mt-2 font-display text-2xl font-extrabold">That one landed</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                {attended} people showed up, stayed an average of 2h 40m, and {Math.round(attended * 0.42)} made a new
-                connection they kept.
+                {attended} people showed up, stayed an average of 2h 40m, and{" "}
+                {Math.round(attended * 0.42)} made a new connection they kept.
               </p>
             </section>
 
             <div className="grid grid-cols-2 gap-2">
-              <Metric icon={BadgeCheck} value={`${Math.round((checkedIn / guests.length) * 100)}%`} label="Turnout" accent />
+              <Metric
+                icon={BadgeCheck}
+                value={`${Math.round((checkedIn / guests.length) * 100)}%`}
+                label="Turnout"
+                accent
+              />
               <Metric icon={Camera} value={String(wall.length * 4)} label="Photos shared" />
-              <Metric icon={Users} value={String(Math.round(attended * 0.42))} label="New connections" />
+              <Metric
+                icon={Users}
+                value={String(Math.round(attended * 0.42))}
+                label="New connections"
+              />
               <Metric icon={Heart} value="4.8" label="Guest rating" />
             </div>
 
@@ -364,7 +396,15 @@ function HostEvent() {
   );
 }
 
-function GuestRow({ guest, manual, onToggle }: { guest: Guest; manual: boolean; onToggle: () => void }) {
+function GuestRow({
+  guest,
+  manual,
+  onToggle,
+}: {
+  guest: Guest;
+  manual: boolean;
+  onToggle: () => void;
+}) {
   const status: GuestStatus = manual ? "checked-in" : guest.status;
   return (
     <button
@@ -379,7 +419,12 @@ function GuestRow({ guest, manual, onToggle }: { guest: Guest; manual: boolean; 
         </p>
         <p className="text-[11px] text-muted-foreground">via {guest.source}</p>
       </div>
-      <span className={cn("rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide", statusStyles[status])}>
+      <span
+        className={cn(
+          "rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide",
+          statusStyles[status],
+        )}
+      >
         {status === "checked-in" ? "In" : status}
       </span>
     </button>
@@ -401,7 +446,9 @@ function Metric({
     <div className="rounded-2xl border border-border bg-card p-3 text-center">
       <Icon className={cn("mx-auto h-4 w-4", accent ? "text-accent" : "text-primary")} />
       <p className="mt-1 font-display text-xl font-extrabold leading-none">{value}</p>
-      <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </p>
     </div>
   );
 }
@@ -418,8 +465,8 @@ function MoneyTab({ event, sold }: { event: IrlEvent; sold: number }) {
         <Banknote className="mx-auto h-8 w-8 text-accent" />
         <h2 className="mt-2 font-display text-xl font-extrabold">This one's free</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Free events cost you nothing. If you start charging, it's 5% + 40p a ticket and the money lands
-          three working days after the event.
+          Free events cost you nothing. If you start charging, it's 5% + 40p a ticket and the money
+          lands three working days after the event.
         </p>
         <Link
           to="/host/payouts"
@@ -434,7 +481,9 @@ function MoneyTab({ event, sold }: { event: IrlEvent; sold: number }) {
   return (
     <div className="flex flex-col gap-4">
       <section className="rounded-3xl border border-accent/30 bg-accent/10 p-5">
-        <p className="text-[11px] font-bold uppercase tracking-widest text-accent">You'll receive</p>
+        <p className="text-[11px] font-bold uppercase tracking-widest text-accent">
+          You'll receive
+        </p>
         <p className="mt-1 font-display text-4xl font-extrabold">{money(gross - fees)}</p>
         <p className="mt-1 text-sm text-muted-foreground">
           {sold} tickets · {money(gross)} taken · {money(fees)} fees
@@ -457,7 +506,10 @@ function MoneyTab({ event, sold }: { event: IrlEvent; sold: number }) {
                 {count} sold · {t.left} left
               </p>
               <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-secondary">
-                <div className="h-full rounded-full bg-gradient-brand" style={{ width: `${share * 100}%` }} />
+                <div
+                  className="h-full rounded-full bg-gradient-brand"
+                  style={{ width: `${share * 100}%` }}
+                />
               </div>
             </div>
           );
@@ -472,7 +524,10 @@ function MoneyTab({ event, sold }: { event: IrlEvent; sold: number }) {
             <p className="mt-0.5 text-xs text-muted-foreground">
               {q.options
                 ? q.options
-                    .map((o, j) => `${o} ${Math.max(1, Math.round((sold * (j === 0 ? 0.5 : 0.25)) / (i + 1)))}`)
+                    .map(
+                      (o, j) =>
+                        `${o} ${Math.max(1, Math.round((sold * (j === 0 ? 0.5 : 0.25)) / (i + 1)))}`,
+                    )
                     .join(" · ")
                 : `${Math.round(sold * 0.3)} people left a note — read them before you shop`}
             </p>

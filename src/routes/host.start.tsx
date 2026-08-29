@@ -79,7 +79,9 @@ function HostStart() {
         </Link>
         <div>
           <p className="font-display text-lg font-extrabold tracking-tight">Start hosting</p>
-          <p className="text-xs text-muted-foreground">{doneCount} of {STEPS.length} done</p>
+          <p className="text-xs text-muted-foreground">
+            {doneCount} of {STEPS.length} done
+          </p>
         </div>
       </header>
 
@@ -90,8 +92,8 @@ function HostStart() {
             The first 30 people are the hard part
           </h1>
           <p className="mt-1 text-sm opacity-90">
-            IRL NOW puts your event in front of people already going out in your area tonight. You bring the
-            room, we bring the demand.
+            IRL NOW puts your event in front of people already going out in your area tonight. You
+            bring the room, we bring the demand.
           </p>
           <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-background/25">
             <div className="h-full rounded-full bg-background" style={{ width: `${pct}%` }} />
@@ -116,7 +118,11 @@ function HostStart() {
                       done ? "bg-accent text-accent-foreground" : "bg-secondary text-primary",
                     )}
                   >
-                    {done ? <Check className="h-5 w-5" strokeWidth={3} /> : <s.icon className="h-5 w-5" />}
+                    {done ? (
+                      <Check className="h-5 w-5" strokeWidth={3} />
+                    ) : (
+                      <s.icon className="h-5 w-5" />
+                    )}
                   </span>
                   <div className="flex-1">
                     <p className="font-display text-base font-extrabold">
@@ -150,7 +156,9 @@ function HostStart() {
         <section className="rounded-3xl border border-border bg-card p-4">
           <div className="flex items-center gap-2">
             <Users className="h-4 w-4 text-primary" />
-            <h2 className="font-display text-sm font-extrabold uppercase tracking-wider">What it costs</h2>
+            <h2 className="font-display text-sm font-extrabold uppercase tracking-wider">
+              What it costs
+            </h2>
           </div>
           <ul className="mt-2 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
             <li>· Free events: free, always.</li>

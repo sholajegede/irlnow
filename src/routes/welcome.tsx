@@ -26,10 +26,26 @@ export const Route = createFileRoute("/welcome")({
 });
 
 const steps = [
-  { icon: Sparkles, title: "See what's on", body: "Ten real plans in your city, day and night. Then the feed stops and tells you to go outside." },
-  { icon: Users, title: "See who's going", body: "Shared interests, mutual friends, people going solo. Confidence before you commit." },
-  { icon: QrCode, title: "Scan in at the door", body: "No app download, no ticket app. Just your first name and you're in." },
-  { icon: Camera, title: "Wake up to the memories", body: "Every photo from everyone who was there, waiting for you the morning after." },
+  {
+    icon: Sparkles,
+    title: "See what's on",
+    body: "Ten real plans in your city, day and night. Then the feed stops and tells you to go outside.",
+  },
+  {
+    icon: Users,
+    title: "See who's going",
+    body: "Shared interests, mutual friends, people going solo. Confidence before you commit.",
+  },
+  {
+    icon: QrCode,
+    title: "Scan in at the door",
+    body: "No app download, no ticket app. Just your first name and you're in.",
+  },
+  {
+    icon: Camera,
+    title: "Wake up to the memories",
+    body: "Every photo from everyone who was there, waiting for you the morning after.",
+  },
 ];
 
 function WelcomePage() {

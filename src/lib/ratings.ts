@@ -65,15 +65,18 @@ export function organiserQuality(organiserId: string, myRatings: EventRating[]):
   const stars =
     (historical * reviews + mine.reduce((a, r) => a + r.stars, 0)) / Math.max(1, totalReviews);
 
-  const returnBase = 0.68 + ((reviews % 20) / 100);
+  const returnBase = 0.68 + (reviews % 20) / 100;
   const returnRate = mine.length
     ? (returnBase * reviews + mine.filter((r) => r.wouldReturn).length) / totalReviews
     : returnBase;
 
-  const score = Math.round(Math.min(100, stars * 17 + returnRate * 15 + Math.min(8, totalReviews / 30)));
+  const score = Math.round(
+    Math.min(100, stars * 17 + returnRate * 15 + Math.min(8, totalReviews / 30)),
+  );
 
   const tagCounts = new Map<string, number>();
-  for (const r of mine) for (const t of r.tags.filter(isPositiveTag)) tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  for (const r of mine)
+    for (const t of r.tags.filter(isPositiveTag)) tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
   const seeded = organiser ? [organiser.blurb.split(".")[0]!] : [];
   const highlights = Array.from(tagCounts.entries())
     .sort((a, b) => b[1] - a[1])

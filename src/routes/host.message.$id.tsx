@@ -1,13 +1,29 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, BellRing, CloudRain, Clock, DoorOpen, MapPin, Megaphone, Send, Users } from "lucide-react";
+import {
+  ArrowLeft,
+  BellRing,
+  CloudRain,
+  Clock,
+  DoorOpen,
+  MapPin,
+  Megaphone,
+  Send,
+  Users,
+} from "lucide-react";
 import { getEvent } from "@/lib/data";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 type Audience = "going" | "waitlist" | "checked-in";
 
-const TEMPLATES: { id: string; icon: typeof MapPin; label: string; urgent: boolean; text: string }[] = [
+const TEMPLATES: {
+  id: string;
+  icon: typeof MapPin;
+  label: string;
+  urgent: boolean;
+  text: string;
+}[] = [
   {
     id: "venue",
     icon: MapPin,
@@ -59,7 +75,6 @@ const SEND_TIMES: { id: string; label: string; hint: string }[] = [
   { id: "2hbefore", label: "2 hours before doors", hint: "The highest-open slot we see" },
 ];
 
-
 export const Route = createFileRoute("/host/message/$id")({
   head: () => ({
     meta: [
@@ -99,15 +114,21 @@ function HostMessagePage() {
   const scheduled = sendAt !== "now";
   const sendLabel = SEND_TIMES.find((s) => s.id === sendAt)?.label ?? sendAt;
 
-
   return (
     <div className="flex min-h-dvh flex-col pb-16">
       <header className="sticky top-0 z-40 flex items-center gap-2 border-b border-border/60 bg-background/90 px-4 py-3 backdrop-blur-xl">
-        <Link to="/host/$id" params={{ id }} aria-label="Back" className="rounded-full p-1.5 active:bg-secondary">
+        <Link
+          to="/host/$id"
+          params={{ id }}
+          aria-label="Back"
+          className="rounded-full p-1.5 active:bg-secondary"
+        >
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div className="min-w-0">
-          <p className="truncate font-display text-lg font-extrabold tracking-tight">Message everyone</p>
+          <p className="truncate font-display text-lg font-extrabold tracking-tight">
+            Message everyone
+          </p>
           <p className="truncate text-xs text-muted-foreground">{event?.title ?? id}</p>
         </div>
       </header>
@@ -155,7 +176,9 @@ function HostMessagePage() {
                 onClick={() => setAudience(a.id)}
                 className={cn(
                   "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold",
-                  audience === a.id ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground",
+                  audience === a.id
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-muted-foreground",
                 )}
               >
                 {a.label}
@@ -167,7 +190,9 @@ function HostMessagePage() {
             onClick={() => setUrgent((u) => !u)}
             className={cn(
               "mt-2 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold",
-              urgent ? "bg-destructive text-destructive-foreground" : "bg-secondary text-muted-foreground",
+              urgent
+                ? "bg-destructive text-destructive-foreground"
+                : "bg-secondary text-muted-foreground",
             )}
           >
             <BellRing className="h-3 w-3" />
@@ -204,7 +229,6 @@ function HostMessagePage() {
             {scheduled && urgent ? " · urgent still overrides quiet hours on delivery" : ""}
           </p>
         </section>
-
 
         {/* Lock-screen preview of what guests get */}
         <section>
@@ -261,7 +285,9 @@ function HostMessagePage() {
           className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-brand font-display text-base font-extrabold text-primary-foreground shadow-glow disabled:opacity-40"
         >
           {scheduled ? <Clock className="h-5 w-5" /> : <Send className="h-5 w-5" />}
-          {scheduled ? `Schedule for ${sendLabel.toLowerCase()}` : `Send to ${reach} ${reach === 1 ? "guest" : "guests"}`}
+          {scheduled
+            ? `Schedule for ${sendLabel.toLowerCase()}`
+            : `Send to ${reach} ${reach === 1 ? "guest" : "guests"}`}
         </button>
         {pushed && (
           <p className="text-center text-xs font-bold text-accent">
@@ -301,7 +327,6 @@ function HostMessagePage() {
             ))}
           </section>
         )}
-
       </main>
     </div>
   );

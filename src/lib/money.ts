@@ -83,7 +83,12 @@ export type BoostAudience = "nearby" | "interest" | "returning";
 
 export const BOOST_BUDGETS = [1500, 3000, 6000, 12000];
 
-export const BOOST_AUDIENCES: { id: BoostAudience; label: string; blurb: string; strength: number }[] = [
+export const BOOST_AUDIENCES: {
+  id: BoostAudience;
+  label: string;
+  blurb: string;
+  strength: number;
+}[] = [
   {
     id: "nearby",
     label: "People nearby",
@@ -123,7 +128,12 @@ export function boostCostPerGuest(budget: number, audience: BoostAudience, days:
 }
 
 /** Does promoting pay for itself at this ticket price? */
-export function boostReturn(eventId: string, budget: number, audience: BoostAudience, days: number) {
+export function boostReturn(
+  eventId: string,
+  budget: number,
+  audience: BoostAudience,
+  days: number,
+) {
   const event = getEvent(eventId);
   const price = event ? priceToPence(event.price) : 0;
   const guests = boostAttendance(budget, audience, days);
@@ -132,7 +142,8 @@ export function boostReturn(eventId: string, budget: number, audience: BoostAudi
     guests,
     revenue,
     net: revenue - budget,
-    label: price === 0 ? "Free event — measured in attendance, not revenue" : money(revenue - budget),
+    label:
+      price === 0 ? "Free event — measured in attendance, not revenue" : money(revenue - budget),
   };
 }
 
@@ -148,10 +159,7 @@ export interface Invoice {
 
 export function venueInvoices(extraClaims: Record<string, number> = {}): Invoice[] {
   const mine = capacityDrops.filter((d) => d.venueId === myVenue.id);
-  const thisWeekAttendees = mine.reduce(
-    (s, d) => s + d.claimed + (extraClaims[d.id] ?? 0),
-    0,
-  );
+  const thisWeekAttendees = mine.reduce((s, d) => s + d.claimed + (extraClaims[d.id] ?? 0), 0);
   const thisWeekAmount = mine.reduce((s, d) => s + dropSpend(d, extraClaims[d.id] ?? 0), 0);
   return [
     {
@@ -163,7 +171,13 @@ export function venueInvoices(extraClaims: Record<string, number> = {}): Invoice
     },
     { id: "inv-33", period: "Week 33 · 11–17 Aug", attendees: 84, amount: 24600, status: "due" },
     { id: "inv-32", period: "Week 32 · 4–10 Aug", attendees: 71, amount: 20300, status: "paid" },
-    { id: "inv-31", period: "Week 31 · 28 Jul–3 Aug", attendees: 63, amount: 18100, status: "paid" },
+    {
+      id: "inv-31",
+      period: "Week 31 · 28 Jul–3 Aug",
+      attendees: 63,
+      amount: 18100,
+      status: "paid",
+    },
   ];
 }
 

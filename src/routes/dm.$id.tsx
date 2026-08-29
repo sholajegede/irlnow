@@ -18,7 +18,12 @@ export const Route = createFileRoute("/dm/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Conversation unavailable — IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [
+          { title: "Conversation unavailable — IRL NOW" },
+          { name: "robots", content: "noindex" },
+        ],
+      };
     }
     const title = `Chat with ${loaderData.person.name} — IRL NOW`;
     const description = `A private conversation with someone you actually met in real life.`;
@@ -79,10 +84,16 @@ function DirectMessage() {
         <Link to="/messages" aria-label="Back" className="rounded-full p-1.5 active:bg-secondary">
           <ArrowLeft className="h-5 w-5" />
         </Link>
-        <Link to="/person/$id" params={{ id: person.id }} className="flex min-w-0 flex-1 items-center gap-2.5">
+        <Link
+          to="/person/$id"
+          params={{ id: person.id }}
+          className="flex min-w-0 flex-1 items-center gap-2.5"
+        >
           <Avatar person={person} size="sm" />
           <div className="min-w-0">
-            <p className="truncate font-display text-base font-extrabold leading-tight">{person.name}</p>
+            <p className="truncate font-display text-base font-extrabold leading-tight">
+              {person.name}
+            </p>
             <p className="text-xs text-muted-foreground">Met at an event</p>
           </div>
         </Link>
@@ -106,7 +117,9 @@ function DirectMessage() {
                 <p className="rounded-2xl rounded-br-sm bg-gradient-brand px-3.5 py-2.5 text-sm text-primary-foreground">
                   {m.text}
                 </p>
-                <p className="mt-0.5 text-right text-[10px] text-muted-foreground">{timeAgo(m.minutesAgo)}</p>
+                <p className="mt-0.5 text-right text-[10px] text-muted-foreground">
+                  {timeAgo(m.minutesAgo)}
+                </p>
               </div>
             </div>
           ) : (
@@ -139,9 +152,7 @@ function DirectMessage() {
           </div>
         ))}
 
-        {typing && (
-          <p className="text-[11px] text-muted-foreground">{person.name} is typing…</p>
-        )}
+        {typing && <p className="text-[11px] text-muted-foreground">{person.name} is typing…</p>}
         <div ref={endRef} />
       </main>
 
@@ -182,7 +193,9 @@ function DirectMessage() {
           disabled={!draft.trim()}
           className={cn(
             "flex h-11 w-11 items-center justify-center rounded-2xl",
-            draft.trim() ? "bg-gradient-brand text-primary-foreground shadow-glow" : "bg-secondary text-muted-foreground",
+            draft.trim()
+              ? "bg-gradient-brand text-primary-foreground shadow-glow"
+              : "bg-secondary text-muted-foreground",
           )}
         >
           <SendHorizonal className="h-5 w-5" />

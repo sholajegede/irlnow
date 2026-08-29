@@ -117,7 +117,11 @@ function NotificationPreviewPage() {
   return (
     <div className="flex min-h-dvh flex-col pb-16">
       <header className="sticky top-0 z-40 flex items-center gap-2 border-b border-border/60 bg-background/90 px-4 py-3 backdrop-blur-xl">
-        <Link to="/notifications" aria-label="Back" className="rounded-full p-1.5 active:bg-secondary">
+        <Link
+          to="/notifications"
+          aria-label="Back"
+          className="rounded-full p-1.5 active:bg-secondary"
+        >
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div className="min-w-0 flex-1">
@@ -187,11 +191,18 @@ function NotificationPreviewPage() {
                   >
                     IRL NOW
                   </span>
-                  <span className={cn("ml-auto text-[11px]", dark ? "text-white/50" : "text-black/40")}>
+                  <span
+                    className={cn("ml-auto text-[11px]", dark ? "text-white/50" : "text-black/40")}
+                  >
                     {p.time}
                   </span>
                 </div>
-                <p className={cn("mt-1 text-sm font-bold leading-snug", dark ? "text-white" : "text-black")}>
+                <p
+                  className={cn(
+                    "mt-1 text-sm font-bold leading-snug",
+                    dark ? "text-white" : "text-black",
+                  )}
+                >
                   {p.title}
                 </p>
                 <p className={cn("text-xs leading-snug", dark ? "text-white/70" : "text-black/60")}>
@@ -200,7 +211,9 @@ function NotificationPreviewPage() {
               </div>
             ))}
             {visible.length === 0 && (
-              <p className={cn("py-8 text-center text-xs", dark ? "text-white/60" : "text-black/50")}>
+              <p
+                className={cn("py-8 text-center text-xs", dark ? "text-white/60" : "text-black/50")}
+              >
                 You've turned everything off — your lock screen stays empty.
               </p>
             )}
@@ -216,7 +229,9 @@ function NotificationPreviewPage() {
             <div key={p.id} className="rounded-2xl border border-border bg-card p-3">
               <div className="flex items-center gap-2">
                 <BellRing className="h-3.5 w-3.5 text-primary" />
-                <p className="text-xs font-extrabold uppercase tracking-wider">{KIND_LABEL[p.kind]}</p>
+                <p className="text-xs font-extrabold uppercase tracking-wider">
+                  {KIND_LABEL[p.kind]}
+                </p>
                 {p.urgent && (
                   <span className="rounded-full bg-destructive px-2 py-0.5 text-[10px] font-extrabold text-destructive-foreground">
                     Breaks quiet hours

@@ -55,7 +55,8 @@ export function retentionFor(eventId: string, isMember: boolean): Retention {
 
 /** Copy for the upgrade prompt, scaled to how much is actually at stake. */
 export function retentionPitch(photoCount: number, daysLeft: number): string {
-  if (daysLeft <= 0) return `${photoCount} photos are gone from free accounts — restore them with IRL NOW+.`;
+  if (daysLeft <= 0)
+    return `${photoCount} photos are gone from free accounts — restore them with IRL NOW+.`;
   if (daysLeft <= 7)
     return `${photoCount} photos disappear in ${daysLeft} day${daysLeft === 1 ? "" : "s"}. Keep them with IRL NOW+.`;
   return `Free walls are kept for ${FREE_RETENTION_DAYS} days. Members keep every photo forever.`;

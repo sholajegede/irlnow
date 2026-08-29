@@ -7,7 +7,8 @@ import { Avatar } from "./Avatar";
 import { cn } from "@/lib/utils";
 
 export function EventFeedCard({ event }: { event: IrlEvent }) {
-  const { goingIds, savedIds, toggleGoing, toggleSaved, boosts, interests, connectedIds } = useApp();
+  const { goingIds, savedIds, toggleGoing, toggleSaved, boosts, interests, connectedIds } =
+    useApp();
   const going = goingIds.includes(event.id);
   const saved = savedIds.includes(event.id);
   const graph = goingGraph(event.id, interests, connectedIds);
@@ -80,7 +81,6 @@ export function EventFeedCard({ event }: { event: IrlEvent }) {
           </div>
         </Link>
 
-
         <div className="mt-1 flex gap-2.5">
           <button
             onClick={() => toggleGoing(event.id)}
@@ -99,7 +99,9 @@ export function EventFeedCard({ event }: { event: IrlEvent }) {
             aria-label={saved ? "Unsave" : "Save"}
             className={cn(
               "flex h-12 w-12 items-center justify-center rounded-2xl border backdrop-blur transition-all active:scale-95",
-              saved ? "border-primary bg-primary/20 text-primary" : "border-border bg-background/50 text-foreground",
+              saved
+                ? "border-primary bg-primary/20 text-primary"
+                : "border-border bg-background/50 text-foreground",
             )}
           >
             <Bookmark className={cn("h-5 w-5", saved && "fill-primary")} />

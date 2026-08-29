@@ -60,7 +60,7 @@ function AttendeeExperience() {
   const [noteSent, setNoteSent] = useState(false);
   const [emailSaved, setEmailSaved] = useState(false);
 
-  const mine = event ? uploads[event.id] ?? [] : [];
+  const mine = event ? (uploads[event.id] ?? []) : [];
   const wall = useMemo<GuestUpload[]>(
     () => [
       ...mine,
@@ -78,7 +78,10 @@ function AttendeeExperience() {
     if (!uploading.length) return;
     const t = setInterval(() => {
       setUploading((prev) => {
-        const next = prev.map((u) => ({ ...u, pct: Math.min(100, u.pct + 18 + Math.random() * 18) }));
+        const next = prev.map((u) => ({
+          ...u,
+          pct: Math.min(100, u.pct + 18 + Math.random() * 18),
+        }));
         return next.every((u) => u.pct >= 100) ? [] : next;
       });
     }, 320);
@@ -145,8 +148,8 @@ function AttendeeExperience() {
             <div className="rounded-3xl border border-border bg-card/80 p-4 backdrop-blur">
               <p className="font-display text-lg font-extrabold">The night lives here</p>
               <p className="mt-1 text-sm text-muted-foreground">
-                Add your photos, see everyone else's as they land, and keep it all after you leave. No app,
-                no account.
+                Add your photos, see everyone else's as they land, and keep it all after you leave.
+                No app, no account.
               </p>
             </div>
             <button
@@ -162,7 +165,9 @@ function AttendeeExperience() {
       {stage === "identity" && (
         <section className="flex min-h-dvh flex-col justify-center gap-5 p-6">
           <Sparkles className="h-8 w-8 text-primary" />
-          <h1 className="font-display text-3xl font-extrabold leading-tight">What should we call you?</h1>
+          <h1 className="font-display text-3xl font-extrabold leading-tight">
+            What should we call you?
+          </h1>
           <p className="text-sm text-muted-foreground">
             First name only — it just labels the photos you add so the host knows who's who.
           </p>
@@ -205,7 +210,9 @@ function AttendeeExperience() {
           <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 px-4 py-3 backdrop-blur-xl">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <h1 className="truncate font-display text-lg font-extrabold leading-tight">{event.title}</h1>
+                <h1 className="truncate font-display text-lg font-extrabold leading-tight">
+                  {event.title}
+                </h1>
                 <p className="flex items-center gap-1.5 text-xs text-accent">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" /> Live now ·{" "}
                   {wall.length} photos
@@ -306,10 +313,13 @@ function AttendeeExperience() {
 
             <section className="rounded-3xl border border-border bg-card p-4">
               <h2 className="flex items-center gap-2 font-display text-lg font-extrabold">
-                <MessageCircleHeart className="h-5 w-5 text-primary" /> Leave something for {event.host}
+                <MessageCircleHeart className="h-5 w-5 text-primary" /> Leave something for{" "}
+                {event.host}
               </h2>
               {noteSent ? (
-                <p className="mt-2 text-sm text-accent">Sent — {event.host} will see it after the event.</p>
+                <p className="mt-2 text-sm text-accent">
+                  Sent — {event.host} will see it after the event.
+                </p>
               ) : (
                 <>
                   <textarea
@@ -373,14 +383,16 @@ function AttendeeExperience() {
             See the morning-after wall
           </Link>
 
-
           <section className="rounded-3xl border border-accent/40 bg-accent/10 p-4">
             <p className="font-display text-lg font-extrabold text-accent">Get the photos</p>
             <p className="mt-1 text-sm text-foreground/85">
-              People keep uploading for 48 hours. Drop your email and we'll tell you when new ones land.
+              People keep uploading for 48 hours. Drop your email and we'll tell you when new ones
+              land.
             </p>
             {emailSaved ? (
-              <p className="mt-3 text-sm font-bold text-accent">Done — check your inbox tomorrow.</p>
+              <p className="mt-3 text-sm font-bold text-accent">
+                Done — check your inbox tomorrow.
+              </p>
             ) : (
               <div className="mt-3 flex gap-2">
                 <input

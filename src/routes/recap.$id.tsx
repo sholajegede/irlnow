@@ -27,7 +27,9 @@ export const Route = createFileRoute("/recap/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Recap unavailable — IRL NOW" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Recap unavailable — IRL NOW" }, { name: "robots", content: "noindex" }],
+      };
     }
     const t = `My recap — ${loaderData.event.title}`;
     return {
@@ -38,7 +40,10 @@ export const Route = createFileRoute("/recap/$id")({
           content: `Hours out, photos taken and people met at ${loaderData.event.title}, ${loaderData.event.location}.`,
         },
         { property: "og:title", content: t },
-        { property: "og:description", content: "A card from a night that actually happened. Made on IRL NOW." },
+        {
+          property: "og:description",
+          content: "A card from a night that actually happened. Made on IRL NOW.",
+        },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
@@ -125,7 +130,9 @@ function RecapPage() {
               IRL NOW
             </span>
             <div className="absolute inset-x-0 bottom-0 p-4">
-              <p className="font-display text-4xl font-extrabold leading-[0.95]">{recap.headline}</p>
+              <p className="font-display text-4xl font-extrabold leading-[0.95]">
+                {recap.headline}
+              </p>
               <p className="mt-1 text-sm text-muted-foreground">{recap.subline}</p>
             </div>
           </div>
@@ -208,8 +215,8 @@ function RecapPage() {
                   You met {pending.length} {pending.length === 1 ? "person" : "people"}
                 </p>
                 <p className="mt-0.5 text-sm text-foreground/85">
-                  You're in photos together. Requests from a night out expire after 48 hours — send them while it
-                  still means something.
+                  You're in photos together. Requests from a night out expire after 48 hours — send
+                  them while it still means something.
                 </p>
               </div>
               <button
@@ -270,7 +277,8 @@ function RecapPage() {
           {existingRating ? (
             <>
               <p className="flex items-center gap-2 font-display text-lg font-extrabold">
-                <Check className="h-5 w-5 text-accent" /> Thanks — you rated this {existingRating.stars}/5
+                <Check className="h-5 w-5 text-accent" /> Thanks — you rated this{" "}
+                {existingRating.stars}/5
               </p>
               <p className="mt-1 text-sm text-muted-foreground">
                 Your rating feeds {event.host}'s quality score and what we put in front of you next.
@@ -352,7 +360,9 @@ function RatingSheet({
       <div className="max-h-[90dvh] w-full overflow-y-auto rounded-t-3xl border-t border-border bg-card p-5 animate-fade-up">
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border" />
         <div className="flex items-start justify-between gap-3">
-          <h2 className="font-display text-2xl font-extrabold leading-tight">Rate {host}'s event</h2>
+          <h2 className="font-display text-2xl font-extrabold leading-tight">
+            Rate {host}'s event
+          </h2>
           <button
             onClick={onClose}
             aria-label="Close"
@@ -380,10 +390,14 @@ function RatingSheet({
           {RATING_TAGS.map((t) => (
             <button
               key={t}
-              onClick={() => setTags((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]))}
+              onClick={() =>
+                setTags((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]))
+              }
               className={cn(
                 "rounded-full px-3 py-1.5 text-xs font-semibold transition-colors",
-                tags.includes(t) ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground",
+                tags.includes(t)
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-secondary-foreground",
               )}
             >
               {t}
@@ -411,7 +425,9 @@ function RatingSheet({
 
         <button
           disabled={stars === 0}
-          onClick={() => onSubmit({ eventId, stars, tags, wouldReturn, note: note.trim() || undefined })}
+          onClick={() =>
+            onSubmit({ eventId, stars, tags, wouldReturn, note: note.trim() || undefined })
+          }
           className="mt-4 flex h-13 w-full items-center justify-center rounded-2xl bg-gradient-brand py-4 font-display text-base font-bold text-primary-foreground shadow-glow disabled:opacity-40"
         >
           Submit rating

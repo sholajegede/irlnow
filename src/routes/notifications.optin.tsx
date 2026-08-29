@@ -40,7 +40,8 @@ export const Route = createFileRoute("/notifications/optin")({
       { property: "og:title", content: "Turn on notifications — IRL NOW" },
       {
         property: "og:description",
-        content: "Preview every alert first, then decide. About four a week, all tied to real plans.",
+        content:
+          "Preview every alert first, then decide. About four a week, all tied to real plans.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -174,7 +175,11 @@ function OptInPage() {
             {[
               { k: "eventReminders" as const, t: "Event reminders", s: "Two hours before, once" },
               { k: "walls" as const, t: "Memory walls", s: "When the morning-after photos land" },
-              { k: "connections" as const, t: "People you met", s: "Only from events you both went to" },
+              {
+                k: "connections" as const,
+                t: "People you met",
+                s: "Only from events you both went to",
+              },
               { k: "messages" as const, t: "Messages", s: "Group chats and DMs" },
             ].map((row) => (
               <button

@@ -1,6 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, CalendarCheck, CheckCheck, Images, MessageCircle, MoonStar, PartyPopper, UserRoundPlus, X } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarCheck,
+  CheckCheck,
+  Images,
+  MessageCircle,
+  MoonStar,
+  PartyPopper,
+  UserRoundPlus,
+  X,
+} from "lucide-react";
 import { Avatar } from "@/components/Avatar";
 import { BottomNav } from "@/components/BottomNav";
 import { getPerson } from "@/lib/data";
@@ -85,7 +95,9 @@ function NotificationsPage() {
         </Link>
         <div className="flex-1">
           <p className="font-display text-lg font-extrabold tracking-tight">Notifications</p>
-          <p className="text-xs text-muted-foreground">Real events only — never "someone liked a post"</p>
+          <p className="text-xs text-muted-foreground">
+            Real events only — never "someone liked a post"
+          </p>
         </div>
         <button
           onClick={() => markNotificationsRead(items.map((n) => n.id))}
@@ -207,7 +219,9 @@ function NotificationRow({
       <div className="min-w-0 flex-1">
         <div className="flex items-start gap-2">
           <p className="font-display text-sm font-bold leading-snug">{n.title}</p>
-          <span className="ml-auto shrink-0 text-[10px] text-muted-foreground">{timeAgo(n.minutesAgo)}</span>
+          <span className="ml-auto shrink-0 text-[10px] text-muted-foreground">
+            {timeAgo(n.minutesAgo)}
+          </span>
           <button
             onClick={(e) => {
               e.preventDefault();

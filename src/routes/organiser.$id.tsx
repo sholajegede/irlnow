@@ -72,15 +72,22 @@ function OrganiserPage() {
             <p className="font-display text-3xl font-extrabold text-primary">{quality.score}</p>
           </div>
           <p className="text-xs text-muted-foreground">
-            {quality.band} · {quality.reviews} ratings · {Math.round(quality.returnRate * 100)}% would go again
+            {quality.band} · {quality.reviews} ratings · {Math.round(quality.returnRate * 100)}%
+            would go again
           </p>
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-secondary">
-            <div className="h-full rounded-full bg-gradient-brand" style={{ width: `${quality.score}%` }} />
+            <div
+              className="h-full rounded-full bg-gradient-brand"
+              style={{ width: `${quality.score}%` }}
+            />
           </div>
           {quality.highlights.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-2">
               {quality.highlights.map((h) => (
-                <span key={h} className="rounded-full bg-secondary px-3 py-1 text-[11px] font-semibold">
+                <span
+                  key={h}
+                  className="rounded-full bg-secondary px-3 py-1 text-[11px] font-semibold"
+                >
                   {h}
                 </span>
               ))}

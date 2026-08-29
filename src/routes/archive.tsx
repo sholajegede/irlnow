@@ -13,7 +13,8 @@ export const Route = createFileRoute("/archive")({
       { title: "Your memory archive — IRL NOW" },
       {
         name: "description",
-        content: "Every event you actually turned up to, month by month, with the photos and people from each one.",
+        content:
+          "Every event you actually turned up to, month by month, with the photos and people from each one.",
       },
       { property: "og:title", content: "Your memory archive — IRL NOW" },
       { property: "og:description", content: "A year of turning up, in one timeline." },
@@ -38,7 +39,11 @@ function ArchivePage() {
   return (
     <div className="flex min-h-dvh flex-col pb-24">
       <header className="sticky top-0 z-40 flex items-center gap-3 border-b border-border/60 bg-background/85 px-4 py-3 backdrop-blur-xl">
-        <Link to="/you" aria-label="Back" className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
+        <Link
+          to="/you"
+          aria-label="Back"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary"
+        >
           <ArrowLeft className="h-4 w-4" />
         </Link>
         <div>
@@ -76,7 +81,8 @@ function ArchivePage() {
               Your patch was <span className="font-bold text-accent">{year.topArea}</span>
             </p>
             <p>
-              You kept going back to <span className="font-bold text-accent">{year.topOrganiser}</span>
+              You kept going back to{" "}
+              <span className="font-bold text-accent">{year.topOrganiser}</span>
             </p>
           </div>
           <button
@@ -121,8 +127,12 @@ function ArchivePage() {
                       className="h-16 w-16 shrink-0 rounded-xl object-cover"
                     />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-display text-base font-extrabold">{entry.event.title}</p>
-                      <p className="truncate text-xs text-muted-foreground">{entry.event.location}</p>
+                      <p className="truncate font-display text-base font-extrabold">
+                        {entry.event.title}
+                      </p>
+                      <p className="truncate text-xs text-muted-foreground">
+                        {entry.event.location}
+                      </p>
                       <div className="mt-1.5 flex gap-3 text-[11px] text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Camera className="h-3 w-3" /> {entry.photos}

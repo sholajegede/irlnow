@@ -22,7 +22,11 @@ export const CHANNELS: { id: InviteChannel; label: string; blurb: string }[] = [
 ];
 
 export function referralCode(name: string): string {
-  const base = (name || "you").replace(/[^a-zA-Z]/g, "").toUpperCase().slice(0, 4) || "IRL";
+  const base =
+    (name || "you")
+      .replace(/[^a-zA-Z]/g, "")
+      .toUpperCase()
+      .slice(0, 4) || "IRL";
   return `${base}-NOW`;
 }
 

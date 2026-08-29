@@ -1,5 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Ban, FileWarning, LifeBuoy, MapPin, PhoneCall, ShieldCheck, UserCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  Ban,
+  FileWarning,
+  LifeBuoy,
+  MapPin,
+  PhoneCall,
+  ShieldCheck,
+  UserCheck,
+} from "lucide-react";
 import { Avatar } from "@/components/Avatar";
 import { BottomNav } from "@/components/BottomNav";
 import { EmptyState } from "@/components/EmptyState";
@@ -158,7 +167,5 @@ function Section({
 }
 
 function Rule({ text }: { text: string }) {
-  return (
-    <p className="rounded-2xl bg-secondary/40 px-4 py-3 text-xs leading-relaxed">{text}</p>
-  );
+  return <p className="rounded-2xl bg-secondary/40 px-4 py-3 text-xs leading-relaxed">{text}</p>;
 }

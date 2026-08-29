@@ -46,7 +46,9 @@ function SettingsPage() {
 
       <main className="flex-1 space-y-6 px-4 pt-4">
         <section className="rounded-3xl border border-border bg-card p-4">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Account</p>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+            Account
+          </p>
           <p className="mt-1 font-display text-lg font-extrabold">{name || "Guest"}</p>
           <p className="text-xs text-muted-foreground">
             {session ? `${session.handle} · joined ${session.joinedOn}` : email || "Not signed in"}
@@ -128,8 +130,8 @@ function SettingsPage() {
             <Trash2 className="h-4 w-4" /> Delete my account
           </button>
           <p className="px-1 text-[11px] leading-relaxed text-muted-foreground">
-            Deleting removes your profile, your photos and your face tags within 30 days. Photos other people
-            took stay on their walls unless you ask us to remove you from them.
+            Deleting removes your profile, your photos and your face tags within 30 days. Photos
+            other people took stay on their walls unless you ask us to remove you from them.
           </p>
         </section>
       </main>
@@ -220,7 +222,9 @@ function Choice({
             onClick={() => onChange(o)}
             className={cn(
               "rounded-full px-3 py-1.5 text-[11px] font-bold",
-              value === o ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground",
+              value === o
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary text-muted-foreground",
             )}
           >
             {labels?.[o] ?? o}

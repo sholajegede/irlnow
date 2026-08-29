@@ -28,7 +28,11 @@ export function ConnectButton({
 
   if (state === "connected") {
     return (
-      <Link to="/dm/$id" params={{ id: person.id }} className={cn(base, "bg-accent text-accent-foreground")}>
+      <Link
+        to="/dm/$id"
+        params={{ id: person.id }}
+        className={cn(base, "bg-accent text-accent-foreground")}
+      >
         <MessageCircle className={size === "lg" ? "h-5 w-5" : "h-4 w-4"} />
         Message
       </Link>
@@ -37,7 +41,10 @@ export function ConnectButton({
 
   if (state === "requested") {
     return (
-      <button onClick={() => cancelRequest(person.id)} className={cn(base, "bg-secondary text-secondary-foreground")}>
+      <button
+        onClick={() => cancelRequest(person.id)}
+        className={cn(base, "bg-secondary text-secondary-foreground")}
+      >
         <Clock className={size === "lg" ? "h-5 w-5" : "h-4 w-4"} />
         Requested
       </button>

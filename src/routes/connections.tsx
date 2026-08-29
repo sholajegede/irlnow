@@ -60,7 +60,8 @@ function ConnectionsPage() {
         <div className="flex-1">
           <p className="font-display text-lg font-extrabold tracking-tight">Connections</p>
           <p className="text-xs text-muted-foreground">
-            {connections.length} {connections.length === 1 ? "person" : "people"} you've met in real life
+            {connections.length} {connections.length === 1 ? "person" : "people"} you've met in real
+            life
           </p>
         </div>
         <Link to="/messages" aria-label="Messages" className="rounded-full bg-secondary p-2">
@@ -76,16 +77,17 @@ function ConnectionsPage() {
             </h2>
             <div className="space-y-2">
               {incoming.map((p) => (
-                <div
-                  key={p!.id}
-                  className="rounded-2xl border border-primary/40 bg-primary/5 p-3"
-                >
+                <div key={p!.id} className="rounded-2xl border border-primary/40 bg-primary/5 p-3">
                   <div className="flex items-center gap-3">
                     <Link to="/person/$id" params={{ id: p!.id }}>
                       <Avatar person={p!} />
                     </Link>
                     <div className="min-w-0 flex-1">
-                      <Link to="/person/$id" params={{ id: p!.id }} className="font-display text-base font-bold">
+                      <Link
+                        to="/person/$id"
+                        params={{ id: p!.id }}
+                        className="font-display text-base font-bold"
+                      >
                         {p!.name}
                       </Link>
                       <p className="truncate text-xs text-muted-foreground">{p!.reason}</p>
@@ -118,7 +120,10 @@ function ConnectionsPage() {
             </h2>
           )}
           {connections.map((p) => (
-            <div key={p!.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+            <div
+              key={p!.id}
+              className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+            >
               <Link to="/person/$id" params={{ id: p!.id }}>
                 <Avatar person={p!} />
               </Link>
@@ -150,7 +155,10 @@ function ConnectionsPage() {
             </h2>
             <div className="space-y-2">
               {outgoing.map((p) => (
-                <div key={p!.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+                <div
+                  key={p!.id}
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3"
+                >
                   <Avatar person={p!} />
                   <div className="min-w-0 flex-1">
                     <p className="font-display text-base font-bold">{p!.name}</p>
