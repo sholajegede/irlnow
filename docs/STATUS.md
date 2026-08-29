@@ -5,23 +5,24 @@ nobody demos a mock believing it is a feature.
 
 **Legend** — ✅ real · 🟡 partial · 🔴 mocked, non-functional
 
-_Last updated: after the QR fix and test setup. The application is still
-entirely front-end: there is no backend, no persistence and no authentication._
+_Last updated: after the Convex foundation landed. The backend exists and is
+tested, but the app has not been wired to it and there is still no
+authentication — so every user-facing surface below still runs on fixtures._
 
 ## Platform
 
-| Area                | State | Notes                                                                                                        |
-| ------------------- | ----- | ------------------------------------------------------------------------------------------------------------ |
-| Build & dev tooling | ✅    | Standalone Vite + TanStack Start. No Lovable dependency.                                                     |
-| Production bundle   | ✅    | `bun run build` → `.output/`, served by `bun run start`. Verified.                                           |
-| Deploy target       | ✅    | Node server by default; `NITRO_PRESET` for Cloudflare/Vercel/Netlify.                                        |
-| Configuration       | ✅    | `src/config/app.ts`, `VITE_APP_ORIGIN`.                                                                      |
-| Error reporting     | 🟡    | Vendor-neutral seam exists; no provider wired, so errors reach the console only.                             |
-| Persistence         | 🟡    | Local-only. Identity, RSVPs, saves, plans and settings survive a reload; media, messages and orders do not.  |
-| Backend             | 🔴    | Not started. Convex planned.                                                                                 |
-| Authentication      | 🔴    | `src/lib/auth.ts` accepts any 6-digit code. Kinde planned.                                                   |
-| Authorisation       | 🔴    | None. `/admin` and `/host/*` are reachable by anyone.                                                        |
-| Tests               | 🟡    | Vitest + Testing Library. 72 tests: QR encoding, feed ranking, access, persistence. Most surfaces uncovered. |
+| Area                | State | Notes                                                                                                                                      |
+| ------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Build & dev tooling | ✅    | Standalone Vite + TanStack Start. No Lovable dependency.                                                                                   |
+| Production bundle   | ✅    | `bun run build` → `.output/`, served by `bun run start`. Verified.                                                                         |
+| Deploy target       | ✅    | Node server by default; `NITRO_PRESET` for Cloudflare/Vercel/Netlify.                                                                      |
+| Configuration       | ✅    | `src/config/app.ts`, `VITE_APP_ORIGIN`.                                                                                                    |
+| Error reporting     | 🟡    | Vendor-neutral seam exists; no provider wired, so errors reach the console only.                                                           |
+| Persistence         | 🟡    | Local-only. Identity, RSVPs, saves, plans and settings survive a reload; media, messages and orders do not.                                |
+| Backend             | 🔴    | Not started. Convex planned.                                                                                                               |
+| Authentication      | 🔴    | `src/lib/auth.ts` accepts any 6-digit code. Kinde planned.                                                                                 |
+| Authorisation       | 🔴    | None. `/admin` and `/host/*` are reachable by anyone.                                                                                      |
+| Tests               | 🟡    | 132 tests over two runtimes: QR encoding, feed ranking, access, persistence, and Convex auth/privacy/capacity. Most UI surfaces uncovered. |
 
 ## Product surfaces
 
@@ -53,6 +54,19 @@ entirely front-end: there is no backend, no persistence and no authentication._
 | Privacy settings               | 🟡    | Stored and read by the UI; not enforced anywhere, because there is no server.                                          |
 | Accessibility settings         | ✅    | Reduced motion and high contrast are real, applied at the root.                                                        |
 | Event access details           | 🟡    | Model is honest (host-declared or unknown). No host has declared any yet, and there is no UI to declare them.          |
+
+## Convex backend
+
+| Piece                                               | State | Notes                                                                    |
+| --------------------------------------------------- | ----- | ------------------------------------------------------------------------ |
+| Schema (users, profiles, organisers, events, rsvps) | ✅    | Deployed locally, 11 indexes. Real timestamps and integer minor units.   |
+| Discovery queries                                   | ✅    | `listUpcoming`, `getBySlug` — both answer anonymously.                   |
+| Event roster                                        | ✅    | Server-side visibility filtering, viewer excluded.                       |
+| "I'm Going" / check-in                              | ✅    | Capacity enforced server-side; overflow waitlists rather than oversells. |
+| Development seed                                    | ✅    | Sample data, refuses to run against production.                          |
+| Deployment                                          | 🟡    | Local only (`127.0.0.1:3210`). No cloud deployment provisioned.          |
+| App wired to Convex                                 | 🔴    | The UI still reads `src/lib/data.ts`.                                    |
+| Kinde authentication                                | 🔴    | Not started, so no browser client can pass `requireUser`.                |
 
 ## Fixed
 

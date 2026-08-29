@@ -72,6 +72,7 @@ NITRO_PRESET=vercel            bun run build
 
 - [`docs/ASSESSMENT.md`](docs/ASSESSMENT.md) — what the prototype does today, and its gaps
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target architecture and the decisions behind it
+- [`docs/CONVEX.md`](docs/CONVEX.md) — backend schema, rules and local setup
 - [`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md) — environment variables
 - [`docs/STATUS.md`](docs/STATUS.md) — what is real, what is still mocked
 

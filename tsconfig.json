@@ -2,6 +2,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
+    "convex/**/*.ts",
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "vite.config.ts",

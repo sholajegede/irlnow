@@ -8,13 +8,15 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node .output/server/index.mjs",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p convex/tsconfig.json",
     "lint": "eslint .",
     "format": "prettier --write .",
     "check": "bun run typecheck && bun run lint && bun run test",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "convex:dev": "convex dev",
+    "convex:seed": "convex run seed:seedDevelopmentData"
   },
   "overrides": {
     "rolldown": "1.2.1"
@@ -55,6 +57,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "convex": "^1.45.0",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
@@ -74,6 +77,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@edge-runtime/vm": "^5.0.0",
     "@eslint/js": "^9.32.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
@@ -83,6 +87,7 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.2.0",
     "@vitest/coverage-v8": "^4.1.11",
+    "convex-test": "^0.0.56",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.6",
@@ -98,6 +103,6 @@
     "vite": "8.1.5",
     "vitest": "^4.1.11"
   },
-  "description": "IRL NOW — social discovery for real-world plans. Web application.",
+  "description": "IRL NOW \u2014 social discovery for real-world plans. Web application.",
   "license": "UNLICENSED"
 }
