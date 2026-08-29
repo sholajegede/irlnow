@@ -1,4 +1,4 @@
-import { events, getEvent, getPerson, type Person } from "@/lib/data";
+import { events, getEvent, getPerson, type IrlEvent, type Person } from "@/lib/data";
 
 /**
  * The going graph: Person -> Going -> Event.
@@ -126,11 +126,20 @@ export interface PersonOut {
  * Everyone who is out in the next few days, derived from Person -> Going -> Event.
  * A person only appears here because they said yes to something you can join.
  */
-export function peopleOut(myInterests: string[] = [], metPersonIds: string[] = []): PersonOut[] {
+export function peopleOut(
+  myInterests: string[] = [],
+  metPersonIds: string[] = [],
+  /**
+   * The events to derive people from. Defaults to the whole catalogue; passed
+   * explicitly when the caller has already narrowed it — and, once events come
+   * from the backend rather than a module constant, always.
+   */
+  catalogue: readonly IrlEvent[] = events,
+): PersonOut[] {
   const seen = new Set<string>();
   const out: PersonOut[] = [];
 
-  for (const event of events) {
+  for (const event of catalogue) {
     const graph = goingGraph(event.id, myInterests, metPersonIds);
     for (const person of graph.roster) {
       if (seen.has(person.id)) continue;
