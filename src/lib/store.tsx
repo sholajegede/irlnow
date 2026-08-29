@@ -11,6 +11,16 @@ import type { Boost, Membership, MembershipPlan } from "@/lib/money";
 import { renewalDate } from "@/lib/money";
 import type { LiveMessage } from "@/lib/live";
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import {
+  clearPersisted,
+  isArrayOfObjects,
+  isBoolean,
+  isRecordOf,
+  isString,
+  isStringArray,
+  usePersistentObject,
+  usePersistentState,
+} from "@/lib/storage/persistent-state";
 
 /** A capacity drop published from the venue portal. */
 export interface PublishedDrop {
@@ -345,30 +355,98 @@ export type ConnectionState = "connected" | "requested" | "incoming" | "none" | 
 
 const AppContext = createContext<AppState | null>(null);
 
+const DEFAULT_PRIVACY: PrivacySettings = {
+  profileVisibility: "attendees",
+  showGoing: true,
+  allowMessagesFrom: "attendees",
+  appearInPhotos: true,
+  showBirthdayNudges: true,
+  locationPrecision: "area",
+  tagApproval: true,
+  hideFromSearch: false,
+};
+
+const DEFAULT_NOTIF_PREFS: NotificationPrefs = {
+  eventReminders: true,
+  walls: true,
+  connections: true,
+  messages: true,
+  suggestions: false,
+  quietHours: false,
+};
+
+const DEFAULT_SETTINGS: AppSettings = {
+  language: "English (UK)",
+  units: "metric",
+  reducedMotion: false,
+  highContrast: false,
+  emailDigest: true,
+};
+
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [onboarded, setOnboarded] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [city, setCity] = useState("London");
-  const [interests, setInterests] = useState<string[]>([]);
-  const [goingIds, setGoingIds] = useState<string[]>(["rooftop-golden-hour"]);
-  const [savedIds, setSavedIds] = useState<string[]>(["supper-club"]);
-  const [connectedIds, setConnectedIds] = useState<string[]>(["marcus"]);
-  const [goingSoloIds, setGoingSoloIds] = useState<string[]>([]);
-  const [createdEvents, setCreatedEvents] = useState<CreatedEvent[]>([]);
-  const [guestName, setGuestName] = useState("");
-  const [guestEmail, setGuestEmail] = useState("");
-  const [checkedInIds, setCheckedInIds] = useState<string[]>([]);
-  const [uploads, setUploads] = useState<Record<string, GuestUpload[]>>({});
-  const [waitlistIds, setWaitlistIds] = useState<string[]>([]);
-  const [crews, setCrews] = useState<Record<string, string[]>>({});
-  const [followedSeriesIds, setFollowedSeriesIds] = useState<string[]>(["dawn-run"]);
-  const [claimedWallIds, setClaimedWallIds] = useState<string[]>([]);
-  const [birthday, setBirthdayState] = useState("");
+  const [onboarded, setOnboarded] = usePersistentState("onboarded", false, isBoolean);
+  const [name, setName] = usePersistentState("name", "", isString);
+  const [email, setEmail] = usePersistentState("email", "", isString);
+  const [city, setCity] = usePersistentState("city", "London", isString);
+  const [interests, setInterests] = usePersistentState<string[]>("interests", [], isStringArray);
+  const [goingIds, setGoingIds] = usePersistentState<string[]>(
+    "goingIds",
+    ["rooftop-golden-hour"],
+    isStringArray,
+  );
+  const [savedIds, setSavedIds] = usePersistentState<string[]>(
+    "savedIds",
+    ["supper-club"],
+    isStringArray,
+  );
+  const [connectedIds, setConnectedIds] = usePersistentState<string[]>(
+    "connectedIds",
+    ["marcus"],
+    isStringArray,
+  );
+  const [goingSoloIds, setGoingSoloIds] = usePersistentState<string[]>(
+    "goingSoloIds",
+    [],
+    isStringArray,
+  );
+  const [createdEvents, setCreatedEvents] = usePersistentState<CreatedEvent[]>(
+    "createdEvents",
+    [],
+    isArrayOfObjects<CreatedEvent>(),
+  );
+  const [guestName, setGuestName] = usePersistentState("guestName", "", isString);
+  const [guestEmail, setGuestEmail] = usePersistentState("guestEmail", "", isString);
+  const [checkedInIds, setCheckedInIds] = usePersistentState<string[]>(
+    "checkedInIds",
+    [],
+    isStringArray,
+  );
+  const [uploads, setUploads] = usePersistentState<Record<string, GuestUpload[]>>(
+    "uploads",
+    {},
+    isRecordOf(),
+  );
+  const [waitlistIds, setWaitlistIds] = usePersistentState<string[]>(
+    "waitlistIds",
+    [],
+    isStringArray,
+  );
+  const [crews, setCrews] = usePersistentState<Record<string, string[]>>("crews", {}, isRecordOf());
+  const [followedSeriesIds, setFollowedSeriesIds] = usePersistentState<string[]>(
+    "followedSeriesIds",
+    ["dawn-run"],
+    isStringArray,
+  );
+  const [claimedWallIds, setClaimedWallIds] = usePersistentState<string[]>(
+    "claimedWallIds",
+    [],
+    isStringArray,
+  );
+  const [birthday, setBirthdayState] = usePersistentState("birthday", "", isString);
   const [recapDismissed, setRecapDismissed] = useState(false);
   const [incomingRequests, setIncomingRequests] = useState<string[]>(["maya", "freya"]);
   const [outgoingRequests, setOutgoingRequests] = useState<string[]>(["dev"]);
-  const [blockedIds, setBlockedIds] = useState<string[]>([]);
+  const [blockedIds, setBlockedIds] = usePersistentState<string[]>("blockedIds", [], isStringArray);
   const [reportedIds, setReportedIds] = useState<string[]>([]);
   const [sentMessages, setSentMessages] = useState<Record<string, SentMessage[]>>({});
   const [mutedThreads, setMutedThreads] = useState<string[]>([]);
@@ -381,26 +459,29 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [pinnedMessages, setPinnedMessages] = useState<Record<string, string>>({});
   const [reactions, setReactions] = useState<Record<string, string[]>>({});
   const [dismissedNotificationIds, setDismissedNotificationIds] = useState<string[]>([]);
-  const [privacy, setPrivacy] = useState<PrivacySettings>({
-    profileVisibility: "attendees",
-    showGoing: true,
-    allowMessagesFrom: "attendees",
-    appearInPhotos: true,
-    showBirthdayNudges: true,
-    locationPrecision: "area",
-    tagApproval: true,
-    hideFromSearch: false,
-  });
-  const [orders, setOrders] = useState<Record<string, Order>>({});
+  const [privacy, setPrivacy] = usePersistentObject<PrivacySettings>("privacy", DEFAULT_PRIVACY);
+  const [orders, setOrders] = usePersistentState<Record<string, Order>>("orders", {}, isRecordOf());
   const [claimedDropIds, setClaimedDropIds] = useState<string[]>([]);
-  const [myPlans, setMyPlans] = useState<Plan[]>([]);
-  const [joinedPlanIds, setJoinedPlanIds] = useState<string[]>([]);
-  const [planVotes, setPlanVotes] = useState<Record<string, string>>({});
+  const [myPlans, setMyPlans] = usePersistentState<Plan[]>("myPlans", [], isArrayOfObjects<Plan>());
+  const [joinedPlanIds, setJoinedPlanIds] = usePersistentState<string[]>(
+    "joinedPlanIds",
+    [],
+    isStringArray,
+  );
+  const [planVotes, setPlanVotes] = usePersistentState<Record<string, string>>(
+    "planVotes",
+    {},
+    isRecordOf(),
+  );
   const [publishedDrops, setPublishedDrops] = useState<PublishedDrop[]>([]);
   const [confirmedTags, setConfirmedTags] = useState<string[]>([]);
   const [skippedTags, setSkippedTags] = useState<string[]>([]);
   const [downloadedPacks, setDownloadedPacks] = useState<string[]>([]);
-  const [eventRatings, setEventRatings] = useState<Record<string, EventRating>>({});
+  const [eventRatings, setEventRatings] = usePersistentState<Record<string, EventRating>>(
+    "eventRatings",
+    {},
+    isRecordOf(),
+  );
   const [metRequests, setMetRequests] = useState<Record<string, number>>({});
   const [dismissedMetPrompts, setDismissedMetPrompts] = useState<string[]>([]);
   const [sharedRecaps, setSharedRecaps] = useState<string[]>([]);
@@ -421,14 +502,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [paidInvoices, setPaidInvoices] = useState<string[]>([]);
   const [cards, setCards] = useState<PaymentMethod[]>(seedMethods);
   const [defaultCardId, setDefaultCardId] = useState<string>(seedMethods[1]!.id);
-  const [notifPrefs, setNotifPrefs] = useState<NotificationPrefs>({
-    eventReminders: true,
-    walls: true,
-    connections: true,
-    messages: true,
-    suggestions: false,
-    quietHours: false,
-  });
+  const [notifPrefs, setNotifPrefs] = usePersistentObject<NotificationPrefs>(
+    "notifPrefs",
+    DEFAULT_NOTIF_PREFS,
+  );
   const [session, setSession] = useState<AuthSession | null>(null);
   const [reports, setReports] = useState<ReportRecord[]>([]);
   const [cancelledEvents, setCancelledEvents] = useState<Record<string, CancelledEvent>>({});
@@ -443,14 +520,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   } | null>(null);
   const [broadcasts, setBroadcasts] = useState<Broadcast[]>([]);
   const [eventEdits, setEventEdits] = useState<Record<string, EventEdit>>({});
-  const [keptForever, setKeptForever] = useState<string[]>([]);
-  const [settings, setSettings] = useState<AppSettings>({
-    language: "English (UK)",
-    units: "metric",
-    reducedMotion: false,
-    highContrast: false,
-    emailDigest: true,
-  });
+  const [keptForever, setKeptForever] = usePersistentState<string[]>(
+    "keptForever",
+    [],
+    isStringArray,
+  );
+  const [settings, setSettings] = usePersistentObject<AppSettings>("settings", DEFAULT_SETTINGS);
   const [notifRetention, setNotifRetention] = useState<NotifRetention>({
     eventReminders: 7,
     walls: 30,
@@ -776,6 +851,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       signOut: () => {
         setSession(null);
         setOnboarded(false);
+        // Signing out on a shared device must not leave the next person
+        // looking at the last person's saved events and connections.
+        clearPersisted();
       },
       reports,
       addReport: (r) => {

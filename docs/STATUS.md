@@ -10,18 +10,18 @@ entirely front-end: there is no backend, no persistence and no authentication._
 
 ## Platform
 
-| Area                | State | Notes                                                                            |
-| ------------------- | ----- | -------------------------------------------------------------------------------- |
-| Build & dev tooling | ✅    | Standalone Vite + TanStack Start. No Lovable dependency.                         |
-| Production bundle   | ✅    | `bun run build` → `.output/`, served by `bun run start`. Verified.               |
-| Deploy target       | ✅    | Node server by default; `NITRO_PRESET` for Cloudflare/Vercel/Netlify.            |
-| Configuration       | ✅    | `src/config/app.ts`, `VITE_APP_ORIGIN`.                                          |
-| Error reporting     | 🟡    | Vendor-neutral seam exists; no provider wired, so errors reach the console only. |
-| Persistence         | 🔴    | Nothing survives a page reload.                                                  |
-| Backend             | 🔴    | Not started. Convex planned.                                                     |
-| Authentication      | 🔴    | `src/lib/auth.ts` accepts any 6-digit code. Kinde planned.                       |
-| Authorisation       | 🔴    | None. `/admin` and `/host/*` are reachable by anyone.                            |
-| Tests               | 🟡    | Vitest + Testing Library wired. QR encoding covered; most surfaces are not yet.  |
+| Area                | State | Notes                                                                                                        |
+| ------------------- | ----- | ------------------------------------------------------------------------------------------------------------ |
+| Build & dev tooling | ✅    | Standalone Vite + TanStack Start. No Lovable dependency.                                                     |
+| Production bundle   | ✅    | `bun run build` → `.output/`, served by `bun run start`. Verified.                                           |
+| Deploy target       | ✅    | Node server by default; `NITRO_PRESET` for Cloudflare/Vercel/Netlify.                                        |
+| Configuration       | ✅    | `src/config/app.ts`, `VITE_APP_ORIGIN`.                                                                      |
+| Error reporting     | 🟡    | Vendor-neutral seam exists; no provider wired, so errors reach the console only.                             |
+| Persistence         | 🟡    | Local-only. Identity, RSVPs, saves, plans and settings survive a reload; media, messages and orders do not.  |
+| Backend             | 🔴    | Not started. Convex planned.                                                                                 |
+| Authentication      | 🔴    | `src/lib/auth.ts` accepts any 6-digit code. Kinde planned.                                                   |
+| Authorisation       | 🔴    | None. `/admin` and `/host/*` are reachable by anyone.                                                        |
+| Tests               | 🟡    | Vitest + Testing Library. 72 tests: QR encoding, feed ranking, access, persistence. Most surfaces uncovered. |
 
 ## Product surfaces
 
@@ -32,8 +32,8 @@ entirely front-end: there is no backend, no persistence and no authentication._
 | Event detail                   | 🟡    | Complete UI over mock data.                                                                                            |
 | Public event page `/x/$id`     | ✅    | Real per-event OG/meta from loader data. Correct for sharing today.                                                    |
 | People discovery               | 🟡    | `graph.ts` logic is sound; the roster is 10 fixed people.                                                              |
-| "I'm Going"                    | 🟡    | Toggles in-memory state; lost on reload.                                                                               |
-| Onboarding / interests         | 🟡    | Collects name, email, city, interests into memory only.                                                                |
+| "I'm Going"                    | 🟡    | Survives a reload on the same device. Not on the server, so not shared or visible to anyone else.                      |
+| Onboarding / interests         | 🟡    | Persists locally, so nobody is asked twice. Not on the server.                                                         |
 | Anonymous → identified         | ✅    | Correctly modelled: anonymous users get non-personalised copy.                                                         |
 | Plans                          | 🟡    | Create, join and vote work in memory. Three seeded plans.                                                              |
 | Messaging                      | 🔴    | `use-live-thread.ts` simulates the other person with timers and a canned reply pool.                                   |
