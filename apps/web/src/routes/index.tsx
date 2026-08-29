@@ -6,7 +6,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { EventFeedCard } from "@/components/EventFeedCard";
 import { events } from "@irlnow/domain";
 import { eventCovers } from "@/lib/covers";
-import { FEED_MODES, buildFeed, type FeedMode } from "@irlnow/domain";
+import { FEED_MODES, buildFeed, toRankable, type FeedMode } from "@irlnow/domain";
 import { liveDrops } from "@irlnow/domain";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -34,17 +34,23 @@ function DiscoverPage() {
   const { interests, onboarded, connectedIds, goingIds, savedIds } = useApp();
   const [mode, setMode] = useState<FeedMode>("foryou");
 
-  const feed = useMemo(
-    () =>
-      buildFeed(events, mode, {
-        identified: onboarded,
-        interests,
-        connectionIds: connectedIds,
-        goingIds,
-        savedIds,
-      }),
-    [mode, onboarded, interests, connectedIds, goingIds, savedIds],
-  );
+  const feed = useMemo(() => {
+    // Ranking works in stored truth — timestamps and minor units — so the
+    // fixture catalogue is adapted on the way in. The adapter goes away
+    // when this app reads from Convex.
+    const rankable = events.map((event) => toRankable(event));
+    const ranked = buildFeed(rankable, mode, {
+      identified: onboarded,
+      interests,
+      connectionIds: connectedIds,
+      goingIds,
+      savedIds,
+    });
+    const byId = new Map(events.map((event) => [event.id, event]));
+    return ranked
+      .map(({ event }) => byId.get(event.id))
+      .filter((event): event is (typeof events)[number] => event !== undefined);
+  }, [mode, onboarded, interests, connectedIds, goingIds, savedIds]);
 
   const pulse = useMemo(() => {
     const soon = events.filter((e) => e.when === "tonight" || e.when === "weekend");
@@ -119,7 +125,7 @@ function DiscoverPage() {
       </div>
 
       <main className="snap-feed min-h-0 flex-1 snap-y snap-mandatory overflow-y-auto no-scrollbar">
-        {feed.map(({ event }) => (
+        {feed.map((event) => (
           <EventFeedCard key={event.id} event={event} />
         ))}
 

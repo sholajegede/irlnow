@@ -1,6 +1,16 @@
 import { FEED_CAP, distanceKm, isFree, type IrlEvent } from "../data";
 
 /* ------------------------------------------------------------------
+   What ranking needs from an event.
+
+   Deliberately narrower than a full event, and expressed in stored
+   truth rather than display strings: epoch millis, integer minor units,
+   and a distance computed against the viewer. The web app's fixtures
+   and the Convex catalogue both adapt into this shape, so there is one
+   ranking implementation rather than one per data source.
+------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------
    Discovery ranking.
 
    Deliberately deterministic and explainable: every score decomposes
@@ -37,6 +47,27 @@ export const ANONYMOUS_VIEWER: ViewerSignals = {
   savedIds: [],
 };
 
+export interface RankableEvent {
+  /** Stable identity, used for tie-breaking and viewer state lookups. */
+  id: string;
+  /** Interest ids this event matches on. */
+  interests: readonly string[];
+  /** Confirmed attendees. */
+  goingCount: number;
+  /** Epoch millis. "Tonight" is derived from this, never stored. */
+  startsAt: number;
+  /** Kilometres from the viewer, or null when location is unknown. */
+  distanceKm: number | null;
+  /** Integer minor units. Zero is free. */
+  priceMinor: number;
+  /** Remaining capacity, or null when uncapped. */
+  spotsLeft: number | null;
+  /** Ids of people going, for the connections signal. */
+  attendeeIds?: readonly string[];
+  /** Set when the caller has its own notion of trending. */
+  trending?: boolean;
+}
+
 export type ReasonKind =
   | "shared-interests"
   | "connections-going"
@@ -58,8 +89,8 @@ export interface RankingReason {
   count?: number;
 }
 
-export interface ScoredEvent {
-  event: IrlEvent;
+export interface ScoredEvent<T extends RankableEvent = RankableEvent> {
+  event: T;
   score: number;
   /** Ordered by contribution, strongest first. */
   reasons: RankingReason[];
@@ -118,30 +149,58 @@ export const PERSONALISABLE_REASONS: ReadonlySet<ReasonKind> = new Set([
   "already-going",
 ]);
 
-export function sharedInterests(event: IrlEvent, interests: readonly string[]): string[] {
+export function sharedInterests(event: RankableEvent, interests: readonly string[]): string[] {
   return event.interests.filter((id) => interests.includes(id));
 }
 
-function connectionsGoing(event: IrlEvent, connectionIds: readonly string[]): string[] {
-  return event.going.filter((id) => connectionIds.includes(id));
+function connectionsGoing(
+  event: RankableEvent,
+  connectionIds: readonly string[],
+): readonly string[] {
+  return (event.attendeeIds ?? []).filter((id) => connectionIds.includes(id));
 }
 
-/** Linear decay from full points at <=1km to zero at MAX_NEARBY_KM. */
-function proximityPoints(event: IrlEvent): number {
-  const km = distanceKm(event);
+/**
+ * Linear decay from full points at <=1km to zero at MAX_NEARBY_KM.
+ *
+ * An unknown distance scores zero rather than being penalised: not knowing
+ * where someone is should not push nearby events down the feed.
+ */
+function proximityPoints(event: RankableEvent): number {
+  const km = event.distanceKm;
+  if (km === null) return 0;
   if (km <= 1) return WEIGHTS.nearbyMax;
   if (km >= MAX_NEARBY_KM) return 0;
   const closeness = (MAX_NEARBY_KM - km) / (MAX_NEARBY_KM - 1);
   return Math.round(WEIGHTS.nearbyMax * closeness);
 }
 
-function popularityPoints(event: IrlEvent): number {
+function popularityPoints(event: RankableEvent): number {
   const ratio = Math.min(1, event.goingCount / POPULARITY_SATURATION);
   return Math.round(WEIGHTS.popularityMax * ratio);
 }
 
+/** Local midnight tonight, so "tonight" means the same to every viewer. */
+function isTonight(startsAt: number, now: number): boolean {
+  const end = new Date(now);
+  end.setHours(23, 59, 59, 999);
+  return startsAt >= now && startsAt <= end.getTime();
+}
+
+function isThisWeekend(startsAt: number, now: number): boolean {
+  const start = new Date(startsAt);
+  const day = start.getDay();
+  const withinAWeek = startsAt >= now && startsAt - now <= 7 * 86_400_000;
+  // Friday evening through Sunday.
+  return withinAWeek && (day === 0 || day === 6 || (day === 5 && start.getHours() >= 17));
+}
+
 /** Score one event for one viewer, keeping the reasons that produced it. */
-export function scoreEvent(event: IrlEvent, viewer: ViewerSignals): ScoredEvent {
+export function scoreEvent<T extends RankableEvent>(
+  event: T,
+  viewer: ViewerSignals,
+  now: number = Date.now(),
+): ScoredEvent<T> {
   const reasons: RankingReason[] = [];
 
   const add = (kind: ReasonKind, points: number, count?: number) => {
@@ -159,16 +218,16 @@ export function scoreEvent(event: IrlEvent, viewer: ViewerSignals): ScoredEvent 
   if (viewer.savedIds.includes(event.id)) add("saved", WEIGHTS.saved);
   if (viewer.goingIds.includes(event.id)) add("already-going", WEIGHTS.alreadyGoing);
 
-  if (event.when === "tonight") add("happening-tonight", WEIGHTS.tonight);
+  if (isTonight(event.startsAt, now)) add("happening-tonight", WEIGHTS.tonight);
   add("nearby", proximityPoints(event));
   add("popular", popularityPoints(event), event.goingCount);
   if (event.trending) add("trending", WEIGHTS.trending);
 
   const spots = event.spotsLeft;
-  if (spots !== undefined && spots > 0 && spots <= NEARLY_FULL_THRESHOLD) {
+  if (spots !== null && spots > 0 && spots <= NEARLY_FULL_THRESHOLD) {
     add("nearly-full", WEIGHTS.nearlyFull, spots);
   }
-  if (isFree(event)) add("free", WEIGHTS.free);
+  if (event.priceMinor === 0) add("free", WEIGHTS.free);
 
   reasons.sort((a, b) => b.points - a.points);
   const score = reasons.reduce((total, reason) => total + reason.points, 0);
@@ -183,12 +242,13 @@ export function scoreEvent(event: IrlEvent, viewer: ViewerSignals): ScoredEvent 
  * renders and reproducible in tests. An unstable feed reorders under the
  * user's thumb, which reads as a bug.
  */
-export function rankEvents(
-  events: readonly IrlEvent[],
+export function rankEvents<T extends RankableEvent>(
+  events: readonly T[],
   viewer: ViewerSignals = ANONYMOUS_VIEWER,
-): ScoredEvent[] {
+  now: number = Date.now(),
+): ScoredEvent<T>[] {
   return events
-    .map((event) => scoreEvent(event, viewer))
+    .map((event) => scoreEvent(event, viewer, now))
     .sort(
       (a, b) =>
         b.score - a.score ||
@@ -209,12 +269,16 @@ export const FEED_MODES: { id: FeedMode; label: string }[] = [
 ];
 
 /** Which events a mode is willing to show, before ranking. */
-function eligibleFor(mode: FeedMode, events: readonly IrlEvent[]): IrlEvent[] {
+function eligibleFor<T extends RankableEvent>(
+  mode: FeedMode,
+  events: readonly T[],
+  now: number,
+): T[] {
   switch (mode) {
     case "tonight":
-      return events.filter((e) => e.when === "tonight");
+      return events.filter((e) => isTonight(e.startsAt, now));
     case "weekend":
-      return events.filter((e) => e.when === "weekend");
+      return events.filter((e) => isThisWeekend(e.startsAt, now));
     case "trending":
       return events.filter((e) => e.trending || e.goingCount > 40);
     case "foryou":
@@ -229,24 +293,67 @@ function eligibleFor(mode: FeedMode, events: readonly IrlEvent[]): IrlEvent[] {
  * runs out and tells you to go outside. Do not replace it with infinite
  * scroll — see docs/ASSESSMENT.md.
  */
-export function buildFeed(
-  events: readonly IrlEvent[],
+export function buildFeed<T extends RankableEvent>(
+  events: readonly T[],
   mode: FeedMode,
   viewer: ViewerSignals = ANONYMOUS_VIEWER,
   cap: number = FEED_CAP,
-): ScoredEvent[] {
-  const eligible = eligibleFor(mode, events);
+  now: number = Date.now(),
+): ScoredEvent<T>[] {
+  const eligible = eligibleFor(mode, events, now);
   // Trending is an explicit "what is everyone doing" view; personal signals
   // would defeat the point of choosing it.
   const ranked =
     mode === "trending"
       ? eligible
-          .map((event) => scoreEvent(event, viewer))
+          .map((event) => scoreEvent(event, viewer, now))
           .sort(
             (a, b) =>
               b.event.goingCount - a.event.goingCount || a.event.id.localeCompare(b.event.id),
           )
-      : rankEvents(eligible, viewer);
+      : rankEvents(eligible, viewer, now);
 
   return ranked.slice(0, cap);
+}
+
+/* ------------------------------------------------------------------
+   Adapting the fixture catalogue.
+
+   `IrlEvent` stores display strings — "Tonight · 7:30pm", "£12",
+   "1.2 km" — because it predates the backend. This converts one into
+   the shape ranking works in, so the web app keeps its fixtures while
+   mobile passes Convex data straight through.
+
+   It goes away with the last fixture.
+------------------------------------------------------------------- */
+
+/** Tonight, or the coming Saturday, matching the fixture's coarse buckets. */
+function fixtureStartsAt(event: IrlEvent, now: number): number {
+  const start = new Date(now);
+  if (event.when === "weekend") {
+    const daysToSaturday = (6 - start.getDay() + 7) % 7 || 7;
+    start.setDate(start.getDate() + daysToSaturday);
+    start.setHours(19, 0, 0, 0);
+  } else {
+    start.setHours(20, 0, 0, 0);
+    if (start.getTime() < now) start.setDate(start.getDate() + 1);
+  }
+  return start.getTime();
+}
+
+export function toRankable(event: IrlEvent, now: number = Date.now()): RankableEvent {
+  const km = distanceKm(event);
+  return {
+    id: event.id,
+    interests: event.interests,
+    goingCount: event.goingCount,
+    startsAt: fixtureStartsAt(event, now),
+    distanceKm: km > 0 ? km : null,
+    priceMinor: isFree(event)
+      ? 0
+      : Math.round((parseFloat(event.price.replace(/[^\d.]/g, "")) || 0) * 100),
+    spotsLeft: event.spotsLeft ?? null,
+    attendeeIds: event.going,
+    ...(event.trending !== undefined && { trending: event.trending }),
+  };
 }

@@ -35,3 +35,18 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Expo / React Native
+.expo/
+apps/mobile/dist/
+apps/mobile/web-build/
+apps/mobile/expo-env.d.ts
+apps/mobile/ios/
+apps/mobile/android/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+.kotlin/

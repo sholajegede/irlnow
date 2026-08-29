@@ -6,7 +6,8 @@
   "license": "UNLICENSED",
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "convex"
   ],
   "scripts": {
     "dev:web": "bun --filter @irlnow/web dev",
