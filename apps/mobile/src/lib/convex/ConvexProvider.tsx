@@ -9,39 +9,32 @@ import { useAuth } from "@/lib/auth/AuthProvider";
 
    Wired to the auth layer so every request carries the current identity
    when there is one — and, importantly, still works when there isn't.
-   Discovery queries answer anonymously by design.
+   Discovery queries answer anonymously by design, which is what lets
+   someone browse before they have an account.
 ------------------------------------------------------------------- */
-
-function createClient(): ConvexReactClient {
-  return new ConvexReactClient(CONVEX_URL, {
-    // The socket reconnects on its own after a tunnel drop or a flight-mode
-    // toggle, which on mobile happens constantly.
-    unsavedChangesWarning: false,
-  });
-}
 
 export function ConvexClientProvider({ children }: { children: ReactNode }) {
   const { getToken, status } = useAuth();
 
-  const client = useMemo(() => {
-    const instance = createClient();
-    instance.setAuth(async ({ forceRefreshToken }) => {
-      // Returning null is the anonymous path. Convex treats the request as
-      // unauthenticated rather than rejecting it.
-      return await getToken({ forceRefresh: forceRefreshToken });
-    });
-    return instance;
-    // The client is created once. `getToken` reads the live session from a
-    // ref, so it does not need to be a dependency — recreating the client
-    // would drop every open subscription.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // Created once. Recreating the client would drop every open subscription
+  // and refetch the whole feed on something as routine as a token refresh.
+  const client = useMemo(
+    () =>
+      new ConvexReactClient(CONVEX_URL, {
+        // The socket reconnects on its own after a tunnel drop or a
+        // flight-mode toggle, which on mobile happens constantly.
+        unsavedChangesWarning: false,
+      }),
+    [],
+  );
 
-  // Re-assert auth when the session changes, so queries re-run as the
-  // identity behind them changes.
-  useMemo(() => {
+  useEffect(() => {
+    // Returning null is the anonymous path: Convex treats the request as
+    // unauthenticated rather than rejecting it.
     client.setAuth(async ({ forceRefreshToken }) => getToken({ forceRefresh: forceRefreshToken }));
   }, [client, getToken, status]);
+
+  useEffect(() => () => void client.close(), [client]);
 
   return <BaseProvider client={client}>{children}</BaseProvider>;
 }

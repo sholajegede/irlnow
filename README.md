@@ -9,33 +9,34 @@ The product answers four questions, in order:
 
 ## Repository layout
 
-This repository currently holds the **web application**, which is the
-development and private-testing surface. A React Native + Expo mobile app will
-join it once the core loop and backend are validated; both will share the same
-backend, identity provider and domain types.
+A monorepo. The **mobile app is the primary consumer product**; the web app
+carries the surfaces a browser does better — public event pages, share links,
+SEO, and the host, venue and admin workspaces.
 
 ```
-src/
-  config/          Environment-derived app configuration
-  components/      Product components
-  components/ui/   shadcn/ui primitives
-  lib/             Domain logic (events, people, plans, tickets, money, …)
-  lib/observability/  Error capture and reporting
-  routes/          File-based routes (TanStack Start)
-  styles.css       Design system tokens
+apps/mobile        Expo + React Native — iOS and Android
+apps/web           TanStack Start — public pages, host, venue, admin
+packages/domain    Product rules shared by both clients
+convex             Backend: schema, functions, authorisation
+tests/convex       Backend tests
 ```
 
 ## Getting started
 
-Requires [Bun](https://bun.sh) 1.2+ (or Node 22+ with npm).
+Requires [Bun](https://bun.sh) 1.2+.
 
 ```sh
 bun install
 cp .env.example .env
-bun run dev
+
+bun run convex:dev     # backend
+bun run convex:seed    # sample catalogue
+bun run dev:web        # web at http://localhost:8080
+bun run dev:mobile     # Metro; press i or a
 ```
 
-The app runs at http://localhost:8080.
+Mobile needs an iOS or Android toolchain — see
+[`docs/MOBILE-SETUP.md`](docs/MOBILE-SETUP.md).
 
 ## Commands
 
@@ -70,6 +71,8 @@ NITRO_PRESET=vercel            bun run build
 
 ## Documentation
 
+- [`docs/MOBILE-ARCHITECTURE.md`](docs/MOBILE-ARCHITECTURE.md) — the mobile/web split and why
+- [`docs/MOBILE-SETUP.md`](docs/MOBILE-SETUP.md) — simulators, emulators, devices, builds
 - [`docs/ASSESSMENT.md`](docs/ASSESSMENT.md) — what the prototype does today, and its gaps
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — target architecture and the decisions behind it
 - [`docs/CONVEX.md`](docs/CONVEX.md) — backend schema, rules and local setup

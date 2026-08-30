@@ -12,9 +12,9 @@ concurrency:
 
 jobs:
   check:
-    name: Typecheck, lint, test, build
+    name: Typecheck, lint, test
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v4
@@ -23,21 +23,65 @@ jobs:
         with:
           bun-version: 1.2.23
 
-      # --frozen-lockfile fails the build if bun.lock disagrees with
-      # package.json, rather than silently resolving something different.
+      # --frozen-lockfile fails if bun.lock disagrees with any package.json,
+      # rather than silently resolving something different from local.
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
       - name: Typecheck
-        run: bun run typecheck
+        run: bun run --filter '@irlnow/*' typecheck
 
       - name: Lint
         run: bun run lint
 
+      # Four suites, each in the runtime its code actually runs in: Convex on
+      # the edge runtime, the domain in plain JS, the web app in jsdom, the
+      # mobile app under jest-expo.
       - name: Test
         run: bun run test
 
-      # The build is part of CI because it exercises the Start and nitro
-      # plugins, which the other steps never touch.
+  build-web:
+    name: Build web
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.23
+      - run: bun install --frozen-lockfile
+      # Exercises the TanStack Start and nitro plugins, which no other step
+      # touches — a config regression that breaks deployment would otherwise
+      # pass CI.
       - name: Build
-        run: bun run build
+        run: bun run build:web
+
+  bundle-mobile:
+    name: Bundle mobile (iOS + Android)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.23
+      - run: bun install --frozen-lockfile
+
+      # No simulator here, and none needed: a Metro export catches the
+      # failures that actually happen — a missing module, an incompatible
+      # native package, a broken monorepo resolution.
+      - name: Export iOS bundle
+        working-directory: apps/mobile
+        env:
+          EXPO_PUBLIC_CONVEX_URL: https://example.convex.cloud
+          EXPO_PUBLIC_APP_ORIGIN: https://irlnow.app
+        run: bunx expo export --platform ios --output-dir /tmp/expo-ios
+
+      - name: Export Android bundle
+        working-directory: apps/mobile
+        env:
+          EXPO_PUBLIC_CONVEX_URL: https://example.convex.cloud
+          EXPO_PUBLIC_APP_ORIGIN: https://irlnow.app
+        run: bunx expo export --platform android --output-dir /tmp/expo-android

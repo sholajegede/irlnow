@@ -5,11 +5,47 @@ nobody demos a mock believing it is a feature.
 
 **Legend** — ✅ real · 🟡 partial · 🔴 mocked, non-functional
 
-_Last updated: after the Convex foundation landed. The backend exists and is
-tested, but the app has not been wired to it and there is still no
-authentication — so every user-facing surface below still runs on fixtures._
+_Last updated: after the mobile foundation landed. The repository is now a
+monorepo: `apps/mobile` (Expo, the primary consumer product), `apps/web`
+(public pages, share surfaces, host/venue/admin), `packages/domain` (shared
+rules) and `convex` (backend)._
 
-## Platform
+_The web tables below describe `apps/web`, which still runs on fixtures. The
+mobile app reads from Convex from its first screen._
+
+## Mobile app (`apps/mobile`)
+
+| Area                       | State | Notes                                                                             |
+| -------------------------- | ----- | --------------------------------------------------------------------------------- |
+| Expo foundation            | ✅    | SDK 57, RN 0.86, expo-router, TypeScript strict. iOS and Android both bundle.     |
+| Navigation                 | ✅    | Five tabs + stack. Deep-link scheme and universal links declared.                 |
+| Design system              | ✅    | Web's OKLCH palette converted to sRGB; same avatar gradients.                     |
+| Discovery feed             | 🟡    | Built, reads Convex, ranks through `@irlnow/domain`. Not yet run on a simulator.  |
+| Finite feed                | ✅    | `FeedEndCard`, no `onEndReached`. Covered by tests.                               |
+| Anonymous discovery        | ✅    | Architectural: null tokens, local intent, no login wall.                          |
+| Kinde auth                 | 🔴    | Fully wired (OAuth + PKCE, keystore tokens) but **inert — no tenant configured**. |
+| Every other screen         | 🔴    | Renders an explicit "Not built yet".                                              |
+| Camera / QR / push / media | 🔴    | Permissions declared in `app.config.ts`; no implementation.                       |
+| Simulator verification     | 🔴    | Never run on a device or simulator — see "Not verified" below.                    |
+| Tests                      | 🟡    | 17 tests over the feed card and the finite-feed end card.                         |
+
+## Not verified
+
+The mobile app has **never been run on a simulator, emulator or device.** The
+machine it was built on has no iOS runtime installed and no Android SDK at all.
+
+What that does and does not mean:
+
+- Verified: both platforms bundle through Metro, the shared domain is present
+  in the Hermes output, TypeScript is clean, and the components render and
+  behave correctly under `jest-expo`.
+- Not verified: layout on a real screen, gesture and scroll feel, the paging
+  FlatList under a fast swipe, safe-area insets on a notched device, image
+  decode performance, and anything touching a native module.
+
+`docs/MOBILE-SETUP.md` has the setup steps for both simulators.
+
+## Platform (`apps/web`)
 
 | Area                | State | Notes                                                                                                                                      |
 | ------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------ |

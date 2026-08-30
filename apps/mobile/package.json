@@ -38,11 +38,12 @@
     "react-native-svg": "15.15.4"
   },
   "devDependencies": {
-    "@testing-library/react-native": "^13.2.0",
+    "@testing-library/react-native": "^13.3.3",
     "@types/jest": "29.5.14",
     "@types/react": "~19.2.2",
     "jest": "~29.7.0",
     "jest-expo": "~57.0.5",
+    "react-test-renderer": "19.2.3",
     "typescript": "^5.8.3"
   },
   "scripts": {
@@ -52,7 +53,7 @@
     "prebuild": "expo prebuild",
     "doctor": "expo-doctor",
     "typecheck": "tsc --noEmit",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "test:watch": "jest --watch"
   },
   "private": true,
