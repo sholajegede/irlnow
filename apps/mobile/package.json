@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
+    "@expo/metro-runtime": "^57.0.14",
     "@irlnow/backend": "workspace:*",
     "@irlnow/domain": "workspace:*",
     "@react-native-async-storage/async-storage": "2.2.0",
@@ -29,13 +30,15 @@
     "expo-web-browser": "~57.0.0",
     "lucide-react-native": "^1.35.0",
     "react": "19.2.3",
+    "react-dom": "^19.2.3",
     "react-native": "0.86.3",
     "react-native-gesture-handler": "~2.32.0",
     "react-native-qrcode-svg": "^6.3.21",
     "react-native-reanimated": "4.5.1",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",
-    "react-native-svg": "15.15.4"
+    "react-native-svg": "15.15.4",
+    "react-native-web": "^0.21.2"
   },
   "devDependencies": {
     "@testing-library/react-native": "^13.3.3",
@@ -57,5 +60,5 @@
     "test:watch": "jest --watch"
   },
   "private": true,
-  "description": "IRL NOW mobile \u2014 the primary consumer app for iOS and Android."
+  "description": "IRL NOW mobile — the primary consumer app for iOS and Android."
 }

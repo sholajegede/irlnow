@@ -49,6 +49,7 @@ function AppStack() {
       {/* The tab bar is the app. Discovery is the front door, not a login wall. */}
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="event/[slug]" options={{ animation: "slide_from_bottom" }} />
+      <Stack.Screen name="search" />
       <Stack.Screen
         name="onboarding"
         options={{ presentation: "modal", animation: "slide_from_bottom" }}

@@ -16,6 +16,7 @@ export default tseslint.config(
       "**/ios",
       "convex/_generated",
       "**/routeTree.gen.ts",
+      "**/expo-env.d.ts",
     ],
   },
   {

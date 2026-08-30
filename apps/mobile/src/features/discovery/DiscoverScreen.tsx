@@ -2,11 +2,14 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   Pressable,
   RefreshControl,
+  ScrollView,
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
   type ListRenderItemInfo,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -20,6 +23,9 @@ import { useDiscoveryFeed } from "./useDiscoveryFeed";
 import type { FeedEvent } from "./types";
 
 type Row = { kind: "event"; event: FeedEvent } | { kind: "end" };
+
+/** Matches the tab bar in app/(tabs)/_layout.tsx. */
+const TAB_BAR_HEIGHT = Platform.select({ ios: 84, default: 64 });
 
 /**
  * The front door.
@@ -36,9 +42,14 @@ export function DiscoverScreen() {
   const { events, viewer, status, error, refresh, isRefreshing, toggleGoing, toggleSaved } =
     useDiscoveryFeed();
 
-  // One page = the viewport minus the tab bar, so a card never sits half
+  // One page is the viewport minus the tab bar, so a card never sits half
   // under the chrome and paging lands exactly on card boundaries.
-  const [pageHeight, setPageHeight] = useState(0);
+  //
+  // Derived from window dimensions rather than measured with onLayout: a
+  // measure costs a frame in which the feed renders nothing, and the first
+  // thing someone sees when they open the app should be an event.
+  const { height: windowHeight } = useWindowDimensions();
+  const pageHeight = windowHeight - insets.bottom - TAB_BAR_HEIGHT;
 
   const feed = useMemo(
     () => buildFeed(events, mode, viewer.signals),
@@ -79,18 +90,21 @@ export function DiscoverScreen() {
   }, []);
 
   return (
-    <View style={styles.root} onLayout={(e) => setPageHeight(e.nativeEvent.layout.height)}>
+    <View style={styles.root}>
       <View style={[styles.header, { paddingTop: insets.top + spacing.sm }]}>
-        <FlatList
+        {/* Four fixed options — a ScrollView, not a FlatList: there is
+            nothing here to virtualise. */}
+        <ScrollView
           horizontal
-          data={FEED_MODES}
-          keyExtractor={(m) => m.id}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.chips}
-          renderItem={({ item }) => {
+          accessibilityRole="tablist"
+        >
+          {FEED_MODES.map((item) => {
             const active = item.id === mode;
             return (
               <Pressable
+                key={item.id}
                 onPress={() => changeMode(item.id)}
                 accessibilityRole="tab"
                 accessibilityState={{ selected: active }}
@@ -104,11 +118,11 @@ export function DiscoverScreen() {
                 </Text>
               </Pressable>
             );
-          }}
-        />
+          })}
+        </ScrollView>
       </View>
 
-      {status === "loading" && pageHeight > 0 ? (
+      {status === "loading" ? (
         <View style={styles.centre}>
           <ActivityIndicator color={colors.primary} />
           <Text style={styles.loadingText}>Finding what&apos;s on…</Text>
@@ -133,9 +147,10 @@ export function DiscoverScreen() {
         />
       ) : null}
 
-      {status === "ready" && rows.length > 0 && pageHeight > 0 ? (
+      {status === "ready" && rows.length > 0 ? (
         <FlatList
           ref={listRef}
+          testID="discovery-feed"
           data={rows}
           keyExtractor={(row) => (row.kind === "end" ? "end" : row.event.slug)}
           renderItem={renderRow}

@@ -8,3 +8,5 @@ ios
 bun.lock
 **/routeTree.gen.ts
 convex/_generated
+**/expo-env.d.ts
+**/.expo

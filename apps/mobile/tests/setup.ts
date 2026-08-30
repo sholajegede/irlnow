@@ -13,8 +13,6 @@
 // on mount.
 jest.mock("react-native-reanimated", () => require("react-native-reanimated/mock"));
 
-/* eslint-enable @typescript-eslint/no-require-imports */
-
 // Haptics reach for native modules that do not exist under Jest. Stubbing
 // them keeps the tests about behaviour rather than about the platform.
 jest.mock("expo-haptics", () => ({
@@ -23,6 +21,12 @@ jest.mock("expo-haptics", () => ({
   ImpactFeedbackStyle: { Light: "light", Medium: "medium", Heavy: "heavy" },
 }));
 
+// AsyncStorage is a native module. The package ships a Jest mock for exactly
+// this; without it, importing it throws at module load.
+jest.mock("@react-native-async-storage/async-storage", () =>
+  require("@react-native-async-storage/async-storage/jest/async-storage-mock"),
+);
+
 // SecureStore is backed by the Keychain, which no test environment has.
 jest.mock("expo-secure-store", () => ({
   getItemAsync: jest.fn(async () => null),
@@ -30,3 +34,5 @@ jest.mock("expo-secure-store", () => ({
   deleteItemAsync: jest.fn(async () => undefined),
   WHEN_UNLOCKED_THIS_DEVICE_ONLY: "whenUnlockedThisDeviceOnly",
 }));
+
+/* eslint-enable @typescript-eslint/no-require-imports */
