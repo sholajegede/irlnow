@@ -14,6 +14,9 @@
 /* Catalogue, domain types and lookups. */
 export * from "./data";
 
+/* Turning stored values into the strings a person reads. */
+export * from "./format";
+
 /* Discovery: explainable, deterministic feed ranking. */
 export * from "./discovery/ranking";
 
